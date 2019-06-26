@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:manual/page1.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -18,12 +19,40 @@ class _MainPageState extends State<MainPage> {
         drawer: Drawer(
           child: Column(
             children: <Widget>[
-              GroupItem('item1', A()),
-              GroupItem('item2', A()),
-              GroupItem('item3', A()),
-              GroupItem('item4', A()),
-              GroupItem('item5', A()),
-              GroupItem('item6', A()),
+              ExpansionTile(
+                title: Text('item'),
+                trailing: Icon(Icons.arrow_drop_down),
+                children: <Widget>[
+                  ListTile(
+                    title: Text('data'),
+                    onTap: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => PageMore()));
+                    },
+                  ),
+                  ListTile(
+                    title: Text('data'),
+                    onTap: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => PageMore()));
+                    },
+                  ),
+                  ListTile(
+                    title: Text('data'),
+                    onTap: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => PageMore()));
+                    },
+                  ),
+                ],
+              ),
+              ListTile(
+                title: Text('data'),
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => PageMore()));
+                },
+              ),
             ],
           ),
         ),
@@ -48,53 +77,6 @@ class _MainPageState extends State<MainPage> {
                 ),
               ],
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget A() {}
-}
-
-// class GroupData {
-//   String groupName;
-//   List<GroupItem> group;
-
-//   GroupData(String groupName, List<GroupItem> group) {
-//     this.group = group;
-//     this.groupName = groupName;
-//   }
-// }
-
-class GroupItem extends StatelessWidget {
-  String name;
-  Widget widget;
-
-  GroupItem(String name, Widget widget) {
-    this.name = name;
-    this.widget = widget;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white10,
-        border: Border(
-          bottom: BorderSide(
-            width: 0.5,
-            color: Color(0xFFd9d9d9),
-          ),
-        ),
-      ),
-      height: 52.0,
-      child: FlatButton(
-        onPressed: () {},
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Text(name),
           ],
         ),
       ),

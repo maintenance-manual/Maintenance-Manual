@@ -76,11 +76,10 @@ class _LoginPageState extends State<LoginPage> {
                         userName = value;
                       },
                       onFieldSubmitted: (value) {},
-                      validator: (value){
-                        if(value.length == 0){
+                      validator: (value) {
+                        if (value.length == 0) {
                           return "用户名不能为空";
-                        }
-                        else{
+                        } else {
                           return null;
                         }
                       },
@@ -98,13 +97,11 @@ class _LoginPageState extends State<LoginPage> {
                         password = value;
                       },
                       validator: (value) {
-                        if(value.length == 0){
+                        if (value.length == 0) {
                           return "密码不能为空";
-                        }
-                        else if(value.length < 6){
+                        } else if (value.length < 6) {
                           return "密码长度不够6位";
-                        }
-                        else{
+                        } else {
                           return null;
                         }
                       },

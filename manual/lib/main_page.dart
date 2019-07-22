@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:manual/page1.dart';
+import 'package:manual/pages/handbook_view.dart'; //手册浏览界面;
+import 'package:manual/pages/handbook_search.dart'; //手册查询界面；
+import 'package:manual/pages/usercompetence_configure.dart';
+import 'package:manual/pages/Basic_Configure/index_page1.dart';
+import 'package:manual/pages/Department_Configure/index_page2.dart';
+import 'package:manual/pages/HandBook_Input/index_page3.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -30,8 +35,8 @@ class _MainPageState extends State<MainPage> {
                 ListTile(
                   title: Text('手册浏览'),
                   onTap: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => PageMore()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => HandBookView()));
                   },
                 ),
                 ExpansionTile(
@@ -41,21 +46,21 @@ class _MainPageState extends State<MainPage> {
                       title: Text('部门配置'),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => PageMore()));
+                            builder: (context) => IndexPage1()));
                       },
                     ),
                     ListTile(
                       title: Text('岗位配置'),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => PageMore()));
+                            builder: (context) => IndexPage1()));
                       },
                     ),
                     ListTile(
                       title: Text('人员配置'),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => PageMore()));
+                            builder: (context) => IndexPage1()));
                       },
                     ),
                   ],
@@ -67,14 +72,14 @@ class _MainPageState extends State<MainPage> {
                       title: Text('手册录入'),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => PageMore()));
+                            builder: (context) => IndexPage3()));
                       },
                     ),
                     ListTile(
                       title: Text('程序录入'),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => PageMore()));
+                            builder: (context) => IndexPage3()));
                       },
                     ),
                   ],
@@ -86,21 +91,21 @@ class _MainPageState extends State<MainPage> {
                       title: Text('工作名称配置'),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => PageMore()));
+                            builder: (context) => IndexPage2()));
                       },
                     ),
                     ListTile(
                       title: Text('人员工作对接'),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => PageMore()));
+                            builder: (context) => IndexPage2()));
                       },
                     ),
                     ListTile(
                       title: Text('流程工作对接'),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => PageMore()));
+                            builder: (context) => IndexPage2()));
                       },
                     ),
                   ],
@@ -108,15 +113,15 @@ class _MainPageState extends State<MainPage> {
                 ListTile(
                   title: Text('用户权限配置'),
                   onTap: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => PageMore()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => UserCompetence()));
                   },
                 ),
                 ListTile(
                   title: Text('手册查询'),
                   onTap: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => PageMore()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => HandBookSearch()));
                   },
                 ),
               ],

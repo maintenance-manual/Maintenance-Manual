@@ -1,33 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart'; //cupertino风格组件;
-import 'package:manual/pages/Basic_Configure/department_configure.dart'; //基本配置部门配置界面;
-import 'package:manual/pages/Basic_Configure/people_configure.dart'; //基本配置人员配置界面;
-import 'package:manual/pages/Basic_Configure/post_configure.dart'; //基本配置岗位配置界面;
+import 'package:manual/pages/Department_Configure/departmentname_configure.dart'; //部门配置工作名称配置界面；
+import 'package:manual/pages/Department_Configure/people_connect.dart'; //部门配置人员工作对接界面;
+import 'package:manual/pages/Department_Configure/wrokflow_connect.dart'; //部门配置流程工作对接界面;
 
-class IndexPage1 extends StatefulWidget {
+class IndexPage22 extends StatefulWidget {
   //动态组件;
-  _IndexPage1State createState() => _IndexPage1State();
+  _IndexPage22State createState() => _IndexPage22State();
 }
 
-class _IndexPage1State extends State<IndexPage1> {
+class _IndexPage22State extends State<IndexPage22> {
   final List<BottomNavigationBarItem> bottomTabs = [
     //定义BottomNavigationBarItem底部导航条组件(图片，文字)
     BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.search), title: Text('部门配置')),
+        icon: Icon(CupertinoIcons.search), title: Text('工作名称配置')),
     BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.circle), title: Text('岗位配置')),
+        icon: Icon(CupertinoIcons.shopping_cart), title: Text('人员工作对接')),
     BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.shopping_cart), title: Text('人员配置')),
+        icon: Icon(CupertinoIcons.circle), title: Text('流程工作对接')),
   ];
 
   final List tabBodies = [
     //数组选择需要进入的页面，按照0，1，2，3顺序
-    DepartmentConfigure(),
-    PostConfigure(),
-    PeopleConfigure(),
+    DepartmentNameConfigure(),
+    PeopleConnect(),
+    WrokflowConfigure(),
   ];
 
-  int currentIndex = 0; //索引
+  int currentIndex = 2; //索引
   var currentPage; //显示页面(动态)
 
   @override

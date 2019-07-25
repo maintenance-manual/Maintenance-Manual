@@ -1,3 +1,4 @@
+import 'package:manual/service/service_method.dart';
 import 'package:flutter/material.dart';
 
 class PeopleConnect extends StatelessWidget {

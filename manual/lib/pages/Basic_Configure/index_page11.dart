@@ -4,12 +4,12 @@ import 'package:manual/pages/Basic_Configure/department_configure.dart'; //基�
 import 'package:manual/pages/Basic_Configure/people_configure.dart'; //基本配置人员配置界面;
 import 'package:manual/pages/Basic_Configure/post_configure.dart'; //基本配置岗位配置界面;
 
-class IndexPage1 extends StatefulWidget {
+class IndexPage11 extends StatefulWidget {
   //动态组件;
-  _IndexPage1State createState() => _IndexPage1State();
+  _IndexPage11State createState() => _IndexPage11State();
 }
 
-class _IndexPage1State extends State<IndexPage1> {
+class _IndexPage11State extends State<IndexPage11> {
   final List<BottomNavigationBarItem> bottomTabs = [
     //定义BottomNavigationBarItem底部导航条组件(图片，文字)
     BottomNavigationBarItem(
@@ -27,7 +27,7 @@ class _IndexPage1State extends State<IndexPage1> {
     PeopleConfigure(),
   ];
 
-  int currentIndex = 0; //索引
+  int currentIndex = 1; //索引
   var currentPage; //显示页面(动态)
 
   @override

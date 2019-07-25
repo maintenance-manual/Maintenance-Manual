@@ -3,8 +3,13 @@ import 'package:manual/pages/handbook_view.dart'; //手册浏览界面;
 import 'package:manual/pages/handbook_search.dart'; //手册查询界面；
 import 'package:manual/pages/usercompetence_configure.dart';
 import 'package:manual/pages/Basic_Configure/index_page1.dart';
+import 'package:manual/pages/Basic_Configure/index_page11.dart';
+import 'package:manual/pages/Basic_Configure/index_page12.dart';
 import 'package:manual/pages/Department_Configure/index_page2.dart';
+import 'package:manual/pages/Department_Configure/index_page22.dart';
+import 'package:manual/pages/Department_Configure/index_page21.dart';
 import 'package:manual/pages/HandBook_Input/index_page3.dart';
+import 'package:manual/pages/HandBook_Input/index_page31.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -15,6 +20,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'MainPage',
       theme: ThemeData.light(),
       home: Scaffold(
@@ -53,14 +59,14 @@ class _MainPageState extends State<MainPage> {
                       title: Text('岗位配置'),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => IndexPage1()));
+                            builder: (context) => IndexPage11()));
                       },
                     ),
                     ListTile(
                       title: Text('人员配置'),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => IndexPage1()));
+                            builder: (context) => IndexPage12()));
                       },
                     ),
                   ],
@@ -79,7 +85,7 @@ class _MainPageState extends State<MainPage> {
                       title: Text('程序录入'),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => IndexPage3()));
+                            builder: (context) => IndexPage31()));
                       },
                     ),
                   ],
@@ -98,14 +104,14 @@ class _MainPageState extends State<MainPage> {
                       title: Text('人员工作对接'),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => IndexPage2()));
+                            builder: (context) => IndexPage21()));
                       },
                     ),
                     ListTile(
                       title: Text('流程工作对接'),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => IndexPage2()));
+                            builder: (context) => IndexPage22()));
                       },
                     ),
                   ],

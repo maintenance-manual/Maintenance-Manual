@@ -1,33 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart'; //cupertino风格组件;
-import 'package:manual/pages/Basic_Configure/department_configure.dart'; //基本配置部门配置界面;
-import 'package:manual/pages/Basic_Configure/people_configure.dart'; //基本配置人员配置界面;
-import 'package:manual/pages/Basic_Configure/post_configure.dart'; //基本配置岗位配置界面;
+import 'package:manual/pages/HandBook_Input/handbook_input.dart'; //手册录入手册录入界面;
+import 'sequencing_input.dart'; //手册录入程序录入界面;
 
-class IndexPage1 extends StatefulWidget {
+class IndexPage31 extends StatefulWidget {
   //动态组件;
-  _IndexPage1State createState() => _IndexPage1State();
+  _IndexPage31State createState() => _IndexPage31State();
 }
 
-class _IndexPage1State extends State<IndexPage1> {
+class _IndexPage31State extends State<IndexPage31> {
   final List<BottomNavigationBarItem> bottomTabs = [
     //定义BottomNavigationBarItem底部导航条组件(图片，文字)
     BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.search), title: Text('部门配置')),
+        icon: Icon(CupertinoIcons.shopping_cart), title: Text('手册录入')),
     BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.circle), title: Text('岗位配置')),
-    BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.shopping_cart), title: Text('人员配置')),
+        icon: Icon(CupertinoIcons.circle), title: Text('程序录入')),
   ];
 
   final List tabBodies = [
     //数组选择需要进入的页面，按照0，1，2，3顺序
-    DepartmentConfigure(),
-    PostConfigure(),
-    PeopleConfigure(),
+    HandBookInput(),
+    SequencingInput(),
   ];
 
-  int currentIndex = 0; //索引
+  int currentIndex = 1; //索引
   var currentPage; //显示页面(动态)
 
   @override

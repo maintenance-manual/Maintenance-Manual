@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:manual/service/service_method.dart';
 import 'main_page.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -27,14 +28,17 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
+    // print('设备高度：${ScreenUtil.screenHeight}');
+    // print('设备宽度：${ScreenUtil.screenWidth}');
     return Scaffold(
       body: Column(
         children: <Widget>[
           Container(
             alignment: Alignment.centerLeft,
             padding: EdgeInsets.fromLTRB(60.0, 20.0, 50.0, 20.0),
-            height: 250.0,
-            width: 450.0,
+            height: ScreenUtil().setHeight(525),
+            width: ScreenUtil().setWidth(1080),
             decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
                 Colors.blueGrey[400],
@@ -68,6 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(60.0, 80.0, 60.0, 5.0),
                     child: TextFormField(
+                      autofocus: false,
                       style: TextStyle(color: Colors.black26, fontSize: 18.0),
                       decoration: InputDecoration(hintText: '请输入用户名'),
                       textAlign: TextAlign.center,
@@ -89,6 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(60.0, 20.0, 60.0, 55.0),
                     child: TextFormField(
+                      autofocus: false,
                       style: TextStyle(color: Colors.black26, fontSize: 18.0),
                       decoration: InputDecoration(hintText: '请输入密码'),
                       textAlign: TextAlign.center,

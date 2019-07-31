@@ -10,7 +10,6 @@ import 'package:manual/pages/Department_Configure/index_page22.dart';
 import 'package:manual/pages/Department_Configure/index_page21.dart';
 import 'package:manual/pages/HandBook_Input/index_page3.dart';
 import 'package:manual/pages/HandBook_Input/index_page31.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MainPage extends StatefulWidget {
   @override

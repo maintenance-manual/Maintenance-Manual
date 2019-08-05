@@ -7,8 +7,7 @@ packages:
       name: async
       url: "https://pub.flutter-io.cn"
     source: hosted
-<<<<<<< Updated upstream
-    version: "2.1.0"
+    version: "2.3.0"
 =======
     version: "2.3.0"
 >>>>>>> Stashed changes
@@ -99,7 +98,11 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     version: "1.5.0"
+=======
+    version: "1.8.0+1"
+>>>>>>> Stashed changes
 =======
     version: "1.8.0+1"
 >>>>>>> Stashed changes

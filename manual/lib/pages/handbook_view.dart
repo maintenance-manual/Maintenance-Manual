@@ -9,7 +9,7 @@ class HandBookView extends StatelessWidget {
       appBar: AppBar(
         title: Text('手册浏览'),
       ),
-      body: Text('这里是手册浏览界面'),
+      body: ExpansionPanelDemo()
     ));
   }
 }

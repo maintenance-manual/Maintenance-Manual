@@ -1,17 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:manual/service/service_method.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../Basic_Configure/addDepartmentConfig.dart'; //引入新增部门页面;
 
 class DepartmentConfigure extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: Scaffold(
-      appBar: AppBar(
-        title: Text('部门配置'),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('部门配置'),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              DepartmentConfigureDemo(),
+            ],
+          ),
+        ),
+        floatingActionButton: new Builder(builder: (BuildContext context) {  //悬浮按钮用来新建;
+          return FloatingActionButton(
+              child: Icon(Icons.add),
+              backgroundColor: Colors.grey,
+              foregroundColor: Colors.white,
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => AddDepartmentConfig()));
+              },
+              mini: false,
+              shape: CircleBorder(),
+              isExtended: false,
+            );
+        }),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked
       ),
-      body: Text('这里是部门配置界面'),
-    ));
+    );
   }
 }
 
@@ -19,27 +43,15 @@ class DepartmentConfigure extends StatelessWidget {
 class DepartmentConfigureDemo extends StatefulWidget {
   DepartmentConfigureDemo({Key key}) : super(key: key);
 
-  _DepartmentConfigureDemoState createState() => _DepartmentConfigureDemoState();
+  _DepartmentConfigureDemoState createState() =>
+      _DepartmentConfigureDemoState();
 }
 
 class _DepartmentConfigureDemoState extends State<DepartmentConfigureDemo> {
-  final List<String> items = new List<String>.generate(10, (i) => "Items $i");
- 
   @override
   Widget build(BuildContext context) {
     return Container(
-       child: Scaffold(
-         body: new ListView.builder(
-           itemCount: items.length,
-           itemBuilder: (context,index){
-             return new ListTile(
-               leading: new Icon(Icons.account_circle),
-               title: new Text('${items[index]}'),
-               onTap: (){}
-             );
-           },
-         ),
-       ),
+      child: Text('部门浏览'),
     );
   }
 }

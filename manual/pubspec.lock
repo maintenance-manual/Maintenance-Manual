@@ -7,14 +7,18 @@ packages:
       name: async
       url: "https://pub.flutter-io.cn"
     source: hosted
+<<<<<<< Updated upstream
     version: "2.1.0"
+=======
+    version: "2.3.0"
+>>>>>>> Stashed changes
   boolean_selector:
     dependency: transitive
     description:
       name: boolean_selector
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.4"
+    version: "1.0.5"
   charcode:
     dependency: transitive
     description:
@@ -80,7 +84,7 @@ packages:
       name: meta
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.1.6"
+    version: "1.1.7"
   path:
     dependency: transitive
     description:
@@ -94,7 +98,11 @@ packages:
       name: pedantic
       url: "https://pub.flutter-io.cn"
     source: hosted
+<<<<<<< Updated upstream
     version: "1.5.0"
+=======
+    version: "1.8.0+1"
+>>>>>>> Stashed changes
   quiver:
     dependency: transitive
     description:

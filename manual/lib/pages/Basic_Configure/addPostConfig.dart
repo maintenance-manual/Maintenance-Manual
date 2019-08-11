@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:manual/service/service_method.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddPostConfig extends StatelessWidget {
@@ -8,18 +7,23 @@ class AddPostConfig extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: _AddPostConfig(),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('新增岗位配置'),
+      ),
+      body: Container(
+        child: _addPostConfig(context),
+      ),
     );
   }
 
-  Widget _AddPostConfig() {
+  Widget _addPostConfig(context) {
     return Scaffold(
       body: Container(
         width: ScreenUtil().setWidth(740),
         height: ScreenUtil().setHeight(1334),
         padding: EdgeInsets.all(10.0),
-        margin: EdgeInsets.only(top: 25.0),
+        margin: EdgeInsets.only(top: 1.0),
         color: Colors.white,
         child: SingleChildScrollView(
           child: Column(
@@ -29,7 +33,6 @@ class AddPostConfig extends StatelessWidget {
                   labelText: '请选择所属部门',
                 ),
               ),
-              new Divider(),
               new TextFormField(
                 decoration: new InputDecoration(
                   labelText: '请输入岗位名称',
@@ -40,7 +43,9 @@ class AddPostConfig extends StatelessWidget {
                 width: ScreenUtil().setWidth(750),
                 height: ScreenUtil().setHeight(100),
                 child: RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   child: Text('保存'),
                 ),
               ),

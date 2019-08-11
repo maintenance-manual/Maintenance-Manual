@@ -57,11 +57,11 @@ class _ExpansionPanelDemoState extends State<ExpansionPanelDemo> {
               return ExpansionPanel(
                 headerBuilder: (context,isExpandded){
                   return ListTile(
-                    title: Text('This is No.$index'),
+                    title: Text('输入手册大目录:$index'),
                   );
                 },
                 body: ListTile(
-                  title: Text('expansion no .$index'),
+                  title: Text('传递手册名称文件$index'),
                   onTap: (){},
                 ),
                 isExpanded: expandStateList[index].isOpen

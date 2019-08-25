@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:manual/login_page.dart';
 import 'package:manual/pages/handbook_view.dart'; //手册浏览界面;
 import 'package:manual/pages/handbook_search.dart'; //手册查询界面；
 import 'package:manual/pages/usercompetence_configure.dart';
@@ -29,106 +31,39 @@ class _MainPageState extends State<MainPage> {
         ),
         drawer: Drawer(
           child: SingleChildScrollView(
-            child: Column(
+            child: Stack(
               children: <Widget>[
-                UserAccountsDrawerHeader(
-                  accountEmail: Text('septemberman@outlook.com'),
-                  accountName: Text('sylar'),
-                  currentAccountPicture: ClipOval(
-                    child: Image.asset('assets/account1.jpg'),
+                _myDrawer(),
+                Positioned(
+                  bottom: 0,
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        width: ScreenUtil().setWidth(220),
+                        margin: EdgeInsets.only(left: 25.0),
+                        padding: EdgeInsets.all(30),
+                        child: InkWell(
+                          onTap: (/**continue... */) {
+                            /**continue... */
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => LoginPage()),
+                                (route) => route == null);
+                          },
+                          child: Text('退出登录'),
+                        ),
+                      ),
+                      Container(
+                        width: ScreenUtil().setWidth(220),
+                        margin: EdgeInsets.only(left: 10.0),
+                        padding: EdgeInsets.all(30),
+                        child: InkWell(
+                          onTap: (/**continue... */) {/**continue... */},
+                          child: Text('修改密码'),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                ListTile(
-                  title: Text('手册浏览'),
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => HandBookView()));
-                  },
-                ),
-                ExpansionTile(
-                  title: Text('基本配置'),
-                  children: <Widget>[
-                    ListTile(
-                      title: Text('部门配置'),
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => IndexPage1()));
-                      },
-                    ),
-                    ListTile(
-                      title: Text('岗位配置'),
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => IndexPage11()));
-                      },
-                    ),
-                    ListTile(
-                      title: Text('人员配置'),
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => IndexPage12()));
-                      },
-                    ),
-                  ],
-                ),
-                ExpansionTile(
-                  title: Text('手册录入'),
-                  children: <Widget>[
-                    ListTile(
-                      title: Text('手册录入'),
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => IndexPage3()));
-                      },
-                    ),
-                    ListTile(
-                      title: Text('程序录入'),
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => IndexPage31()));
-                      },
-                    ),
-                  ],
-                ),
-                ExpansionTile(
-                  title: Text('部门配置'),
-                  children: <Widget>[
-                    ListTile(
-                      title: Text('工作名称配置'),
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => IndexPage2()));
-                      },
-                    ),
-                    ListTile(
-                      title: Text('人员工作对接'),
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => IndexPage21()));
-                      },
-                    ),
-                    ListTile(
-                      title: Text('流程工作对接'),
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => IndexPage22()));
-                      },
-                    ),
-                  ],
-                ),
-                ListTile(
-                  title: Text('用户权限配置'),
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => UserCompetence()));
-                  },
-                ),
-                ListTile(
-                  title: Text('手册查询'),
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => HandBookSearch()));
-                  },
                 ),
               ],
             ),
@@ -163,6 +98,116 @@ class _MainPageState extends State<MainPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _myDrawer() {
+    return Column(
+      children: <Widget>[
+        UserAccountsDrawerHeader(
+          accountEmail: Text('septemberman@outlook.com'),
+          accountName: Text('sylar'),
+          currentAccountPicture: ClipOval(
+            child: Image.asset('assets/account1.jpg'),
+          ),
+        ),
+        ListTile(
+          title: Text('手册浏览'),
+          onTap: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => HandBookView()));
+          },
+        ),
+        ExpansionTile(
+          title: Text('基本配置'),
+          children: <Widget>[
+            ListTile(
+              title: Text('部门配置'),
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => IndexPage1()));
+              },
+            ),
+            ListTile(
+              title: Text('岗位配置'),
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => IndexPage11()));
+              },
+            ),
+            ListTile(
+              title: Text('人员配置'),
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => IndexPage12()));
+              },
+            ),
+          ],
+        ),
+        ExpansionTile(
+          title: Text('手册录入'),
+          children: <Widget>[
+            ListTile(
+              title: Text('手册录入'),
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => IndexPage3()));
+              },
+            ),
+            ListTile(
+              title: Text('程序录入'),
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => IndexPage31()));
+              },
+            ),
+          ],
+        ),
+        ExpansionTile(
+          title: Text('部门配置'),
+          children: <Widget>[
+            ListTile(
+              title: Text('工作名称配置'),
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => IndexPage2()));
+              },
+            ),
+            ListTile(
+              title: Text('人员工作对接'),
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => IndexPage21()));
+              },
+            ),
+            ListTile(
+              title: Text('流程工作对接'),
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => IndexPage22()));
+              },
+            ),
+          ],
+        ),
+        ListTile(
+          title: Text('用户权限配置'),
+          onTap: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => UserCompetence()));
+          },
+        ),
+        ListTile(
+          title: Text('手册查询'),
+          onTap: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => HandBookSearch()));
+          },
+        ),
+        Text(''),
+        Text(''),
+        Text(''),
+        Text(''),
+      ],
     );
   }
 }

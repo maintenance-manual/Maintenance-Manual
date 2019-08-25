@@ -19,8 +19,8 @@ class _UserCompetenceState extends State<UserCompetence> {
   @override
   bool get wantKeepAlive => true;
 
-  String searchText='';
-  void search(){
+  String searchText = '';
+  void search() {
     var searchForm = searchKey.currentState;
     if (searchForm.validate()) {
       searchForm.save();
@@ -36,7 +36,6 @@ class _UserCompetenceState extends State<UserCompetence> {
       ),
       builder: (context, snapshot) {
         if (true /**continue... */) {
-
           /**continue... */
 
           return Scaffold(
@@ -112,10 +111,10 @@ class _UserCompetenceState extends State<UserCompetence> {
                                 decoration: InputDecoration(hintText: '模糊搜索'),
                                 textAlign: TextAlign.center,
                                 obscureText: false,
-                                onSaved: (value){
+                                onSaved: (value) {
                                   searchText = value;
                                 },
-                                validator: (value){
+                                validator: (value) {
                                   return null;
                                   /** continue...*/
                                 },
@@ -131,7 +130,10 @@ class _UserCompetenceState extends State<UserCompetence> {
                           child: Text("搜索"),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.0)),
-                          onPressed: (/** continue...*/){search();/** continue...*/},
+                          onPressed: (/** continue...*/) {
+                            search();
+                            /** continue...*/
+                          },
                         ),
                       ],
                     ),

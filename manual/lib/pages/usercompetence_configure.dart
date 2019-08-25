@@ -19,6 +19,15 @@ class _UserCompetenceState extends State<UserCompetence> {
   @override
   bool get wantKeepAlive => true;
 
+  String searchText='';
+  void search(){
+    var searchForm = searchKey.currentState;
+    if (searchForm.validate()) {
+      searchForm.save();
+      print(searchText);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -103,6 +112,13 @@ class _UserCompetenceState extends State<UserCompetence> {
                                 decoration: InputDecoration(hintText: '模糊搜索'),
                                 textAlign: TextAlign.center,
                                 obscureText: false,
+                                onSaved: (value){
+                                  searchText = value;
+                                },
+                                validator: (value){
+                                  return null;
+                                  /** continue...*/
+                                },
                                 onFieldSubmitted: (value) {},
                                 /** continue...*/
                               ),
@@ -115,7 +131,7 @@ class _UserCompetenceState extends State<UserCompetence> {
                           child: Text("搜索"),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.0)),
-                          onPressed: (/** continue...*/) => {/**continue... */},
+                          onPressed: (/** continue...*/){search();/** continue...*/},
                         ),
                       ],
                     ),

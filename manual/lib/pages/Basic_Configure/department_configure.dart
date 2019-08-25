@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../Basic_Configure/addDepartmentConfig.dart'; //引入新增部门页面;
+import '../../model/departmentname.dart';
 
 class DepartmentConfigure extends StatelessWidget {
   @override
@@ -11,12 +12,20 @@ class DepartmentConfigure extends StatelessWidget {
           appBar: AppBar(
             title: Text('部门配置'),
           ),
-          body: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                DepartMentConfigShow(),
-              ],
-            ),
+          body:Column(
+            children: <Widget>[
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.all(6.0),
+                decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1.0,color: Colors.black54))),
+                child:Text(
+                '部门名称',
+                textAlign: TextAlign.left,
+                style: TextStyle(color: Colors.black,fontSize: ScreenUtil().setSp(35.0)),
+                ),
+              ),
+              DepartMentConfigShow(),
+            ],
           ),
           floatingActionButton: new Builder(builder: (BuildContext context) {
             //悬浮按钮用来新建;
@@ -33,55 +42,63 @@ class DepartmentConfigure extends StatelessWidget {
               isExtended: false,
             );
           }),
-          floatingActionButtonLocation: FloatingActionButtonLocation.endDocked),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+          resizeToAvoidBottomPadding: false,
+          ),    
     );
   }
 }
 
 //部门显示目录
 class DepartMentConfigShow extends StatelessWidget {
+
+  List<String> departmentConfigName = [
+  '质量检测部门',
+  '航空情报部门',
+  '空中管制部门',
+  '地勤打扫部门',
+];
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: <Widget>[
-          _departmentName(),
-          _departmentDelete(),
-        ],
+    return Column(
+     children: <Widget>[
+       Container(
+        height: ScreenUtil().setHeight(940),
+        padding: EdgeInsets.all(1.0),
+        child: ListView.builder(
+          itemCount: departmentConfigName.length,
+          itemBuilder: (context, index) {
+            return _cardList(index);
+          },
+        ),
       ),
+     ],
     );
   }
 
   //部门名称目录;
-  Widget _departmentName() {
-    return Container(
-      width: ScreenUtil().setWidth(550),
-      height: ScreenUtil().setHeight(80),
-      color: Colors.white,
-      padding: EdgeInsets.only(top: 2.0),
-      child: Text(
-        '传入部门名称组件{数组}',
-        textAlign: TextAlign.left,
-        style:
-            TextStyle(color: Colors.black45, fontSize: ScreenUtil().setSp(30)),
-      ), //显示部门名称;
-    );
-  }
-
-  //部门名称删除组件
-  Widget _departmentDelete() {
-    return Container(
-      width: ScreenUtil().setWidth(200),
-      height: ScreenUtil().setHeight(80),
-      padding: EdgeInsets.all(1.0),
+  Widget _cardList(index)  {
+     return Container(
+      margin: EdgeInsets.only(top: 1.0),
       decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(left: BorderSide(width: 1.0, color: Colors.black45))),
-      child: InkWell(
-        onTap: () {
-        }, //删除
-        child: Icon(Icons.delete),
+          border:
+              Border(bottom: BorderSide(width: 1.0, color: Colors.black38))),
+      child: ListTile(
+        contentPadding: EdgeInsets.only(left:6.0),
+        title: Text(
+          '${departmentConfigName[index]}',
+          style: TextStyle(
+            fontSize: 15.0,
+          ),
+        ),
+        trailing: IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.delete),
+          iconSize: 25.0,
+        ),
       ),
     );
   }
+
 }

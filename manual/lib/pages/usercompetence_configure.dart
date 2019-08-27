@@ -13,8 +13,7 @@ class UserCompetence extends StatefulWidget {
 
 class _UserCompetenceState extends State<UserCompetence> {
   GlobalKey<FormState> searchKey = GlobalKey<FormState>();
-  GlobalKey<RefreshFooterState> _footerkey =
-      new GlobalKey<RefreshFooterState>();
+  GlobalKey<RefreshFooterState> _footerkey = GlobalKey<RefreshFooterState>();
 
   @override
   bool get wantKeepAlive => true;
@@ -107,7 +106,7 @@ class _UserCompetenceState extends State<UserCompetence> {
                               child: TextFormField(
                                 autofocus: false,
                                 style: TextStyle(
-                                    color: Colors.black26, fontSize: 18.0),
+                                    color: Colors.black38, fontSize: 18.0),
                                 decoration: InputDecoration(hintText: '模糊搜索'),
                                 textAlign: TextAlign.center,
                                 obscureText: false,
@@ -139,14 +138,15 @@ class _UserCompetenceState extends State<UserCompetence> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(75, 20, 120, 20),
-                    height: ScreenUtil().setHeight(200),
+                    padding: EdgeInsets.fromLTRB(75, 20, 120, 0),
+                    height: ScreenUtil().setHeight(150),
                     width: ScreenUtil().setWidth(1081),
                     child: Text(
                       '用户列表',
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
+                  _listTitle(),
                   _userList(),
                 ],
               ),
@@ -165,11 +165,123 @@ class _UserCompetenceState extends State<UserCompetence> {
     );
   }
 
+//暂用数据，可删
+  List<String> departmentConfigName = [
+    '质量检测部门',
+    '航空情报部门',
+    '空中管制部门',
+    '地勤打扫部门',
+  ];
+
   Widget _userList() {
     return Container(
-      child: Column(
+      height: ScreenUtil().setHeight(950),
+      child: ListView.builder(
+        itemCount: departmentConfigName.length,
+        itemBuilder: (context, index) {
+          return _cardList(index);
+        },
+      ),
+    );
+  }
+
+  Widget _cardList(index) {
+    return Container(
+      width: ScreenUtil().setWidth(750),
+      height: ScreenUtil().setHeight(90),
+      margin: EdgeInsets.fromLTRB(10, 0, 10, 15),
+      decoration: BoxDecoration(
+          border:
+              Border(bottom: BorderSide(width: 1.0, color: Colors.black12))),
+      child: ListTile(
+        contentPadding: EdgeInsets.only(left: 6.0),
+        title: Text(
+          '${departmentConfigName[index]}',
+          style: TextStyle(
+            fontSize: 12.0,
+          ),
+        ),
+        trailing: IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.delete),
+          iconSize: 25.0,
+        ),
+      ),
+    );
+  }
+
+  Widget _listTitle() {
+    return Container(
+      width: ScreenUtil().setWidth(750),
+      height: ScreenUtil().setHeight(120),
+      decoration: BoxDecoration(
+          border: Border(
+        top: BorderSide(width: 1, color: Colors.black12),
+        bottom: BorderSide(width: 1, color: Colors.black12),
+      )),
+      margin: EdgeInsets.fromLTRB(10, 0, 10, 15),
+      child: Row(
         children: <Widget>[
-          /**continue... */
+          Container(
+            width: ScreenUtil().setWidth(150),
+            height: ScreenUtil().setHeight(120),
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.all(10),
+            child: Text(
+              '所属部门',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: ScreenUtil().setSp(28),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Container(
+            width: ScreenUtil().setWidth(150),
+            height: ScreenUtil().setHeight(120),
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.all(10),
+            child: Text(
+              '用户名',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: ScreenUtil().setSp(28),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Container(
+            width: ScreenUtil().setWidth(150),
+            height: ScreenUtil().setHeight(120),
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.all(10),
+            child: Text(
+              '岗位名称',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: ScreenUtil().setSp(28),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Container(
+            width: ScreenUtil().setWidth(150),
+            height: ScreenUtil().setHeight(120),
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.all(10),
+            child: Text(
+              '系统权限',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: ScreenUtil().setSp(28),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Container(
+            width: ScreenUtil().setWidth(110),
+            height: ScreenUtil().setHeight(120),
+          ),
         ],
       ),
     );

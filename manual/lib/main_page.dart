@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:manual/pages/change_pwd.dart';
 import 'package:manual/login_page.dart';
 import 'package:manual/pages/handbook_view.dart'; //手册浏览界面;
 import 'package:manual/pages/handbook_search.dart'; //手册查询界面；
@@ -58,7 +59,11 @@ class _MainPageState extends State<MainPage> {
                         margin: EdgeInsets.only(left: 10.0),
                         padding: EdgeInsets.all(30),
                         child: InkWell(
-                          onTap: (/**continue... */) {/**continue... */},
+                          onTap: (/**continue... */) {
+                            /**continue... */
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ChangePsw()));
+                          },
                           child: Text('修改密码'),
                         ),
                       ),

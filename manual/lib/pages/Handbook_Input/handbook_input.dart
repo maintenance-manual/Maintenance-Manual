@@ -2,6 +2,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manual/service/service_method.dart';
 import 'package:flutter/material.dart';
 import 'add_workbook.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 class HandBookInput extends StatelessWidget {
   @override

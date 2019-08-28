@@ -64,17 +64,18 @@ class _ChangePswState extends State<ChangePsw> {
             ),
             Container(
               margin: EdgeInsets.only(top: 15),
-              child: RaisedButton(
-                elevation: 1.5,
+              child: FlatButton(
+                color: Colors.blueGrey[400],
+                highlightColor: Colors.blueGrey,
+                colorBrightness: Brightness.dark,
+                splashColor: Colors.grey,
                 child: Text(
                   '确认修改',
-                  style: TextStyle(color: Colors.black, fontSize: 18.0),
+                  style: TextStyle(color: Colors.white, fontSize: 16.0),
                 ),
-                color: Colors.white,
-                padding: EdgeInsets.fromLTRB(35.0, 6.0, 35.0, 6.0),
+                padding: EdgeInsets.fromLTRB(13, 4, 13, 4),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
+                    borderRadius: BorderRadius.circular(20.0)),
                 onPressed: changePw,
               ),
             )

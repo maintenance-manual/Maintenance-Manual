@@ -94,21 +94,7 @@ packages:
       name: meta
       url: "https://pub.flutter-io.cn"
     source: hosted
-<<<<<<< HEAD
     version: "1.1.6"
-=======
-    version: "1.1.7"
-<<<<<<< Updated upstream
-=======
-  open_file:
-    dependency: "direct main"
-    description:
-      name: open_file
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.0.3"
->>>>>>> Stashed changes
->>>>>>> kreminlin
   path:
     dependency: transitive
     description:
@@ -122,25 +108,9 @@ packages:
       name: pedantic
       url: "https://pub.flutter-io.cn"
     source: hosted
-<<<<<<< HEAD
     version: "1.7.0"
   provide:
     dependency: "direct main"
-=======
-    version: "1.8.0+1"
-  petitparser:
-    dependency: transitive
-<<<<<<< Updated upstream
-=======
-    description:
-      name: petitparser
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.4.0"
-  provide:
-    dependency: "direct main"
->>>>>>> Stashed changes
->>>>>>> kreminlin
     description:
       name: provide
       url: "https://pub.flutter-io.cn"
@@ -215,13 +185,5 @@ packages:
     source: hosted
     version: "2.0.8"
 sdks:
-<<<<<<< HEAD
   dart: ">=2.2.2 <3.0.0"
   flutter: ">=0.1.4 <2.0.0"
-=======
-  dart: ">=2.4.0 <3.0.0"
-<<<<<<< Updated upstream
-=======
-  flutter: ">=0.1.4 <2.0.0"
->>>>>>> Stashed changes
->>>>>>> kreminlin

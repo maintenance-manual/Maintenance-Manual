@@ -4,9 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddDepartmentConfig extends StatelessWidget {
   GlobalKey<FormState> loginKey = GlobalKey<FormState>();
-  static String departmentConfifName;
+  String departmentConfifName;
 
-  void login() {
+ void login() {
     var loginForm = loginKey.currentState;
     if (loginForm.validate()) {
       loginForm.save();
@@ -21,7 +21,7 @@ class AddDepartmentConfig extends StatelessWidget {
         title: Text('新增部门配置'),
       ),
       body: Container(
-        child: _addDepartmentConfig(context),
+          child: _addDepartmentConfig(context),
       ),
     );
   }
@@ -30,58 +30,37 @@ class AddDepartmentConfig extends StatelessWidget {
     return Scaffold(
       body: Container(
         width: ScreenUtil().setWidth(740),
-        height: ScreenUtil().setHeight(450),
+        height: ScreenUtil().setHeight(500),
         padding: EdgeInsets.all(10.0),
+        color: Colors.pink,
         child: Form(
           key: loginKey,
           child: Column(
             children: <Widget>[
               Container(
                 height: ScreenUtil().setHeight(100),
-                child: TextFormField(
-                  decoration: new InputDecoration(
-                    labelText: '请创建部门名称',
-                  ),
-                  onSaved: (value) {
-                    departmentConfifName = value;
-                  },
-                  validator: (value) {
-                    return null;
-                  },
-                  onFieldSubmitted: (value) {},
+                child:  TextFormField(
+                decoration: new InputDecoration(
+                  labelText: '请创建部门名称',
                 ),
+                onSaved: (value) {
+                  departmentConfifName = value;
+                },
+                validator: (value) {
+                  return null;
+                },
+                onFieldSubmitted: (value) {},
               ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.all(6.0),
-                      child: SizedBox(
-                        width: ScreenUtil().setWidth(300),
-                        height: ScreenUtil().setHeight(100),
-                        child: RaisedButton(
-                          onPressed: () {
-                            Navigator.pop(context, departmentConfifName);
-                          },
-                          child: Text('创建'),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(6.0),
-                      child: SizedBox(
-                        width: ScreenUtil().setWidth(300),
-                        height: ScreenUtil().setHeight(100),
-                        child: RaisedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text('返回上一页'),
-                        ),
-                      ),
-                    ),
-                  ],
+              ),
+              new Divider(),
+              new SizedBox(
+                width: ScreenUtil().setWidth(750),
+                height: ScreenUtil().setHeight(100),
+                child: RaisedButton(
+                  onPressed: () {
+                    Navigator.pop(context, departmentConfifName);
+                  },
+                  child: Text('创建'),
                 ),
               ),
             ],

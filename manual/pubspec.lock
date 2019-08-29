@@ -131,6 +131,7 @@ packages:
     source: hosted
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     version: "1.1.7"
 =======
     version: "1.1.6"
@@ -138,6 +139,22 @@ packages:
 =======
     version: "1.1.6"
 >>>>>>> parent of b23bc79... 更新了基本配置所有页面
+=======
+    version: "1.1.6"
+=======
+    version: "1.1.7"
+<<<<<<< Updated upstream
+=======
+  open_file:
+    dependency: "direct main"
+    description:
+      name: open_file
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.3"
+>>>>>>> Stashed changes
+>>>>>>> kreminlin
+>>>>>>> parent of 4526df0... 更新了基本配置所有页面
   path:
     dependency: transitive
     description:
@@ -153,6 +170,7 @@ packages:
     source: hosted
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     version: "1.8.0+1"
   petitparser:
     dependency: transitive
@@ -165,10 +183,27 @@ packages:
     version: "1.7.0"
 >>>>>>> parent of a85711d... Revert "更新了基本配置内容并完善"
 =======
+=======
+>>>>>>> parent of 4526df0... 更新了基本配置所有页面
     version: "1.7.0"
 >>>>>>> parent of b23bc79... 更新了基本配置所有页面
   provide:
     dependency: "direct main"
+=======
+    version: "1.8.0+1"
+  petitparser:
+    dependency: transitive
+<<<<<<< Updated upstream
+=======
+    description:
+      name: petitparser
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.4.0"
+  provide:
+    dependency: "direct main"
+>>>>>>> Stashed changes
+>>>>>>> kreminlin
     description:
       name: provide
       url: "https://pub.flutter-io.cn"
@@ -252,11 +287,21 @@ packages:
 sdks:
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   dart: ">=2.4.0 <3.0.0"
 =======
   dart: ">=2.2.2 <3.0.0"
 >>>>>>> parent of a85711d... Revert "更新了基本配置内容并完善"
 =======
+=======
+>>>>>>> parent of 4526df0... 更新了基本配置所有页面
   dart: ">=2.2.2 <3.0.0"
 >>>>>>> parent of b23bc79... 更新了基本配置所有页面
   flutter: ">=0.1.4 <2.0.0"
+=======
+  dart: ">=2.4.0 <3.0.0"
+<<<<<<< Updated upstream
+=======
+  flutter: ">=0.1.4 <2.0.0"
+>>>>>>> Stashed changes
+>>>>>>> kreminlin

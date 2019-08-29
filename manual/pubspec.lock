@@ -116,6 +116,16 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.1.7"
+<<<<<<< Updated upstream
+=======
+  open_file:
+    dependency: "direct main"
+    description:
+      name: open_file
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.3"
+>>>>>>> Stashed changes
   path:
     dependency: transitive
     description:
@@ -132,6 +142,16 @@ packages:
     version: "1.8.0+1"
   petitparser:
     dependency: transitive
+<<<<<<< Updated upstream
+=======
+    description:
+      name: petitparser
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.4.0"
+  provide:
+    dependency: "direct main"
+>>>>>>> Stashed changes
     description:
       name: petitparser
       url: "https://pub.flutter-io.cn"
@@ -214,3 +234,7 @@ packages:
     version: "3.5.0"
 sdks:
   dart: ">=2.4.0 <3.0.0"
+<<<<<<< Updated upstream
+=======
+  flutter: ">=0.1.4 <2.0.0"
+>>>>>>> Stashed changes

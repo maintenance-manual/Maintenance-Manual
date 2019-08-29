@@ -129,7 +129,11 @@ packages:
       name: meta
       url: "https://pub.flutter-io.cn"
     source: hosted
+<<<<<<< HEAD
     version: "1.1.7"
+=======
+    version: "1.1.6"
+>>>>>>> parent of a85711d... Revert "更新了基本配置内容并完善"
   path:
     dependency: transitive
     description:
@@ -143,6 +147,7 @@ packages:
       name: pedantic
       url: "https://pub.flutter-io.cn"
     source: hosted
+<<<<<<< HEAD
     version: "1.8.0+1"
   petitparser:
     dependency: transitive
@@ -151,6 +156,9 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.4.0"
+=======
+    version: "1.7.0"
+>>>>>>> parent of a85711d... Revert "更新了基本配置内容并完善"
   provide:
     dependency: "direct main"
     description:
@@ -234,5 +242,9 @@ packages:
     source: hosted
     version: "3.5.0"
 sdks:
+<<<<<<< HEAD
   dart: ">=2.4.0 <3.0.0"
+=======
+  dart: ">=2.2.2 <3.0.0"
+>>>>>>> parent of a85711d... Revert "更新了基本配置内容并完善"
   flutter: ">=0.1.4 <2.0.0"

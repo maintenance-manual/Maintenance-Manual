@@ -31,47 +31,74 @@ class _MainPageState extends State<MainPage> {
           title: Text('手册程序电子化管理系统'),
         ),
         drawer: Drawer(
-          child: SingleChildScrollView(
-            child: Stack(
-              children: <Widget>[
-                _myDrawer(),
-                Positioned(
-                  bottom: 0,
-                  child: Row(
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: ScreenUtil().setHeight(1181),
+                child: SingleChildScrollView(
+                  child: Column(
                     children: <Widget>[
-                      Container(
-                        width: ScreenUtil().setWidth(220),
-                        margin: EdgeInsets.only(left: 25.0),
-                        padding: EdgeInsets.all(30),
-                        child: InkWell(
-                          onTap: (/**continue... */) {
-                            /**continue... */
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (context) => LoginPage()),
-                                (route) => route == null);
-                          },
-                          child: Text('退出登录'),
+                      UserAccountsDrawerHeader(
+                        accountEmail: Text('septemberman@outlook.com'),
+                        accountName: Text('sylar'),
+                        currentAccountPicture: ClipOval(
+                          child: Image.asset('assets/account1.jpg'),
                         ),
                       ),
-                      Container(
-                        width: ScreenUtil().setWidth(220),
-                        margin: EdgeInsets.only(left: 10.0),
-                        padding: EdgeInsets.all(30),
-                        child: InkWell(
-                          onTap: (/**continue... */) {
-                            /**continue... */
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ChangePsw()));
-                          },
-                          child: Text('修改密码'),
-                        ),
-                      ),
+                      _myDrawer(), //这里是drawer的列表容器;
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+              Container(
+                height: ScreenUtil().setHeight(150),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    InkWell(
+                      onTap: (/**continue... */) {
+                        /**continue... */
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ChangePsw()));
+                      },
+                      child: Container(
+                        width: ScreenUtil().setWidth(220),
+                        height: ScreenUtil().setHeight(80),
+                        alignment: Alignment.center,
+                        //margin: EdgeInsets.only(left: 25.0),
+                        padding: EdgeInsets.all(5.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                          color: Colors.grey,
+                        ),
+                        child: Text('修改密码'),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: (/**continue... */) {
+                        /**continue... */
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()),
+                            (route) => route == null);
+                      },
+                      child: Container(
+                        width: ScreenUtil().setWidth(220),
+                        height: ScreenUtil().setHeight(80),
+                        alignment: Alignment.center,
+                        //margin: EdgeInsets.only(left: 25.0),
+                        padding: EdgeInsets.all(5.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                          color: Colors.grey,
+                        ),
+                        child: Text('退出登录'),
+                      ),
+                    ),
+                  ],
+                ),
+              ), //这里是底部修改退出登录容器;
+            ],
           ),
         ),
         body: ListView(
@@ -109,13 +136,6 @@ class _MainPageState extends State<MainPage> {
   Widget _myDrawer() {
     return Column(
       children: <Widget>[
-        UserAccountsDrawerHeader(
-          accountEmail: Text('septemberman@outlook.com'),
-          accountName: Text('sylar'),
-          currentAccountPicture: ClipOval(
-            child: Image.asset('assets/account1.jpg'),
-          ),
-        ),
         ListTile(
           title: Text('手册浏览'),
           onTap: () {

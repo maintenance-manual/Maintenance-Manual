@@ -19,36 +19,6 @@ class PeopleConfigure extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   SearchPage(),
-                  // Container(
-                  //   alignment: Alignment.centerLeft,
-                  //   padding: EdgeInsets.all(6.0),
-                  //   decoration: BoxDecoration(
-                  //       border: Border(
-                  //           bottom:
-                  //               BorderSide(width: 1.0, color: Colors.black54))),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.start,
-                  //     children: <Widget>[
-                  //       Text(
-                  //         '所属部门',
-                  //         textAlign: TextAlign.left,
-                  //         style: TextStyle(
-                  //             color: Colors.black,
-                  //             fontSize: ScreenUtil().setSp(35.0)),
-                  //       ),
-                  //       Container(
-                  //         width: ScreenUtil().setWidth(180),
-                  //       ),
-                  //       Text(
-                  //         '岗位名称',
-                  //         textAlign: TextAlign.left,
-                  //         style: TextStyle(
-                  //             color: Colors.black,
-                  //             fontSize: ScreenUtil().setSp(35.0)),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                   Container(
                     height: ScreenUtil().setHeight(800),
                     child: SingleChildScrollView(

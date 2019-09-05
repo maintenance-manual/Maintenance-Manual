@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix0;
+import 'package:manual/pages/allprocess_view.dart';
 import 'package:manual/service/service_method.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -69,7 +70,7 @@ class _HandBookSearchState extends State<HandBookSearch> {
                 child: Row(
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.all(40),
+                      margin: EdgeInsets.only(left: 75, top: 20),
                       alignment: Alignment.center,
                       child: FlatButton(
                         color: Colors.blueGrey,
@@ -86,7 +87,7 @@ class _HandBookSearchState extends State<HandBookSearch> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.all(40),
+                      margin: EdgeInsets.only(left: 45, top: 20),
                       alignment: Alignment.center,
                       child: FlatButton(
                         color: Colors.blueGrey,
@@ -103,6 +104,52 @@ class _HandBookSearchState extends State<HandBookSearch> {
                           /** continue...*/
                         },
                       ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 15),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      child: Text(
+                        '搜索到***条符合条件的记录！',
+                      ),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(left: 30),
+                          alignment: Alignment.center,
+                          child: FlatButton(
+                            color: Colors.blueGrey,
+                            highlightColor: Colors.blueAccent[400],
+                            colorBrightness: Brightness.dark,
+                            splashColor: Colors.grey,
+                            child: Text("查看所有程序的流程步骤"),
+                            onPressed: (/** continue...*/) {
+                              /** continue...*/
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => AllProcessView()));
+                            },
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 20),
+                          alignment: Alignment.center,
+                          child: FlatButton(
+                            color: Colors.blueGrey,
+                            highlightColor: Colors.blueAccent[400],
+                            colorBrightness: Brightness.dark,
+                            splashColor: Colors.grey,
+                            child: Text("导出EXCEL"),
+                            onPressed: (/** continue...*/) {
+                              /** continue...*/
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

@@ -22,20 +22,8 @@ class _DepartmentName_Configure_CreateNewState
           child: Column(
             children: <Widget>[
               WorkDepartmentselect(),
-              Divider(
-                color: Colors.black,
-                thickness: 2.0,
-              ),
               People_Connect_WorkName_Change1(),
-              Divider(
-                color: Colors.black,
-                thickness: 2.0,
-              ),
               People_Connect_WorkName_Change2(),
-              Divider(
-                color: Colors.black,
-                thickness: 2.0,
-              ),
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -131,15 +119,15 @@ class _WorkDepartmentselectState extends State<WorkDepartmentselect> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(200),
-      width: ScreenUtil().setWidth(750),
+      height: ScreenUtil().setHeight(150),
+      width: ScreenUtil().setWidth(740),
       padding: EdgeInsets.all(2.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Container(
             width: ScreenUtil().setWidth(180),
-            height: ScreenUtil().setHeight(180),
+            height: ScreenUtil().setHeight(130),
             alignment: Alignment.centerRight,
             child: Text(
               '所属部门：',
@@ -148,38 +136,49 @@ class _WorkDepartmentselectState extends State<WorkDepartmentselect> {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(5.0),
-            height: ScreenUtil().setHeight(180),
-            width: ScreenUtil().setWidth(560),
-            child: Row(
-              children: <Widget>[
-                Form(
-                    key: searchKey0,
-                    child: Container(
-                      margin: EdgeInsets.all(10.0),
-                      height: ScreenUtil().setHeight(150),
-                      width: ScreenUtil().setWidth(500),
-                      child: TextFormField(
-                        autofocus: false,
-                        style: TextStyle(color: Colors.black38, fontSize: 18.0),
-                        decoration: InputDecoration(hintText: '请输入需要修改的工作名称'),
-                        textAlign: TextAlign.center,
-                        obscureText: false,
-                        onSaved: (value) {
-                          searchText0 = value;
-                        },
-                        validator: (value) {
-                          return null;
-                          /** continue...*/
-                        },
-                        onFieldSubmitted: (value) {},
-                        /** continue...*/
-                      ),
-                    )),
-              ],
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(color: Colors.black26, width: 1.0),
+              ),
             ),
+            height: ScreenUtil().setHeight(100),
+            width: ScreenUtil().setWidth(550),
+            child: _myDepartmentDropdownButton(),
           ),
         ],
+      ),
+    );
+  }
+
+//选择所属部门
+  var _pickingChoice5 = 0;
+  Widget _myDepartmentDropdownButton() {
+    return Container(
+      width: ScreenUtil().setWidth(500),
+      alignment: Alignment.centerLeft,
+      child: DropdownButton(
+        value: _pickingChoice5,
+        items: <DropdownMenuItem>[
+          DropdownMenuItem(
+            child: Text('航空安全质量部门'),
+            value: 0,
+          ),
+          DropdownMenuItem(
+            child: Text('定检中队'),
+            value: 1,
+          ),
+          DropdownMenuItem(
+            child: Text('采购部门'),
+            value: 2,
+          ),
+          DropdownMenuItem(
+            child: Text('维修与管理部门'),
+            value: 3,
+          ),
+        ],
+        onChanged: (value) => setState(() {
+          _pickingChoice5 = value;
+        }),
       ),
     );
   }
@@ -194,22 +193,10 @@ class People_Connect_WorkName_Change1 extends StatefulWidget {
 
 class _People_Connect_WorkName_Change1State
     extends State<People_Connect_WorkName_Change1> {
-  GlobalKey<FormState> searchKey1 = GlobalKey<FormState>();
-  GlobalKey<RefreshFooterState> _footerkey1 = GlobalKey<RefreshFooterState>();
-
-  String searchText1 = '';
-  void search1() {
-    var searchForm = searchKey1.currentState;
-    if (searchForm.validate()) {
-      searchForm.save();
-      print(searchText1);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(200),
+      height: ScreenUtil().setHeight(150),
       width: ScreenUtil().setWidth(750),
       padding: EdgeInsets.all(2.0),
       child: Row(
@@ -226,38 +213,49 @@ class _People_Connect_WorkName_Change1State
             ),
           ),
           Container(
-            padding: EdgeInsets.all(5.0),
-            height: ScreenUtil().setHeight(180),
-            width: ScreenUtil().setWidth(560),
-            child: Row(
-              children: <Widget>[
-                Form(
-                    key: searchKey1,
-                    child: Container(
-                      margin: EdgeInsets.all(10.0),
-                      height: ScreenUtil().setHeight(150),
-                      width: ScreenUtil().setWidth(500),
-                      child: TextFormField(
-                        autofocus: false,
-                        style: TextStyle(color: Colors.black38, fontSize: 18.0),
-                        decoration: InputDecoration(hintText: '请输入需要修改的工作名称'),
-                        textAlign: TextAlign.center,
-                        obscureText: false,
-                        onSaved: (value) {
-                          searchText1 = value;
-                        },
-                        validator: (value) {
-                          return null;
-                          /** continue...*/
-                        },
-                        onFieldSubmitted: (value) {},
-                        /** continue...*/
-                      ),
-                    )),
-              ],
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(color: Colors.black26, width: 1.0),
+              ),
             ),
+            height: ScreenUtil().setHeight(100),
+            width: ScreenUtil().setWidth(560),
+            child: _myPeoppleDropdownButton(),
           ),
         ],
+      ),
+    );
+  }
+
+//选择工作名称
+  var _pickingChoice6 = 0;
+  Widget _myPeoppleDropdownButton() {
+    return Container(
+      width: ScreenUtil().setWidth(500),
+      alignment: Alignment.centerLeft,
+      child: DropdownButton(
+        value: _pickingChoice6,
+        items: <DropdownMenuItem>[
+          DropdownMenuItem(
+            child: Text('部门管理'),
+            value: 0,
+          ),
+          DropdownMenuItem(
+            child: Text('监察组织'),
+            value: 1,
+          ),
+          DropdownMenuItem(
+            child: Text('安全教育'),
+            value: 2,
+          ),
+          DropdownMenuItem(
+            child: Text('安全培训'),
+            value: 3,
+          ),
+        ],
+        onChanged: (value) => setState(() {
+          _pickingChoice6 = value;
+        }),
       ),
     );
   }
@@ -272,25 +270,10 @@ class People_Connect_WorkName_Change2 extends StatefulWidget {
 
 class _People_Connect_WorkName_Change2State
     extends State<People_Connect_WorkName_Change2> {
-  GlobalKey<FormState> searchKey2 = GlobalKey<FormState>();
-  GlobalKey<RefreshFooterState> _footerkey2 = GlobalKey<RefreshFooterState>();
-
-  @override
-  bool get wantKeepAlive => true;
-
-  String searchText = '';
-  void search() {
-    var searchForm = searchKey2.currentState;
-    if (searchForm.validate()) {
-      searchForm.save();
-      print(searchText);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(200),
+      height: ScreenUtil().setHeight(150),
       width: ScreenUtil().setWidth(750),
       padding: EdgeInsets.all(2.0),
       child: Row(
@@ -298,7 +281,7 @@ class _People_Connect_WorkName_Change2State
         children: <Widget>[
           Container(
             width: ScreenUtil().setWidth(180),
-            height: ScreenUtil().setHeight(180),
+            height: ScreenUtil().setHeight(150),
             alignment: Alignment.centerRight,
             child: Text(
               '员工姓名：',
@@ -307,38 +290,49 @@ class _People_Connect_WorkName_Change2State
             ),
           ),
           Container(
-            padding: EdgeInsets.all(5.0),
-            height: ScreenUtil().setHeight(180),
-            width: ScreenUtil().setWidth(560),
-            child: Row(
-              children: <Widget>[
-                Form(
-                    key: searchKey2,
-                    child: Container(
-                      margin: EdgeInsets.all(10.0),
-                      height: ScreenUtil().setHeight(150),
-                      width: ScreenUtil().setWidth(500),
-                      child: TextFormField(
-                        autofocus: false,
-                        style: TextStyle(color: Colors.black38, fontSize: 18.0),
-                        decoration: InputDecoration(hintText: '请对该工作进行简要描述'),
-                        textAlign: TextAlign.center,
-                        obscureText: false,
-                        onSaved: (value) {
-                          searchText = value;
-                        },
-                        validator: (value) {
-                          return null;
-                          /** continue...*/
-                        },
-                        onFieldSubmitted: (value) {},
-                        /** continue...*/
-                      ),
-                    )),
-              ],
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(color: Colors.black26, width: 1.0),
+              ),
             ),
+            height: ScreenUtil().setHeight(100),
+            width: ScreenUtil().setWidth(560),
+            child: _myPeoppleDropdownButton(),
           ),
         ],
+      ),
+    );
+  }
+
+//选择员工姓名
+  var _pickingChoice7 = 0;
+  Widget _myPeoppleDropdownButton() {
+    return Container(
+      width: ScreenUtil().setWidth(500),
+      alignment: Alignment.centerLeft,
+      child: DropdownButton(
+        value: _pickingChoice7,
+        items: <DropdownMenuItem>[
+          DropdownMenuItem(
+            child: Text('张三'),
+            value: 0,
+          ),
+          DropdownMenuItem(
+            child: Text('李四'),
+            value: 1,
+          ),
+          DropdownMenuItem(
+            child: Text('王五'),
+            value: 2,
+          ),
+          DropdownMenuItem(
+            child: Text('赵六'),
+            value: 3,
+          ),
+        ],
+        onChanged: (value) => setState(() {
+          _pickingChoice7 = value;
+        }),
       ),
     );
   }

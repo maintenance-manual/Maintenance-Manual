@@ -22,20 +22,8 @@ class DepartmentName_Configure_CreateNew_State
           child: Column(
             children: <Widget>[
               WorkDepartmentselect(),
-              Divider(
-                color: Colors.black,
-                thickness: 2.0,
-              ),
               WorkName_Change1(),
-              Divider(
-                color: Colors.black,
-                thickness: 2.0,
-              ),
               WorkName_Change2(),
-              Divider(
-                color: Colors.black,
-                thickness: 2.0,
-              ),
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -130,7 +118,7 @@ class _WorkDepartmentselectState extends State<WorkDepartmentselect> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(200),
+      height: ScreenUtil().setHeight(120),
       width: ScreenUtil().setWidth(750),
       padding: EdgeInsets.all(2.0),
       child: Row(
@@ -147,43 +135,54 @@ class _WorkDepartmentselectState extends State<WorkDepartmentselect> {
             ),
           ),
           Container(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(color: Colors.black26, width: 1.0),
+              ),
+            ),
             padding: EdgeInsets.all(5.0),
             height: ScreenUtil().setHeight(180),
             width: ScreenUtil().setWidth(560),
-            child: Row(
-              children: <Widget>[
-                Form(
-                    key: searchKey0,
-                    child: Container(
-                      margin: EdgeInsets.all(10.0),
-                      height: ScreenUtil().setHeight(150),
-                      width: ScreenUtil().setWidth(500),
-                      child: TextFormField(
-                        autofocus: false,
-                        style: TextStyle(color: Colors.black38, fontSize: 18.0),
-                        decoration: InputDecoration(hintText: '请输入需要修改的工作名称'),
-                        textAlign: TextAlign.center,
-                        obscureText: false,
-                        onSaved: (value) {
-                          searchText0 = value;
-                        },
-                        validator: (value) {
-                          return null;
-                          /** continue...*/
-                        },
-                        onFieldSubmitted: (value) {},
-                        /** continue...*/
-                      ),
-                    )),
-              ],
-            ),
+            child: _myDepartmentDropdownButton(),
           ),
         ],
       ),
     );
   }
-}
 
+//选择所属部门
+  var _pickingChoice4 = 0;
+  Widget _myDepartmentDropdownButton() {
+    return Container(
+      width: ScreenUtil().setWidth(500),
+      alignment: Alignment.centerLeft,
+      child: DropdownButton(
+        value: _pickingChoice4,
+        items: <DropdownMenuItem>[
+          DropdownMenuItem(
+            child: Text('航空安全质量部门'),
+            value: 0,
+          ),
+          DropdownMenuItem(
+            child: Text('定检中队'),
+            value: 1,
+          ),
+          DropdownMenuItem(
+            child: Text('采购部门'),
+            value: 2,
+          ),
+          DropdownMenuItem(
+            child: Text('维修与管理部门'),
+            value: 3,
+          ),
+        ],
+        onChanged: (value) => setState(() {
+          _pickingChoice4 = value;
+        }),
+      ),
+    );
+  }
+}
 
 class WorkName_Change1 extends StatefulWidget {
   WorkName_Change1({Key key}) : super(key: key);
@@ -207,7 +206,7 @@ class _WorkName_Change1State extends State<WorkName_Change1> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(200),
+      height: ScreenUtil().setHeight(150),
       width: ScreenUtil().setWidth(750),
       padding: EdgeInsets.all(2.0),
       child: Row(
@@ -224,7 +223,6 @@ class _WorkName_Change1State extends State<WorkName_Change1> {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(5.0),
             height: ScreenUtil().setHeight(180),
             width: ScreenUtil().setWidth(560),
             child: Row(
@@ -261,7 +259,6 @@ class _WorkName_Change1State extends State<WorkName_Change1> {
   }
 }
 
-
 class WorkName_Change2 extends StatefulWidget {
   WorkName_Change2({Key key}) : super(key: key);
 
@@ -287,7 +284,7 @@ class _WorkName_Change2State extends State<WorkName_Change2> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(200),
+      height: ScreenUtil().setHeight(150),
       width: ScreenUtil().setWidth(750),
       padding: EdgeInsets.all(2.0),
       child: Row(
@@ -304,7 +301,6 @@ class _WorkName_Change2State extends State<WorkName_Change2> {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(5.0),
             height: ScreenUtil().setHeight(180),
             width: ScreenUtil().setWidth(560),
             child: Row(
@@ -340,4 +336,3 @@ class _WorkName_Change2State extends State<WorkName_Change2> {
     );
   }
 }
-

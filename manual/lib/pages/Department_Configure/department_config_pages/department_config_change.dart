@@ -18,7 +18,7 @@ class DepartmentName_Configure_Change extends StatelessWidget {
               Container(
                 width: ScreenUtil().setWidth(750),
                 padding: EdgeInsets.all(5.0),
-                margin: EdgeInsets.only(top: 10.0),
+                margin: EdgeInsets.only(top: 10.0,left:5.0),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(width: 1.0, color: Colors.black38),

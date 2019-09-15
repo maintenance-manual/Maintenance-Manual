@@ -39,11 +39,22 @@ class _MainPageState extends State<MainPage> {
                   child: Column(
                     children: <Widget>[
                       UserAccountsDrawerHeader(
-                        accountEmail: Text('septemberman@outlook.com'),
-                        accountName: Text('sylar'),
-                        // currentAccountPicture: ClipOval(
-                        //   child: Image.asset('assets/account1.jpg'),
-                        // ),
+                        accountEmail: SizedBox(
+                          height: ScreenUtil().setHeight(40),
+                          child: Text("航空安全质量分部"),
+                        ),
+                        accountName: SizedBox(
+                          height: ScreenUtil().setHeight(34),
+                          child: Text(
+                            '张海凤',
+                          ),
+                        ),
+                        currentAccountPicture: ClipOval(
+                          child: Image.asset(
+                            'assets/account2.jpg',
+                            fit: BoxFit.fill,
+                          ),
+                        ),
                       ),
                       _myDrawer(), //这里是drawer的列表容器;
                     ],
@@ -228,10 +239,6 @@ class _MainPageState extends State<MainPage> {
                 MaterialPageRoute(builder: (context) => HandBookSearch()));
           },
         ),
-        Text(''),
-        Text(''),
-        Text(''),
-        Text(''),
       ],
     );
   }

@@ -14,41 +14,44 @@ class DepartmentNameConfigure extends StatelessWidget {
       appBar: AppBar(
         title: Text('工作名称配置'),
       ),
-      body: Column(
-        children: <Widget>[
-          Container(
-            alignment: Alignment.centerLeft,
-            padding: EdgeInsets.all(2.0),
-            decoration: BoxDecoration(),
-            child: Text(
-              '工作名称配置',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                  color: Colors.black, fontSize: ScreenUtil().setSp(35.0)),
-            ),
-          ),
-          Container(
-            height: ScreenUtil().setHeight(50),
-            alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(left: 3.0),
-            child: InkWell(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        DepartmentName_Configure_CreateNew()));
-              },
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              alignment: Alignment.centerLeft,
+              padding: EdgeInsets.all(2.0),
+              decoration: BoxDecoration(),
               child: Text(
-                '新建',
+                '工作名称配置',
+                textAlign: TextAlign.left,
                 style: TextStyle(
-                    color: Colors.blueGrey, fontSize: ScreenUtil().setSp(28.0)),
+                    color: Colors.black, fontSize: ScreenUtil().setSp(35.0)),
               ),
             ),
-            decoration: BoxDecoration(
-                border:
-                    Border(bottom: BorderSide(width: 1, color: Colors.black))),
-          ),
-          Department_ConfigShow(),
-        ],
+            Container(
+              height: ScreenUtil().setHeight(50),
+              alignment: Alignment.centerLeft,
+              margin: EdgeInsets.only(left: 3.0),
+              child: InkWell(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          DepartmentName_Configure_CreateNew()));
+                },
+                child: Text(
+                  '新建',
+                  style: TextStyle(
+                      color: Colors.blueGrey,
+                      fontSize: ScreenUtil().setSp(28.0)),
+                ),
+              ),
+              decoration: BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(width: 1, color: Colors.black))),
+            ),
+            Department_ConfigShow(),
+          ],
+        ),
       ),
     ));
   }

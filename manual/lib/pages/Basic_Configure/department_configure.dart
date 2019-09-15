@@ -12,23 +12,25 @@ class DepartmentConfigure extends StatelessWidget {
         appBar: AppBar(
           title: Text('部门配置'),
         ),
-        body: Column(
-          children: <Widget>[
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.all(6.0),
-              decoration: BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(width: 1.0, color: Colors.black54))),
-              child: Text(
-                '部门名称',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                    color: Colors.black, fontSize: ScreenUtil().setSp(35.0)),
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.all(6.0),
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(width: 1.0, color: Colors.black54))),
+                child: Text(
+                  '部门名称',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      color: Colors.black, fontSize: ScreenUtil().setSp(35.0)),
+                ),
               ),
-            ),
-            DepartMentConfigShow(),
-          ],
+              DepartMentConfigShow(),
+            ],
+          ),
         ),
         floatingActionButton: new Builder(builder: (BuildContext context) {
           //悬浮按钮用来新建;

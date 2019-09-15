@@ -11,7 +11,7 @@ class PeopleConnect extends StatelessWidget {
     return Container(
         child: Scaffold(
       appBar: AppBar(
-        title: Text('工作名称配置'),
+        title: Text('人员工作对接'),
       ),
       body: SingleChildScrollView(
         child: Column(

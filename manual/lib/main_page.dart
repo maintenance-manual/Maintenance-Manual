@@ -41,9 +41,9 @@ class _MainPageState extends State<MainPage> {
                       UserAccountsDrawerHeader(
                         accountEmail: Text('septemberman@outlook.com'),
                         accountName: Text('sylar'),
-                        currentAccountPicture: ClipOval(
-                          child: Image.asset('assets/account1.jpg'),
-                        ),
+                        // currentAccountPicture: ClipOval(
+                        //   child: Image.asset('assets/account1.jpg'),
+                        // ),
                       ),
                       _myDrawer(), //这里是drawer的列表容器;
                     ],

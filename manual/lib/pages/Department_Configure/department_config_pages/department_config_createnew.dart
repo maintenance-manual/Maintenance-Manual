@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class DepartmentName_Configure_CreateNew extends StatelessWidget {
-  const DepartmentName_Configure_CreateNew({Key key}) : super(key: key);
+class DepartmentName_Configure_CreateNew extends StatefulWidget {
+  DepartmentName_Configure_CreateNew({Key key}) : super(key: key);
 
+  DepartmentName_Configure_CreateNew_State createState() =>
+      DepartmentName_Configure_CreateNew_State();
+}
+
+class DepartmentName_Configure_CreateNew_State
+    extends State<DepartmentName_Configure_CreateNew> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,7 +22,7 @@ class DepartmentName_Configure_CreateNew extends StatelessWidget {
           child: Column(
             children: <Widget>[
               WorkDepartmentselect(),
-               Divider(
+              Divider(
                 color: Colors.black,
                 thickness: 2.0,
               ),
@@ -103,10 +109,15 @@ class DepartmentName_Configure_CreateNew extends StatelessWidget {
   }
 }
 
-class WorkDepartmentselect extends StatelessWidget {
+class WorkDepartmentselect extends StatefulWidget {
+  WorkDepartmentselect({Key key}) : super(key: key);
+
+  _WorkDepartmentselectState createState() => _WorkDepartmentselectState();
+}
+
+class _WorkDepartmentselectState extends State<WorkDepartmentselect> {
   GlobalKey<FormState> searchKey0 = GlobalKey<FormState>();
   GlobalKey<RefreshFooterState> _footerkey0 = GlobalKey<RefreshFooterState>();
-
   String searchText0 = '';
   void search1() {
     var searchForm = searchKey0.currentState;
@@ -173,7 +184,14 @@ class WorkDepartmentselect extends StatelessWidget {
   }
 }
 
-class WorkName_Change1 extends StatelessWidget {
+
+class WorkName_Change1 extends StatefulWidget {
+  WorkName_Change1({Key key}) : super(key: key);
+
+  _WorkName_Change1State createState() => _WorkName_Change1State();
+}
+
+class _WorkName_Change1State extends State<WorkName_Change1> {
   GlobalKey<FormState> searchKey1 = GlobalKey<FormState>();
   GlobalKey<RefreshFooterState> _footerkey1 = GlobalKey<RefreshFooterState>();
 
@@ -243,7 +261,14 @@ class WorkName_Change1 extends StatelessWidget {
   }
 }
 
-class WorkName_Change2 extends StatelessWidget {
+
+class WorkName_Change2 extends StatefulWidget {
+  WorkName_Change2({Key key}) : super(key: key);
+
+  _WorkName_Change2State createState() => _WorkName_Change2State();
+}
+
+class _WorkName_Change2State extends State<WorkName_Change2> {
   GlobalKey<FormState> searchKey2 = GlobalKey<FormState>();
   GlobalKey<RefreshFooterState> _footerkey2 = GlobalKey<RefreshFooterState>();
 
@@ -315,3 +340,4 @@ class WorkName_Change2 extends StatelessWidget {
     );
   }
 }
+

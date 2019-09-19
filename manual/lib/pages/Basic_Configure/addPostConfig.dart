@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class AddPostConfig extends StatelessWidget {
-  const AddPostConfig({Key key}) : super(key: key);
+class AddPostConfig extends StatefulWidget {
+  AddPostConfig({Key key}) : super(key: key);
 
+  _AddPostConfigState createState() => _AddPostConfigState();
+}
+
+class _AddPostConfigState extends State<AddPostConfig> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,14 +32,39 @@ class AddPostConfig extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              new TextFormField(
-                decoration: new InputDecoration(
-                  labelText: '请选择所属部门',
+              Container(
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      width: ScreenUtil().setWidth(160),
+                      child: Text("所属部门：",
+                          style: TextStyle(fontSize: ScreenUtil().setSp(30.0))),
+                    ),
+                    Container(
+                      width: ScreenUtil().setWidth(500),
+                      child: _myDepartmentDropdownButton(),
+                    ),
+                  ],
                 ),
               ),
-              new TextFormField(
-                decoration: new InputDecoration(
-                  labelText: '请输入岗位名称',
+              Container(
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      width: ScreenUtil().setWidth(160),
+                      child: Text("岗位名称：",
+                          style: TextStyle(fontSize: ScreenUtil().setSp(30.0))),
+                    ),
+                    Container(
+                      width: ScreenUtil().setWidth(500),
+                      alignment: Alignment.center,
+                      child: TextFormField(
+                        decoration: new InputDecoration(
+                          labelText: '请输入岗位名称',
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               new Divider(),
@@ -52,6 +81,38 @@ class AddPostConfig extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  var _pickingChoice = 0;
+  Widget _myDepartmentDropdownButton() {
+    return Container(
+      width: ScreenUtil().setWidth(500),
+      alignment: Alignment.centerLeft,
+      child: DropdownButton(
+        value: _pickingChoice,
+        items: <DropdownMenuItem>[
+          DropdownMenuItem(
+            child: Text('航空安全质量部门'),
+            value: 0,
+          ),
+          DropdownMenuItem(
+            child: Text('定检中队'),
+            value: 1,
+          ),
+          DropdownMenuItem(
+            child: Text('采购部门'),
+            value: 2,
+          ),
+          DropdownMenuItem(
+            child: Text('维修与管理部门'),
+            value: 3,
+          ),
+        ],
+        onChanged: (value) => setState(() {
+          _pickingChoice = value;
+        }),
       ),
     );
   }

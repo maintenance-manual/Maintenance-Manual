@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix0;
-import 'package:manual/pages/allprocess_view.dart';
+import './Handbooksearch_pages/allprocess_view.dart';
+import 'package:manual/pages/handbook_view.dart';
 import 'package:manual/service/service_method.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import './Handbooksearch_pages/handbook_show.dart'; //引入显示搜索结果界面;
 
 class HandBookSearch extends StatefulWidget {
   @override
@@ -82,7 +84,8 @@ class _HandBookSearchState extends State<HandBookSearch> {
                             borderRadius: BorderRadius.circular(20.0)),
                         onPressed: (/** continue...*/) {
                           search();
-                          /** continue...*/
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => HangbookShowList()));
                         },
                       ),
                     ),
@@ -112,11 +115,6 @@ class _HandBookSearchState extends State<HandBookSearch> {
                 margin: EdgeInsets.only(top: 15),
                 child: Column(
                   children: <Widget>[
-                    Container(
-                      child: Text(
-                        '搜索到***条符合条件的记录！',
-                      ),
-                    ),
                     Row(
                       children: <Widget>[
                         Container(

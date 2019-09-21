@@ -1,8 +1,22 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:manual/config/service_url.dart';
 import 'package:manual/service/service_method.dart';
 import 'main_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'dart:io';
+import 'package:dio/dio.dart';
+
+void getHttp() async {
+  try {
+    Response response = await Dio().get("http://47.93.54.102:5000/login?username=test&password=test");
+    print(response);
+  } catch (e) {
+    print(e);
+  }
+}
 
 class LoginPage extends StatefulWidget {
   @override
@@ -25,6 +39,25 @@ class _LoginPageState extends State<LoginPage> {
           .push(MaterialPageRoute(builder: (context) => MainPage()));
     }
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    // _getData();
+    getHttp();
+    super.initState();
+  }
+
+  // void _getData() async{
+  //   var data = {
+  //     "username":"test",
+  //     "password":"test",
+  //   };
+  //   await request('loginContent',formData: data).then((val){
+  //     var data = json.decode(val.toString());
+  //     print('手册浏览数据==========>$data');
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

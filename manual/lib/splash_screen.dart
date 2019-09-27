@@ -1,5 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'login_page.dart';
+import 'dart:io';
+import 'dart:convert';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -27,6 +30,22 @@ class _SplashScreenState extends State<SplashScreen>
     });
 
     _controller.forward(); //播放动画
+  }
+  @override
+  void setState(fn) {
+    // TODO: implement setState
+    _getpost();
+    super.setState(fn);
+  }
+  void _getpost()async{
+    try{
+      Response response;
+      response = await Dio().get('http://47.93.54.102:5000/read/readHandbook');
+      print("獲取數據");
+      return print(response);
+    }catch(e){
+      return print(e);
+    }
   }
 
   @override

@@ -6,22 +6,7 @@ import 'main_page.dart';
 import 'dart:io';
 import 'package:dio/dio.dart';
 
-<<<<<<< HEAD
 
-=======
-void getHttp() async {
-  try {
-    Dio dio = Dio();
-    dio.options.contentType = ContentType.parse(
-        "application/x-www-form-urlencoded");
-    Response response = await dio.get("http://47.93.54.102:5000/read/readHandbook");
-    print(response.statusCode);
-    print(response);
-  } catch (e) {
-    print(e);
-  }
-}
->>>>>>> parent of a1b31fc... 部分接口调试成功
 
 class LoginPage extends StatefulWidget {
   @override
@@ -44,25 +29,6 @@ class _LoginPageState extends State<LoginPage> {
           .push(MaterialPageRoute(builder: (context) => MainPage()));
     }
   }
-<<<<<<< HEAD
-=======
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    // _getData();
-    getHttp();
-    super.initState();
-  }
-
-  void _getData() async{
-    await request('handbookview').then((val){
-      var data = json.decode(val.toString());
-      print('手册浏览数据==========>$data');
-    });
-  }
-
->>>>>>> parent of a1b31fc... 部分接口调试成功
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
@@ -98,7 +64,6 @@ class _LoginPageState extends State<LoginPage> {
                 style: TextStyle(color: Colors.white, fontSize: 50.0),
               ),
             ),
-<<<<<<< HEAD
             Container(
               child: Form(
                 key: loginKey,
@@ -129,61 +94,6 @@ class _LoginPageState extends State<LoginPage> {
                           }
                         },
                       ),
-=======
-          ),
-          Container(
-            child: Form(
-              key: loginKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                verticalDirection: VerticalDirection.down,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(60.0, 80.0, 60.0, 5.0),
-                    child: TextFormField(
-                      autofocus: false,
-                      style: TextStyle(color: Colors.black26, fontSize: 18.0),
-                      decoration: InputDecoration(hintText: '请输入用户名'),
-                      textAlign: TextAlign.center,
-                      controller: _userNameTextFieldController,
-                      obscureText: false,
-                      onSaved: (value) {
-                        userName = value;
-                      },
-                      onFieldSubmitted: (value) {},
-                      validator: (value) {
-                        if (value.length == 0) {
-                          return "用户名不能为空";
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(60.0, 20.0, 60.0, 55.0),
-                    child: TextFormField(
-                      autofocus: false,
-                      style: TextStyle(color: Colors.black26, fontSize: 18.0),
-                      decoration: InputDecoration(hintText: '请输入密码'),
-                      textAlign: TextAlign.center,
-                      controller: _passwordTextFieldController,
-                      obscureText: true,
-                      onSaved: (value) {
-                        password = value;
-                      },
-                      validator: (value) {
-                        if (value.length == 0) {
-                          return "密码不能为空";
-                        } else if (value.length < 6) {
-                          return "密码长度不够6位";
-                        } else {
-                          return null;
-                        }
-                      },
->>>>>>> parent of a1b31fc... 部分接口调试成功
                     ),
                     Padding(
                       padding: EdgeInsets.fromLTRB(60.0, 20.0, 60.0, 55.0),

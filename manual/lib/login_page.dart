@@ -6,9 +6,6 @@ import 'main_page.dart';
 import 'dart:io';
 import 'package:dio/dio.dart';
 
-<<<<<<< HEAD
-
-=======
 void getHttp() async {
   try {
     Dio dio = Dio();
@@ -21,7 +18,6 @@ void getHttp() async {
     print(e);
   }
 }
->>>>>>> parent of a1b31fc... 部分接口调试成功
 
 class LoginPage extends StatefulWidget {
   @override
@@ -44,8 +40,6 @@ class _LoginPageState extends State<LoginPage> {
           .push(MaterialPageRoute(builder: (context) => MainPage()));
     }
   }
-<<<<<<< HEAD
-=======
 
   @override
   void initState() {
@@ -62,7 +56,6 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
->>>>>>> parent of a1b31fc... 部分接口调试成功
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
@@ -98,38 +91,6 @@ class _LoginPageState extends State<LoginPage> {
                 style: TextStyle(color: Colors.white, fontSize: 50.0),
               ),
             ),
-<<<<<<< HEAD
-            Container(
-              child: Form(
-                key: loginKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  verticalDirection: VerticalDirection.down,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(60.0, 80.0, 60.0, 5.0),
-                      child: TextFormField(
-                        autofocus: false,
-                        style: TextStyle(color: Colors.black26, fontSize: 18.0),
-                        decoration: InputDecoration(hintText: '请输入用户名'),
-                        textAlign: TextAlign.center,
-                        controller: _userNameTextFieldController,
-                        obscureText: false,
-                        onSaved: (value) {
-                          userName = value;
-                        },
-                        onFieldSubmitted: (value) {},
-                        validator: (value) {
-                          if (value.length == 0) {
-                            return "用户名不能为空";
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
-=======
           ),
           Container(
             child: Form(
@@ -183,7 +144,6 @@ class _LoginPageState extends State<LoginPage> {
                           return null;
                         }
                       },
->>>>>>> parent of a1b31fc... 部分接口调试成功
                     ),
                     Padding(
                       padding: EdgeInsets.fromLTRB(60.0, 20.0, 60.0, 55.0),

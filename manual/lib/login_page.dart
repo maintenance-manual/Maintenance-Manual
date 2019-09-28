@@ -8,12 +8,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:io';
 import 'package:dio/dio.dart';
 
+var userName;
+var password;
 void getHttp() async {
   try {
     Dio dio = Dio();
     dio.options.contentType = ContentType.parse(
         "application/x-www-form-urlencoded");
-    Response response = await dio.get("http://47.93.54.102:5000/read/readHandbook");
+    Response response = await dio.get("http://47.93.54.102:5000/login/?username=$userName&password=$password");
     print(response.statusCode);
     print(response);
   } catch (e) {
@@ -30,14 +32,13 @@ class _LoginPageState extends State<LoginPage> {
   GlobalKey<FormState> loginKey = GlobalKey<FormState>();
   var _userNameTextFieldController;
   var _passwordTextFieldController;
-  var userName;
-  var password;
 
   void login() {
     var loginForm = loginKey.currentState;
     if (loginForm.validate()) {
       loginForm.save();
       print('userName:' + userName + ' password:' + password);
+      getHttp();
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => MainPage()));
     }
@@ -47,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     // TODO: implement initState
     // _getData();
-    getHttp();
+    // getHttp();
     super.initState();
   }
 
@@ -113,7 +114,9 @@ class _LoginPageState extends State<LoginPage> {
                       onSaved: (value) {
                         userName = value;
                       },
-                      onFieldSubmitted: (value) {},
+                      onFieldSubmitted: (value) {
+
+                      },
                       validator: (value) {
                         if (value.length == 0) {
                           return "用户名不能为空";
@@ -138,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                       validator: (value) {
                         if (value.length == 0) {
                           return "密码不能为空";
-                        } else if (value.length < 6) {
+                        } else if (value.length < 3) {
                           return "密码长度不够6位";
                         } else {
                           return null;

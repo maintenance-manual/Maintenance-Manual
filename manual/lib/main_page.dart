@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:manual/model/userDetailsModel.dart';
 import 'package:manual/pages/change_pwd.dart';
 import 'package:manual/login_page.dart';
 import 'package:manual/pages/handbook_view.dart'; //手册浏览界面;
@@ -13,8 +14,14 @@ import 'package:manual/pages/Department_Configure/index_page22.dart';
 import 'package:manual/pages/Department_Configure/index_page21.dart';
 import 'package:manual/pages/HandBook_Input/index_page3.dart';
 import 'package:manual/pages/HandBook_Input/index_page31.dart';
+import 'package:manual/login_page.dart';
+import 'package:manual/provide/userDetailsModelProvide.dart';
+import 'package:provide/provide.dart';
 
 class MainPage extends StatefulWidget {
+  MainPage(
+      userName, userListRight1, userListRight2, userListRight3, userListRight4);
+
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -46,7 +53,7 @@ class _MainPageState extends State<MainPage> {
                         accountName: SizedBox(
                           height: ScreenUtil().setHeight(34),
                           child: Text(
-                            '张海凤',
+                            '$userName',
                           ),
                         ),
                         currentAccountPicture: ClipOval(
@@ -56,7 +63,7 @@ class _MainPageState extends State<MainPage> {
                           ),
                         ),
                       ),
-                      _myDrawer(), //这里是drawer的列表容器;
+                      _myDrawer('$userListRight1','$userListRight2','$userListRight3','$userListRight4'), //这里是drawer的列表容器;
                     ],
                   ),
                 ),
@@ -144,7 +151,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Widget _myDrawer() {
+  Widget _myDrawer(String userListRight1,String userListRight2,String userListRight3,String userListRight4) {
     return Column(
       children: <Widget>[
         ListTile(

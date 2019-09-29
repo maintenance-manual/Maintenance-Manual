@@ -58,9 +58,11 @@ class _HandBookListState extends State<HandBookList> {
       var data = json.decode(val.toString());
       HandbookViewModel handbookView = HandbookViewModel.fromJson(data);
       setState(() {
-       list = handbookView.manualList; 
+      list = handbookView.manualList; 
       });
+      print('开始获取手册浏览数据......');
       Provide.value<HandbookViewListProvide>(context).getHandbookList(list);
+      print(list);
     });
     super.initState();
   }

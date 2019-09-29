@@ -81,8 +81,8 @@ class _UserCompetenceState extends State<UserCompetence> {
                             size: 50.0,
                           ),
                           onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => MainPage()));
+                            // Navigator.of(context).push(MaterialPageRoute(
+                            //     builder: (context) => MainPage()));
                           },
                         ),
                         Text(

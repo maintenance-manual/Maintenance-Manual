@@ -128,7 +128,7 @@ class _MainPageState extends State<MainPage> {
               children: <Widget>[
                 Container(
                   child: Text(
-                    '欢迎使用手册程序电子化管理系统',
+                    '欢迎使用手册程序电子化管理系统 ',
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20.0),
                   ),

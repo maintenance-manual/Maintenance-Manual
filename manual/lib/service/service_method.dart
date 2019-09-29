@@ -36,9 +36,9 @@ Future request(url,{formData})async{
       Dio dio = new Dio();
       dio.options.contentType=ContentType.parse("application/x-www-form-urlencoded");
       if(formData==null){
-          response = await dio.get(servicePath[url]);
+         // response = await dio.get(servicePath[url]);
       }else{
-          response = await dio.post(servicePath[url],data:formData);
+         // response = await dio.post(servicePath[url],data:formData);
       }
       if(response.statusCode==200){
         return response.data;

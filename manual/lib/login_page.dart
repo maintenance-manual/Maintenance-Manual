@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:manual/service/service_method.dart';
@@ -10,12 +9,14 @@ import 'package:dio/dio.dart';
 
 var userName;
 var password;
+
 void getHttp() async {
   try {
     Dio dio = Dio();
-    dio.options.contentType = ContentType.parse(
-        "application/x-www-form-urlencoded");
-    Response response = await dio.get("http://47.93.54.102:5000/login/?username=$userName&password=$password");
+    dio.options.contentType =
+        ContentType.parse("application/x-www-form-urlencoded");
+    Response response = await dio.get(
+        "http://47.93.54.102:5000/login/?username=$userName&password=$password");
     print(response.statusCode);
     print(response);
   } catch (e) {
@@ -30,6 +31,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   GlobalKey<FormState> loginKey = GlobalKey<FormState>();
+
   var _userNameTextFieldController;
   var _passwordTextFieldController;
 
@@ -52,8 +54,8 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
   }
 
-  void _getData() async{
-    await request('handbookview').then((val){
+  void _getData() async {
+    await request('handbookview').then((val) {
       var data = json.decode(val.toString());
       print('手册浏览数据==========>$data');
     });
@@ -63,7 +65,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
     // print('设备高度：${ScreenUtil.screenHeight}');
+
     // print('设备宽度：${ScreenUtil.screenWidth}');
+
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -114,9 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                       onSaved: (value) {
                         userName = value;
                       },
-                      onFieldSubmitted: (value) {
-
-                      },
+                      onFieldSubmitted: (value) {},
                       validator: (value) {
                         if (value.length == 0) {
                           return "用户名不能为空";

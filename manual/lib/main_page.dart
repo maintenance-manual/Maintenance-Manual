@@ -63,7 +63,11 @@ class _MainPageState extends State<MainPage> {
                           ),
                         ),
                       ),
-                      _myDrawer('$userListRight1','$userListRight2','$userListRight3','$userListRight4'), //这里是drawer的列表容器;
+                      _myDrawer(
+                          '$userListRight1',
+                          '$userListRight2',
+                          '$userListRight3',
+                          '$userListRight4'), //这里是drawer的列表容器;
                     ],
                   ),
                 ),
@@ -151,7 +155,8 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Widget _myDrawer(String userListRight1,String userListRight2,String userListRight3,String userListRight4) {
+  Widget _myDrawer(String userListRight1, String userListRight2,
+      String userListRight3, String userListRight4) {
     return Column(
       children: <Widget>[
         ListTile(
@@ -161,84 +166,88 @@ class _MainPageState extends State<MainPage> {
                 .push(MaterialPageRoute(builder: (context) => HandBookView()));
           },
         ),
-        ExpansionTile(
-          title: Text('基本配置'),
-          children: <Widget>[
-            ListTile(
-              title: Text('部门配置'),
-              onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => IndexPage1()));
-              },
-            ),
-            ListTile(
-              title: Text('岗位配置'),
-              onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => IndexPage11()));
-              },
-            ),
-            ListTile(
-              title: Text('人员配置'),
-              onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => IndexPage12()));
-              },
-            ),
-          ],
-        ),
-        ExpansionTile(
-          title: Text('手册录入'),
-          children: <Widget>[
-            ListTile(
-              title: Text('手册录入'),
-              onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => IndexPage3()));
-              },
-            ),
-            ListTile(
-              title: Text('程序录入'),
-              onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => IndexPage31()));
-              },
-            ),
-          ],
-        ),
-        ExpansionTile(
-          title: Text('部门配置'),
-          children: <Widget>[
-            ListTile(
-              title: Text('工作名称配置'),
-              onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => IndexPage2()));
-              },
-            ),
-            ListTile(
-              title: Text('人员工作对接'),
-              onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => IndexPage21()));
-              },
-            ),
-            ListTile(
-              title: Text('流程工作对接'),
-              onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => IndexPage22()));
-              },
-            ),
-          ],
-        ),
-        ListTile(
-          title: Text('用户权限配置'),
-          onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => UserCompetence()));
-          },
-        ),
+        if (userListRight3.contains("true")) //判断用户是否具有基本配置的权限
+          ExpansionTile(
+            title: Text('基本配置'),
+            children: <Widget>[
+              ListTile(
+                title: Text('部门配置'),
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => IndexPage1()));
+                },
+              ),
+              ListTile(
+                title: Text('岗位配置'),
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => IndexPage11()));
+                },
+              ),
+              ListTile(
+                title: Text('人员配置'),
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => IndexPage12()));
+                },
+              ),
+            ],
+          ),
+        if (userListRight2.contains("true")) //判断用户是否具有手册录入权限;
+          ExpansionTile(
+            title: Text('手册录入'),
+            children: <Widget>[
+              ListTile(
+                title: Text('手册录入'),
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => IndexPage3()));
+                },
+              ),
+              ListTile(
+                title: Text('程序录入'),
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => IndexPage31()));
+                },
+              ),
+            ],
+          ),
+        if (userListRight4.contains("true")) //判断用户是否用部门配置权限;
+          ExpansionTile(
+            title: Text('部门配置'),
+            children: <Widget>[
+              ListTile(
+                title: Text('工作名称配置'),
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => IndexPage2()));
+                },
+              ),
+              ListTile(
+                title: Text('人员工作对接'),
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => IndexPage21()));
+                },
+              ),
+              ListTile(
+                title: Text('流程工作对接'),
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => IndexPage22()));
+                },
+              ),
+            ],
+          ),
+        if (userListRight1.contains("true")) //判断用户是否有管理员权限
+          ListTile(
+            title: Text('用户权限配置'),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => UserCompetence()));
+            },
+          ),
         ListTile(
           title: Text('手册查询'),
           onTap: () {

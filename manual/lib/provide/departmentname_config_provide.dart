@@ -10,8 +10,15 @@ class UserDepartmentModelProvide with ChangeNotifier {
     notifyListeners();
   }
 
+  //添加增加部門配置;
   adddepartmentname(String adddepartment) {
-    //待添加增加部門代碼;
+    departmentnameList.departmentList.add(adddepartment);
+    notifyListeners();
+  }
+  
+  //刪除部門配置
+  deletedepartmentname(String deletedepartment) {
+    departmentnameList.departmentList.remove(deletedepartment);
     notifyListeners();
   }
 }

@@ -48,8 +48,8 @@ class _AddDepartmentConfigState extends State<AddDepartmentConfig> {
         setState(() {
           isAddDepartment = departmentCreateNew.isAddDepartment;
         });
-        Provide.value<UserDepartmentModelProvide>(context).adddepartmentname(addDepartment);
         if (isAddDepartment.contains("true")) {
+          Provide.value<UserDepartmentModelProvide>(context).adddepartmentname(addDepartment);
           Navigator.pop(context); //如果返回true，说明之前不存在该部门
         } else {
           showDialog(

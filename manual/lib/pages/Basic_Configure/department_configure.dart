@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'dart:convert';
 import '../../model/departmentvView_model.dart';
+import 'deleteDepartment/deleteDepartment.dart';
 
 DepartmentViewModel list;
 var deleteDepartment;
@@ -29,7 +30,7 @@ Future getDepartment() async {
 }
 
 //引入删除部门配置后台数据接口
-Future deleteDepartmentname(context,deleteDepartment) async {
+Future deleteDepartmentname(context, deleteDepartment) async {
   try {
     Dio dio = Dio();
     dio.options.contentType =
@@ -121,62 +122,30 @@ class _DepartmentConfigureState extends State<DepartmentConfigure> {
 class DepartMentConfigShow extends StatelessWidget {
   DepartMentConfigShow(list);
 
-//删除部门名称
-  void deleteDepartmentitem(context, item) {
-    deleteDepartmentname(context, item).then((val) {
-      var data = json.decode(val.toString());
-      DeleteDepartmentModel departmentlist =
-          DeleteDepartmentModel.fromJson(data);
-      list = Provide.value<UserDepartmentModelProvide>(context).departmentnameList;
-      print('删除......');
-      print(departmentlist.toJson());
-      print(list);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    list = Provide.value<UserDepartmentModelProvide>(context).departmentnameList;
+
     return Column(
       children: <Widget>[
         Container(
           height: ScreenUtil().setHeight(940),
           padding: EdgeInsets.all(1.0),
-          child: ListView.builder(
-            itemCount: list.departmentList.length,
-            itemBuilder: (context, index) {
-              return _cardList(context, index);
+          child: Provide<UserDepartmentModelProvide>(
+            builder: (context, child, userDepartmentModelProvide) {
+              list = Provide.value<UserDepartmentModelProvide>(context)
+                  .departmentnameList;
+              return Container(
+                child: ListView.builder(
+                  itemCount: list.departmentList.length,
+                  itemBuilder: (context, index) {
+                    return CardItem(context, list.departmentList[index]);
+                  },
+                ),
+              );
             },
           ),
         ),
       ],
-    );
-  }
-
-  //部门名称目录;
-  Widget _cardList(context, index) {
-    return Container(
-      margin: EdgeInsets.only(top: 1.0),
-      decoration: BoxDecoration(
-          border:
-              Border(bottom: BorderSide(width: 1.0, color: Colors.black38))),
-      child: ListTile(
-        contentPadding: EdgeInsets.only(left: 6.0),
-        title: Text(
-          '${list.departmentList[index]}',
-          style: TextStyle(
-            fontSize: 15.0,
-          ),
-        ),
-        trailing: IconButton(
-          onPressed: () {
-            //Provide.value<UserDepartmentModelProvide>(context).deletedepartmentname(list.departmentList[index]);
-            deleteDepartmentitem(context, list.departmentList[index]);
-          }, //添加删除逻辑
-          icon: Icon(Icons.delete),
-          iconSize: 25.0,
-        ),
-      ),
     );
   }
 }

@@ -53,6 +53,7 @@ class DepartmentConfigure extends StatefulWidget {
 }
 
 class _DepartmentConfigureState extends State<DepartmentConfigure> {
+
   @override
   void initState() {
     getDepartment().then((val) {
@@ -65,6 +66,7 @@ class _DepartmentConfigureState extends State<DepartmentConfigure> {
       print(list.departmentList);
       Provide.value<UserDepartmentModelProvide>(context)
           .getdepartmentname(list);
+          print(list.toJson());
     });
     super.initState();
   }

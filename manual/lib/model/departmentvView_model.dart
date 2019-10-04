@@ -1,6 +1,6 @@
 //查看部门数据模型
 class DepartmentViewModel {
-  List<String> departmentList;
+  List<String> departmentList = [];
 
   DepartmentViewModel({this.departmentList});
 

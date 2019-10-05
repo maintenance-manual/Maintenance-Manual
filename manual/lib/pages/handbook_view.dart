@@ -21,11 +21,7 @@ class _HandBookViewState extends State<HandBookView> {
         title: Text('手册浏览'),
       ),
       body: Container(
-        child: Row(
-          children: <Widget>[
-            HandBookList(),
-          ],
-        ),
+        child: HandBookList(),
       ),
     );
   }
@@ -39,30 +35,52 @@ class HandBookList extends StatefulWidget {
 class _HandBookListState extends State<HandBookList> {
   List list = [];
   var listIndex = 0;
+  List firstCC = [];
 
   Future getList() async {
-  try {
-    Dio dio = Dio();
-    dio.options.contentType = ContentType.parse(
-        "application/x-www-form-urlencoded");
-    Response response = await dio.get("http://47.93.54.102:5000/read/readHandbook",options:Options(responseType: ResponseType.plain,));
-    return response.data;
-  } catch (e) {
-    print(e);
+    try {
+      Dio dio = Dio();
+      dio.options.contentType =
+          ContentType.parse("application/x-www-form-urlencoded");
+      Response response =
+          await dio.get("http://47.93.54.102:5000/read/readHandbook",
+              options: Options(
+                responseType: ResponseType.plain,
+              ));
+      return response.data;
+    } catch (e) {
+      print(e);
+    }
   }
-}
 
   @override
   void initState() {
-    getList().then((val){
+    getList().then((val) {
       var data = json.decode(val.toString());
       HandbookViewModel handbookView = HandbookViewModel.fromJson(data);
       setState(() {
-      list = handbookView.manualList; 
+        list = handbookView.manualList;
       });
-      print('开始获取手册浏览数据......');
+      for (var item in list) {
+        int position = item.toString().indexOf("--");
+        String str = item.toString().substring(0, position);
+        var i;
+        for (i = 0; i < firstCC.length; i++) {
+          if (str == firstCC[i]) {
+            break;
+          }
+        }
+        if (i == firstCC.length) {
+          firstCC.add(str);
+        }
+      }
+      print('获取一级目录数据》》》》》》》》》》');
+      print(firstCC);
+      print('开始获取手册浏览数据》》》》》》》》》》》');
       Provide.value<HandbookViewListProvide>(context).getHandbookList(list);
       print(list);
+      // String str = "其他--20180510102600_文档.pdf";
+      // print("${new RegExp(r"^666").hasMatch(str)}");
     });
     super.initState();
   }
@@ -75,7 +93,7 @@ class _HandBookListState extends State<HandBookList> {
         border: Border(right: BorderSide(width: 1, color: Colors.black12)),
       ),
       child: ListView.builder(
-        itemCount: list.length,
+        itemCount: firstCC.length,
         itemBuilder: (context, index) {
           return _listInkWell(index);
         },
@@ -83,101 +101,85 @@ class _HandBookListState extends State<HandBookList> {
     );
   }
 
-    Widget _listInkWell(int index) {
+  Widget _listInkWell(int index) {
     return InkWell(
       onTap: () {},
       child: Container(
-        height: ScreenUtil().setHeight(180),
+        // height: ScreenUtil().setHeight(180),
         padding: EdgeInsets.only(left: 10, top: 20),
         decoration: BoxDecoration(
           color: Colors.white,
-          border: Border(
-            bottom: BorderSide(width: 1, color: Colors.black12),
-          ),
         ),
-        child: Text(
-          list[index],
-          style: TextStyle(fontSize: ScreenUtil().setSp(28)),
-        ),
+        child: _fccExpansionTile(firstCC[index]),
       ),
     );
   }
+
+  List<Widget> sccExpList;
+  Widget _fccExpansionTile(String string) {
+    _sccExpTileListState(string);
+    return ExpansionTile(
+      title: Text(
+        string,
+        style: TextStyle(fontSize: ScreenUtil().setSp(32)),
+      ),
+      children: sccExpList,
+    );
+  }
+
+  List sccList;
+  List<ListTile> filename;
+  _sccExpTileListState(String string) {
+    filename = new List();
+    sccExpList = new List();
+    List secondCategory = [];
+    for (var item in list) {
+      if (RegExp(r"^" + string + "--").hasMatch(item)) {
+        secondCategory
+            .add(item.toString().substring(item.toString().indexOf("--") + 2));
+      }
+    }
+    if (string == "维修管理手册" || string.startsWith("CAAC培训大纲")) {
+      for (var item in secondCategory) {
+        sccExpList.add(
+          ListTile(
+            title: Text(
+              item,
+              style: TextStyle(fontSize: ScreenUtil().setSp(30)),
+            ),
+            onTap: () {},
+          ),
+        );
+      }
+    } else {
+      String tmp;
+      for (var item in secondCategory) {
+        int position = item.toString().indexOf("--");
+        String str = item.toString().substring(0, position);
+        if (tmp != str) {
+          for (var itemString in secondCategory) {
+            if (RegExp(r"^" + str + "--").hasMatch(itemString)) {
+              filename.add(new ListTile(
+                title: Text(
+                  itemString.toString().substring(position + 2),
+                  style: TextStyle(fontSize: ScreenUtil().setSp(28)),
+                ),
+                onTap: () {},
+              ));
+            }
+          }
+          sccExpList.add(new ExpansionTile(
+            title: Text(
+              str,
+              style: TextStyle(fontSize: ScreenUtil().setSp(28)),
+            ),
+            backgroundColor: Colors.black12,
+            children: filename,
+          ));
+        }
+        tmp = str;
+        filename = new List();
+      }
+    }
+  }
 }
-
-// class HandBookView extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//         child: Scaffold(
-//       appBar: AppBar(
-//         title: Text('手册浏览'),
-//       ),
-//       body: ExpansionPanelDemo()
-//     ));
-//   }
-// }
-
-// //手册浏览目录
-// class ExpansionPanelDemo extends StatefulWidget {
-//   ExpansionPanelDemo({Key key}) : super(key: key);
-
-//   _ExpansionPanelDemoState createState() => _ExpansionPanelDemoState();
-// }
-
-// class _ExpansionPanelDemoState extends State<ExpansionPanelDemo> {
-// //定义数组类型;
-//   List<int> mList;
-//   List<ExpandStateBean> expandStateList;
-//   _ExpansionPanelDemoState(){
-//     mList = new List();
-//     expandStateList = new List();
-//     for(int i=0;i<20;i++){
-//       mList.add(i);
-//       expandStateList.add(ExpandStateBean(i,false));
-//     }
-//   }
-
-//   //申明内部方法;
-//   _setCurrentIndex(int index,isExpand){
-//     setState(() {
-//      expandStateList.forEach((item){
-//        if(item.index==index){
-//          item.isOpen=!isExpand;
-//        }
-//      }); 
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       child: SingleChildScrollView(
-//          child: ExpansionPanelList(
-//            expansionCallback: (index,bol){
-//              _setCurrentIndex(index,bol);
-//            },
-//            children: mList.map((index){
-//               return ExpansionPanel(
-//                 headerBuilder: (context,isExpandded){
-//                   return ListTile(
-//                     title: Text('输入手册大目录:$index'),
-//                   );
-//                 },
-//                 body: ListTile(
-//                   title: Text('传递手册名称文件$index'),
-//                   onTap: (){},
-//                 ),
-//                 isExpanded: expandStateList[index].isOpen
-//               );
-//            }).toList(),
-//          )
-//       ),
-//     );
-//   }
-// }
-
-// class ExpandStateBean{
-//   var isOpen;
-//   var index;
-//     ExpandStateBean(this.index,this.isOpen);
-// }

@@ -1,8 +1,57 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:manual/model/postConfig_model.dart';
+import 'package:manual/pages/Basic_Configure/deletePostConfig/delePosetConfig.dart';
+import 'package:manual/provide/departmentname_config_provide.dart';
+import 'package:manual/provide/postConfigModelProvide.dart';
+import 'package:provide/provide.dart';
 import './addPostConfig.dart'; //引入新增岗位页面;
 
-class PostConfigure extends StatelessWidget {
+PostConfigModel list;
+//引入岗位配置后台数据接口;
+Future getDepartment() async {
+  try {
+    Dio dio = Dio();
+    dio.options.contentType =
+        ContentType.parse("application/x-www-form-urlencoded");
+    Response response =
+        await dio.get("http://47.93.54.102:5000/basicConfigurations/position",
+            options: Options(
+              responseType: ResponseType.plain,
+            ));
+    print('开始获取岗位配置数据....');
+    print(response.data);
+    return response.data;
+  } catch (e) {
+    print(e);
+  }
+}
+
+class PostConfigure extends StatefulWidget {
+  PostConfigure({Key key}) : super(key: key);
+
+  _PostConfigureState createState() => _PostConfigureState();
+}
+
+class _PostConfigureState extends State<PostConfigure> {
+  @override
+  void initState() {
+    getDepartment().then((val) {
+      var data = json.decode(val.toString());
+      PostConfigModel postConfiglist = PostConfigModel.fromJson(data);
+      setState(() {
+        list = postConfiglist;
+      });
+      print('开始获取岗位数据......');
+      print(list.positionList);
+      Provide.value<PostConfigModelProvide>(context).getPostConfigList(list);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -69,13 +118,7 @@ class PostConfigure extends StatelessWidget {
 
 //岗位配置显示目录；
 class PostConfigShow extends StatelessWidget {
-  List<String> departmentConfigName = [
-    '质量检测部门',
-    '航空情报部门',
-    '空中管制部门',
-    '地勤打扫部门',
-  ];
-
+  List postConfigName = [];
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -83,52 +126,24 @@ class PostConfigShow extends StatelessWidget {
         Container(
           height: ScreenUtil().setHeight(940),
           padding: EdgeInsets.all(1.0),
-          child: ListView.builder(
-            itemCount: departmentConfigName.length,
-            itemBuilder: (context, index) {
-              return _cardList(index);
+          child: Provide<PostConfigModelProvide>(
+            builder: (context, child, postConfigModelProvide) {
+              postConfigName = Provide.value<PostConfigModelProvide>(context)
+                  .postConfigList
+                  .positionList;
+              return Container(
+                child: ListView.builder(
+                  itemCount: postConfigName.length, //有岗位的话，才一定会有部门;
+                  itemBuilder: (context, index) {
+                    return CardPostItem(
+                        context, postConfigName[index], postConfigName[index]);
+                  },
+                ),
+              );
             },
           ),
         ),
       ],
-    );
-  }
-
-  //部门名称目录;
-  Widget _cardList(index) {
-    return Container(
-      margin: EdgeInsets.only(top: 1.0),
-      decoration: BoxDecoration(
-          border:
-              Border(bottom: BorderSide(width: 1.0, color: Colors.black38))),
-      child: ListTile(
-        contentPadding: EdgeInsets.only(left: 6.0),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              '${departmentConfigName[index]}',
-              style: TextStyle(
-                fontSize: 15.0,
-              ),
-            ),
-            Container(
-              width: ScreenUtil().setWidth(140),
-            ),
-            Text(
-              '${departmentConfigName[index]}',
-              style: TextStyle(
-                fontSize: 15.0,
-              ),
-            ),
-          ],
-        ),
-        trailing: IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.delete),
-          iconSize: 25.0,
-        ),
-      ),
     );
   }
 }

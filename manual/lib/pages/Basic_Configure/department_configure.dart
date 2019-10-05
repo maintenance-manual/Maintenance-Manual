@@ -8,10 +8,12 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'dart:convert';
 import '../../model/departmentvView_model.dart';
+import 'deleteDepartment/deleteDepartment.dart';
 
-var list;
-//引入后台数据接口
-Future getHttp1() async {
+DepartmentViewModel list;
+var deleteDepartment;
+//引入读取部门配置后台数据接口
+Future getDepartment() async {
   try {
     Dio dio = Dio();
     dio.options.contentType =
@@ -21,8 +23,23 @@ Future getHttp1() async {
             options: Options(
               responseType: ResponseType.plain,
             ));
-    print(response.statusCode);
-    print(response);
+    return response.data;
+  } catch (e) {
+    print(e);
+  }
+}
+
+//引入删除部门配置后台数据接口
+Future deleteDepartmentname(context, deleteDepartment) async {
+  try {
+    Dio dio = Dio();
+    dio.options.contentType =
+        ContentType.parse("application/x-www-form-urlencoded");
+    Response response = await dio.get(
+        "http://47.93.54.102:5000/basicConfigurations/department/delete?deleteDepartment=$deleteDepartment",
+        options: Options(
+          responseType: ResponseType.plain,
+        ));
     return response.data;
   } catch (e) {
     print(e);
@@ -36,19 +53,20 @@ class DepartmentConfigure extends StatefulWidget {
 }
 
 class _DepartmentConfigureState extends State<DepartmentConfigure> {
+
   @override
   void initState() {
-    getHttp1().then((val) {
+    getDepartment().then((val) {
       var data = json.decode(val.toString());
       DepartmentViewModel departmentlist = DepartmentViewModel.fromJson(data);
       setState(() {
-        list = departmentlist.departmentList;
+        list = departmentlist;
       });
-      print('开始获取手册浏览数据......');
-      print(list);
-      // Provide.value<UserDepartmentModelProvide>(context)
-      //     .getdepartmentname(list);
-      // print(list);
+      print('开始获取部門名稱数据......');
+      print(list.departmentList);
+      Provide.value<UserDepartmentModelProvide>(context)
+          .getdepartmentname(list);
+          print(list.toJson());
     });
     super.initState();
   }
@@ -104,48 +122,32 @@ class _DepartmentConfigureState extends State<DepartmentConfigure> {
 
 //部门显示目录
 class DepartMentConfigShow extends StatelessWidget {
-  
   DepartMentConfigShow(list);
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: <Widget>[
         Container(
           height: ScreenUtil().setHeight(940),
           padding: EdgeInsets.all(1.0),
-          child: ListView.builder(
-            itemCount: list.length,
-            itemBuilder: (context, index) {
-              return _cardList(index);
+          child: Provide<UserDepartmentModelProvide>(
+            builder: (context, child, userDepartmentModelProvide) {
+              list = Provide.value<UserDepartmentModelProvide>(context)
+                  .departmentnameList;
+              return Container(
+                child: ListView.builder(
+                  itemCount: list.departmentList.length,
+                  itemBuilder: (context, index) {
+                    return CardItem(context, list.departmentList[index]);
+                  },
+                ),
+              );
             },
           ),
         ),
       ],
-    );
-  }
-
-  //部门名称目录;
-  Widget _cardList(index) {
-    return Container(
-      margin: EdgeInsets.only(top: 1.0),
-      decoration: BoxDecoration(
-          border:
-              Border(bottom: BorderSide(width: 1.0, color: Colors.black38))),
-      child: ListTile(
-        contentPadding: EdgeInsets.only(left: 6.0),
-        title: Text(
-          '${list[index]}',
-          style: TextStyle(
-            fontSize: 15.0,
-          ),
-        ),
-        trailing: IconButton(
-          onPressed: () {}, //添加删除逻辑
-          icon: Icon(Icons.delete),
-          iconSize: 25.0,
-        ),
-      ),
     );
   }
 }

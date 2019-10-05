@@ -1,6 +1,6 @@
 //查看部门数据模型
 class DepartmentViewModel {
-  List<String> departmentList;
+  List<String> departmentList = [];
 
   DepartmentViewModel({this.departmentList});
 
@@ -28,6 +28,37 @@ class DepartmentCreateNew {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['isAddDepartment'] = this.isAddDepartment;
+    return data;
+  }
+  
+}
+
+//删除部门模型;
+class DeleteDepartmentModel {
+  String department;
+  String isDeleteDepartment;
+  String createTime;
+  String updateTime;
+
+  DeleteDepartmentModel(
+      {this.department,
+      this.isDeleteDepartment,
+      this.createTime,
+      this.updateTime});
+
+  DeleteDepartmentModel.fromJson(Map<String, dynamic> json) {
+    department = json['department'];
+    isDeleteDepartment = json['isDeleteDepartment'];
+    createTime = json['createTime'];
+    updateTime = json['updateTime'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['department'] = this.department;
+    data['isDeleteDepartment'] = this.isDeleteDepartment;
+    data['createTime'] = this.createTime;
+    data['updateTime'] = this.updateTime;
     return data;
   }
 }

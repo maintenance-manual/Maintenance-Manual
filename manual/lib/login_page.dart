@@ -17,7 +17,6 @@ var userListRight1;
 var userListRight2;
 var userListRight3;
 var userListRight4;
-
 Future getHttp() async {
   try {
     Dio dio = Dio();
@@ -29,7 +28,7 @@ Future getHttp() async {
           responseType: ResponseType.plain,
         ));
     print(response.statusCode);
-    print(response);
+    print(response);                                                                          
     return response.data;
   } catch (e) {
     print(e);

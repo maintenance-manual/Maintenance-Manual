@@ -1,6 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:manual/model/userDetailsModel.dart';
 import 'package:manual/pages/change_pwd.dart';
 import 'package:manual/login_page.dart';
 import 'package:manual/pages/handbook_view.dart'; //手册浏览界面;
@@ -15,8 +17,14 @@ import 'package:manual/pages/Department_Configure/index_page21.dart';
 import 'package:manual/pages/HandBook_Input/index_page3.dart';
 import 'package:manual/pages/HandBook_Input/index_page31.dart';
 import 'package:manual/login_page.dart';
-import 'package:manual/provide/userDetailsModelProvide.dart';
+import 'package:manual/provide/peopleConfigModelProvide.dart';
 import 'package:provide/provide.dart';
+import 'model/peopleConfig_model.dart';
+
+PeoleConfigModel humanList;
+List list = [];
+String tempHumanItem;
+int i;
 
 class MainPage extends StatefulWidget {
   MainPage(
@@ -27,8 +35,29 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+
+
+
   @override
   Widget build(BuildContext context) {
+    list = Provide.value<PeopleConfigModelProvide>(context)
+        .peopleConfignameList
+        .humanList;
+    print('-------------------');
+    print(list);
+    print(userName);
+    print(list.length);
+    for (int i = 0; i < list.length; i++) {
+      if (list[i].contains(userName)) {
+        tempHumanItem = list[i];
+        print(tempHumanItem);
+        break;
+      }
+    }
+    tempHumanItem.toString().split('--');
+    print(tempHumanItem.toString().split('--'));
+    List temp12 = tempHumanItem.toString().split('--');
+    print(temp12[2]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'MainPage',
@@ -48,7 +77,7 @@ class _MainPageState extends State<MainPage> {
                       UserAccountsDrawerHeader(
                         accountEmail: SizedBox(
                           height: ScreenUtil().setHeight(40),
-                          child: Text("航空安全质量分部"),
+                          child: Text(temp12[2]),
                         ),
                         accountName: SizedBox(
                           height: ScreenUtil().setHeight(34),

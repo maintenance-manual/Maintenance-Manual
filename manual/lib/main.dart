@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:manual/provide/departmentname_config_provide.dart';
+import 'package:manual/provide/peopleConfigModelProvide.dart';
 import 'package:manual/provide/postConfigModelProvide.dart';
 import 'provide/userDetailsModelProvide.dart';
 import 'splash_screen.dart';
@@ -11,12 +12,14 @@ void main(){
   var handbookViewListProvide = HandbookViewListProvide();
   var userDepartmentModelProvide = UserDepartmentModelProvide();
   var postConfigModelProvide = PostConfigModelProvide();
+  var peopleConfigModelProvide = PeopleConfigModelProvide();
   var userDetailsModelProvide = UserDetailsModelProvide();
 
   providers
   ..provide(Provider<UserDetailsModelProvide>.value(userDetailsModelProvide))
   ..provide(Provider<UserDepartmentModelProvide>.value(userDepartmentModelProvide))
   ..provide(Provider<PostConfigModelProvide>.value(postConfigModelProvide))
+  ..provide(Provider<PeopleConfigModelProvide>.value(peopleConfigModelProvide))
   ..provide(Provider<HandbookViewListProvide>.value(handbookViewListProvide));
   runApp(ProviderNode(child:MyApp(),providers:providers));
 }

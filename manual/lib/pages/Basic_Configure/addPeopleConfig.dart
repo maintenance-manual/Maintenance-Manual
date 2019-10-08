@@ -1,7 +1,52 @@
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:manual/provide/departmentname_config_provide.dart';
+import 'package:manual/provide/peopleConfigModelProvide.dart';
+import 'package:manual/provide/postConfigModelProvide.dart';
+import 'package:provide/provide.dart';
+import 'addPostConfig.dart';
 
+String name;
+String sex;
+String email;
+String phone;
+String departmentname = '无';
+String postConfigname;
+//引入添加人员配置数据接口;
+Future addPeopleConfigname(
+    context, name, sex, email, phone, departmentname, postConfigname) async {
+  try {
+    Dio dio = Dio();
+    dio.options.contentType =
+        ContentType.parse("application/x-www-form-urlencoded");
+    Response response = await dio.get(
+        "http://47.93.54.102:5000/basicConfigurations/human/add?name=$name&sex=$sex&email=$email&phone=$phone&department=$departmentname&position=$postConfigname",
+        options: Options(
+          responseType: ResponseType.plain,
+        ));
+    return response.data;
+  } catch (e) {
+    print(e);
+  }
+}
+
+// //删除岗位名称
+// void deletePostConfigitem(context,itemDepartment,itemPostConfig) {
+//   deletePostConfigName(context, itemDepartment,itemPostConfig).then((val) {
+//     var data = json.decode(val.toString());
+//     DeleteDepartmentModel departmentlist = DeleteDepartmentModel.fromJson(data);
+//     Provide.value<UserDepartmentModelProvide>(context)
+//         .deletedepartmentname(itemPostConfig);
+//     list =
+//         Provide.value<UserDepartmentModelProvide>(context).departmentnameList;
+//     print('删除......');
+//     print(departmentlist.toJson());
+//     print(list);
+//   });
+// }
 class AddPeopleConfig extends StatefulWidget {
   AddPeopleConfig({Key key}) : super(key: key);
 
@@ -193,64 +238,67 @@ class _AddPeopleConfigState extends State<AddPeopleConfig> {
   }
 
 //选择所属部门
+  List<DropdownMenuItem> getdepartmentListData() {
+    //读取岗位配置里的数据并做好下标传给items，弄成下拉菜单;
+    List<DropdownMenuItem> items = List<DropdownMenuItem>.generate(
+        list_postDepartmentname.length,
+        (index) => new DropdownMenuItem(
+            child: new Text(list_postDepartmentname[index]), value: index));
+    return items;
+  }
+
   var _pickingChoice2 = 0;
   Widget _myDepartmentDropdownButton() {
+    //读取部门配置里的数据;
+    list_postDepartmentname = Provide.value<UserDepartmentModelProvide>(context)
+        .departmentnameList
+        .departmentList;
     return Container(
       width: ScreenUtil().setWidth(500),
       alignment: Alignment.centerLeft,
       child: DropdownButton(
         value: _pickingChoice2,
-        items: <DropdownMenuItem>[
-          DropdownMenuItem(
-            child: Text('航空安全质量部门'),
-            value: 0,
-          ),
-          DropdownMenuItem(
-            child: Text('定检中队'),
-            value: 1,
-          ),
-          DropdownMenuItem(
-            child: Text('采购部门'),
-            value: 2,
-          ),
-          DropdownMenuItem(
-            child: Text('维修与管理部门'),
-            value: 3,
-          ),
-        ],
+        items: getdepartmentListData(),
         onChanged: (value) => setState(() {
-          _pickingChoice2 = value;
+            departmentname = '无';
+            _pickingChoice2 = value;
+            departmentname = list_postDepartmentname[_pickingChoice2];       
+          print(departmentname);
         }),
       ),
     );
   }
 
   //选择岗位名称
+  List<DropdownMenuItem> getdpostConfigListData(listposetConfiglist) {
+    //读取岗位名称里的数据并做好下标传给items，弄成下拉菜单;
+    List<DropdownMenuItem> items = List<DropdownMenuItem>.generate(
+        listposetConfiglist.length,
+        (index) => new DropdownMenuItem(
+            child: new Text(listposetConfiglist[index]), value: index));
+    return items;
+  }
+
   var _pickingChoice3 = 0;
   Widget _myPostCongfigtDropdownButton() {
+    //读取岗位配置里的数据;
+    List<String> list_postConfigname =
+        Provide.value<PostConfigModelProvide>(context)
+            .postConfigList
+            .positionList;
+    print('-------------------1');
+    print(list_postConfigname);
+    Provide.value<PostConfigModelProvide>(context).selectPostConfignameList(
+        list_postConfigname, departmentname); //筛选当前部门下的所有岗位数据;
+    //将所有满足选择部门下的岗位筛选出来
+    List<String> listposetConfiglist =
+        Provide.value<PostConfigModelProvide>(context).tempPostConfiglist1;
     return Container(
       width: ScreenUtil().setWidth(500),
       alignment: Alignment.centerLeft,
       child: DropdownButton(
         value: _pickingChoice3,
-        items: <DropdownMenuItem>[
-          DropdownMenuItem(
-            child: Text('航空安全质量部门'),
-            value: 0,
-          ),
-          DropdownMenuItem(
-            child: Text('定检中队'),
-            value: 1,
-          ),
-          DropdownMenuItem(
-            child: Text('采购部门'),
-            value: 2,
-          ),
-          DropdownMenuItem(
-            child: Text('维修与管理部门'),
-            value: 3,
-          ),
-        ],
+        items: getdpostConfigListData(listposetConfiglist),
         onChanged: (value) => setState(() {
           _pickingChoice3 = value;
         }),

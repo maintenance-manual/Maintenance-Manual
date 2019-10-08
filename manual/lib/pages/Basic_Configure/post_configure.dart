@@ -119,6 +119,8 @@ class _PostConfigureState extends State<PostConfigure> {
 //岗位配置显示目录；
 class PostConfigShow extends StatelessWidget {
   List postConfigName = [];
+  List departmentName = [];
+  int i = 0;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -128,6 +130,10 @@ class PostConfigShow extends StatelessWidget {
           padding: EdgeInsets.all(1.0),
           child: Provide<PostConfigModelProvide>(
             builder: (context, child, postConfigModelProvide) {
+              departmentName =
+                  Provide.value<UserDepartmentModelProvide>(context)
+                      .departmentnameList
+                      .departmentList;
               postConfigName = Provide.value<PostConfigModelProvide>(context)
                   .postConfigList
                   .positionList;
@@ -136,7 +142,7 @@ class PostConfigShow extends StatelessWidget {
                   itemCount: postConfigName.length, //有岗位的话，才一定会有部门;
                   itemBuilder: (context, index) {
                     return CardPostItem(
-                        context, postConfigName[index], postConfigName[index]);
+                        context, postConfigName[index]);
                   },
                 ),
               );

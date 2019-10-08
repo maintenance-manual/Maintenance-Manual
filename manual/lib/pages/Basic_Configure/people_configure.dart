@@ -1,13 +1,60 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:manual/model/peopleConfig_model.dart';
+import 'package:manual/pages/Basic_Configure/people_config_details.dart/people_configItem.dart';
 import 'package:manual/pages/Basic_Configure/people_config_details.dart/people_config_view.dart';
-import 'package:manual/service/service_method.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:manual/provide/peopleConfigModelProvide.dart';
+import 'package:provide/provide.dart';
 import '../Basic_Configure/addPeopleConfig.dart'; //引入人员新建页面;
 import 'people_config_details.dart/people_config_change.dart'; //引入人员修改界面;
 import 'people_config_details.dart/people_config_delete.dart'; //引入人员删除界面;
 
-class PeopleConfigure extends StatelessWidget {
+PeoleConfigModel humanList;
+//引入人员查看数据接口
+Future getPeopleConfig() async {
+  try {
+    Dio dio = Dio();
+    dio.options.contentType =
+        ContentType.parse("application/x-www-form-urlencoded");
+    Response response =
+        await dio.get("http://47.93.54.102:5000/basicConfigurations/human",
+            options: Options(
+              responseType: ResponseType.plain,
+            ));
+    return response.data;
+  } catch (e) {
+    print(e);
+  }
+}
+
+class PeopleConfigure extends StatefulWidget {
+  PeopleConfigure({Key key}) : super(key: key);
+
+  _PeopleConfigureState createState() => _PeopleConfigureState();
+}
+
+class _PeopleConfigureState extends State<PeopleConfigure> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    getPeopleConfig().then((val) {
+      var data = json.decode(val.toString());
+      PeoleConfigModel peopleConfignamelist = PeoleConfigModel.fromJson(data);
+      setState(() {
+        humanList = peopleConfignamelist;
+      });
+      print('开始获取人员名稱数据......');
+      print(humanList.humanList);
+      Provide.value<PeopleConfigModelProvide>(context)
+          .getPeopleConfignameList(humanList);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,11 +65,18 @@ class PeopleConfigure extends StatelessWidget {
             body: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  SearchPage(),
                   Container(
-                    height: ScreenUtil().setHeight(800),
+                    height: ScreenUtil().setHeight(150),
+                    child: SearchPage(),
+                  ),
+                  Container(
+                    height: ScreenUtil().setHeight(980),
                     child: SingleChildScrollView(
-                      child: PeopleConfigShow(),
+                      child: Column(
+                        children: <Widget>[
+                          PeopleConfigShow(),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -114,25 +168,9 @@ class SearchPage extends StatelessWidget {
 
 //PeopleConfigShow
 class PeopleConfigShow extends StatelessWidget {
-  List<String> departmentConfigName = [
-    '质量检测部门',
-    '航空情报部门',
-    '空中管制部门',
-    '地勤打扫部门',
-  ];
-  List<String> departmentConfigPeopleName = [
-    '张三',
-    '李四',
-    '王五',
-    '张三',
-    '李四',
-    '王五',
-    '张三',
-    '李四',
-    '王五',
-    '张三',
-    '李四',
-  ];
+  List list;
+  List<String> departmentConfigName = ["12"];
+  List<String> departmentConfigPeopleName = ["!2"];
 
   @override
   Widget build(BuildContext context) {
@@ -141,127 +179,20 @@ class PeopleConfigShow extends StatelessWidget {
         Container(
           height: ScreenUtil().setHeight(940),
           padding: EdgeInsets.all(1.0),
-          child: ListView.builder(
-            itemCount: departmentConfigName.length,
-            itemBuilder: (context, index) {
-              return _myDrawer(context, index);
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  //部门名称目录;
-  Widget _myDrawer(context, index) {
-    return Column(
-      children: <Widget>[
-        Container(
-          alignment: Alignment.centerLeft,
-          margin: EdgeInsets.all(5.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(15.0)),
-            color: Colors.black12,
-          ),
-          child: Column(
-            children: <Widget>[
-              ExpansionTile(
-                title: Text(
-                  '所属部门：${departmentConfigName[index]}',
-                  style: TextStyle(fontSize: ScreenUtil().setSp(36.0)),
-                ),
-                children: <Widget>[
-                  ListTile(
-                    title: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          child:
-                              Text('员工姓名：${departmentConfigPeopleName[index]}'),
-                        ),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          child: Text('岗位名称：${departmentConfigName[index]}'),
-                        ),
-                      ],
-                    ),
-                    trailing: Container(
-                      width: ScreenUtil().setWidth(250),
-                      alignment: Alignment.centerRight,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          PeopleConfigChange()));
-                            },
-                            child: Container(
-                              width: ScreenUtil().setWidth(70),
-                              height: ScreenUtil().setHeight(60),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5.0)),
-                                  color: Colors.orangeAccent),
-                              child: Text(
-                                '修改',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => PeopleConfigView()));
-                            },
-                            child: Container(
-                              width: ScreenUtil().setWidth(70),
-                              height: ScreenUtil().setHeight(60),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5.0)),
-                                  color: Colors.orangeAccent),
-                              child: Text(
-                                '查看',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      PeopleConfigViDelete()));
-                            },
-                            child: Container(
-                              width: ScreenUtil().setWidth(70),
-                              height: ScreenUtil().setHeight(60),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5.0)),
-                                  color: Colors.orangeAccent),
-                              child: Text(
-                                '删除',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    onTap: () {},
-                  ),
-                ],
+          child: Provide<PeopleConfigModelProvide>(
+              builder: (context, child, peopleConfigModelProvide) {
+            list = Provide.value<PeopleConfigModelProvide>(context)
+                .peopleConfignameList
+                .humanList;
+            return Container(
+              child: ListView.builder(
+                itemCount: list.length,
+                itemBuilder: (context, index) {
+                  return CardPeopleConfigItem(context, list[index]);
+                },
               ),
-            ],
-          ),
+            );
+          }),
         ),
       ],
     );

@@ -59,6 +59,8 @@ class PeopleConfigure extends StatefulWidget {
 }
 
 class _PeopleConfigureState extends State<PeopleConfigure> {
+  GlobalKey<RefreshFooterState> _footerkey =
+      new GlobalKey<RefreshFooterState>();
   @override
   void initState() {
     // TODO: implement initState

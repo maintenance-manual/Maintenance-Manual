@@ -14,6 +14,7 @@ import '../department_configure.dart';
 
 String deleteDepartmentname;
 String deletePostConfigname;
+String temppeopleConfigname;
 List tempHumanItem;
 // //引入删除部门配置后台数据接口
 // Future deletePostConfigName(context, deleteDepartment,delePostConfigname) async {
@@ -50,7 +51,7 @@ List tempHumanItem;
 class CardPeopleConfigItem extends StatelessWidget {
   final String peopleConfigname;
   CardPeopleConfigItem(context, this.peopleConfigname);
-  String temppeopleConfigname;
+
   String tempPostConfigname = '请点击其他页面刷新';
   String tempdepartmentname = '请点击其他页面刷新';
   @override
@@ -64,7 +65,7 @@ class CardPeopleConfigItem extends StatelessWidget {
       tempPostConfigname = tempHumanItem[1];
       tempdepartmentname = tempHumanItem[2];
     } else {
-      temppeopleConfigname =peopleConfigname;
+      temppeopleConfigname = peopleConfigname;
     }
 
     return Container(
@@ -119,8 +120,8 @@ Widget _mypeopleConfigItem(
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        PeopleConfigChange()));
+                                    builder: (context) => PeopleConfigChange(
+                                        '${temppeopleConfigname}')));
                           },
                           child: Container(
                             width: ScreenUtil().setWidth(70),
@@ -139,7 +140,8 @@ Widget _mypeopleConfigItem(
                         InkWell(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => PeopleConfigView()));
+                                builder: (context) => PeopleConfigView(
+                                    '${temppeopleConfigname}')));
                           },
                           child: Container(
                             width: ScreenUtil().setWidth(70),
@@ -158,7 +160,8 @@ Widget _mypeopleConfigItem(
                         InkWell(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => PeopleConfigViDelete()));
+                                builder: (context) => PeopleConfigViDelete(
+                                    '${temppeopleConfigname}')));
                           },
                           child: Container(
                             width: ScreenUtil().setWidth(70),

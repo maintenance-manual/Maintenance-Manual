@@ -36,20 +36,6 @@ Future addPeopleConfigname(
   }
 }
 
-// //删除岗位名称
-// void deletePostConfigitem(context,itemDepartment,itemPostConfig) {
-//   deletePostConfigName(context, itemDepartment,itemPostConfig).then((val) {
-//     var data = json.decode(val.toString());
-//     DeleteDepartmentModel departmentlist = DeleteDepartmentModel.fromJson(data);
-//     Provide.value<UserDepartmentModelProvide>(context)
-//         .deletedepartmentname(itemPostConfig);
-//     list =
-//         Provide.value<UserDepartmentModelProvide>(context).departmentnameList;
-//     print('删除......');
-//     print(departmentlist.toJson());
-//     print(list);
-//   });
-// }
 class AddPeopleConfig extends StatefulWidget {
   AddPeopleConfig({Key key}) : super(key: key);
 

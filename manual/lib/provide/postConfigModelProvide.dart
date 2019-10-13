@@ -12,6 +12,12 @@ class PostConfigModelProvide with ChangeNotifier {
     notifyListeners();
   }
 
+   //刪除部門配置
+  deletePositonList(String deleteposition) {
+    postConfigList.positionList.remove(deleteposition);
+    notifyListeners();
+  }
+
   //添加增加岗位配置;
   addPostConfignameList(String addpostConfigname) {
     postConfigList.positionList.add(addpostConfigname);

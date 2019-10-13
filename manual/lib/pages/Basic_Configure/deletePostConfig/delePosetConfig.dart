@@ -4,7 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manual/model/departmentvView_model.dart';
+import 'package:manual/model/postConfig_model.dart';
 import 'package:manual/provide/departmentname_config_provide.dart';
+import 'package:manual/provide/postConfigModelProvide.dart';
 import 'package:provide/provide.dart';
 import '../department_configure.dart';
 
@@ -18,7 +20,7 @@ Future deletePostConfigName(
     dio.options.contentType =
         ContentType.parse("application/x-www-form-urlencoded");
     Response response = await dio.get(
-        "http://47.93.54.102:5000/basicConfigurations/position/delete?itsDepartment=$deleteDepartmentname&deletePosition=$deletePostConfigname",
+        "http://47.93.54.102:5000/basicConfigurations/position/delete?itsDepartment=$deleteDepartment&deletePosition=$deletePostConfigname",
         options: Options(
           responseType: ResponseType.plain,
         ));
@@ -32,14 +34,11 @@ Future deletePostConfigName(
 void deletePostConfigitem(context, itemDepartment, itemPostConfig) {
   deletePostConfigName(context, itemDepartment, itemPostConfig).then((val) {
     var data = json.decode(val.toString());
-    DeleteDepartmentModel departmentlist = DeleteDepartmentModel.fromJson(data);
-    Provide.value<UserDepartmentModelProvide>(context)
-        .deletedepartmentname(itemPostConfig);
-    list =
-        Provide.value<UserDepartmentModelProvide>(context).departmentnameList;
+    PostConfigModel postConfigmodel = PostConfigModel.fromJson(data);
+    Provide.value<PostConfigModelProvide>(context)
+        .deletePositonList(itemDepartment);
     print('删除......');
-    print(departmentlist.toJson());
-    print(list);
+    print(postConfigmodel.toJson());
   });
 }
 

@@ -21,4 +21,10 @@ class PeopleConfigModelProvide with ChangeNotifier {
     lookpeopleConfignamelist = list;
     notifyListeners();
   }
+
+  //刪除部門配置
+  deletePeopleConfiglist(String deletepeopleConfigname) {
+    peopleConfignameList.humanList.remove(deletepeopleConfigname);
+    notifyListeners();
+  }
 }

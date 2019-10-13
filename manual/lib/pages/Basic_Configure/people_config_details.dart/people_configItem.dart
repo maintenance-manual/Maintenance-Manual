@@ -50,16 +50,22 @@ List tempHumanItem;
 class CardPeopleConfigItem extends StatelessWidget {
   final String peopleConfigname;
   CardPeopleConfigItem(context, this.peopleConfigname);
-
+  String temppeopleConfigname;
+  String tempPostConfigname = '请点击其他页面刷新';
+  String tempdepartmentname = '请点击其他页面刷新';
   @override
   Widget build(BuildContext context) {
-    peopleConfigname.toString().split('--');
-    print('岗位配置传递单个参数分割后结果:');
-    print(peopleConfigname.toString().split('--'));
-    tempHumanItem = peopleConfigname.toString().split('--');
-    String temppeopleConfigname = tempHumanItem[0];
-    String tempPostConfigname = tempHumanItem[1];
-    String tempdepartmentname = tempHumanItem[2];
+    if (peopleConfigname.contains('--')) {
+      peopleConfigname.toString().split('--');
+      // print('岗位配置传递单个参数分割后结果:');
+      // print(peopleConfigname.toString().split('--'));
+      tempHumanItem = peopleConfigname.toString().split('--');
+      temppeopleConfigname = tempHumanItem[0];
+      tempPostConfigname = tempHumanItem[1];
+      tempdepartmentname = tempHumanItem[2];
+    } else {
+      temppeopleConfigname =peopleConfigname;
+    }
 
     return Container(
       child: _mypeopleConfigItem(context, tempdepartmentname,

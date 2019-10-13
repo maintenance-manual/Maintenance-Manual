@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manual/model/departmentvView_model.dart';
 import 'package:manual/provide/departmentname_config_provide.dart';
-import 'package:manual/provide/postConfigModelProvide.dart';
 import 'package:provide/provide.dart';
 import '../department_configure.dart';
 
 String deleteDepartmentname;
 String deletePostConfigname;
 //引入删除部门配置后台数据接口
-Future deletePostConfigName(context, deleteDepartment,delePostConfigname) async {
+Future deletePostConfigName(
+    context, deleteDepartment, delePostConfigname) async {
   try {
     Dio dio = Dio();
     dio.options.contentType =
@@ -29,8 +29,8 @@ Future deletePostConfigName(context, deleteDepartment,delePostConfigname) async 
 }
 
 //删除岗位名称
-void deletePostConfigitem(context,itemDepartment,itemPostConfig) {
-  deletePostConfigName(context, itemDepartment,itemPostConfig).then((val) {
+void deletePostConfigitem(context, itemDepartment, itemPostConfig) {
+  deletePostConfigName(context, itemDepartment, itemPostConfig).then((val) {
     var data = json.decode(val.toString());
     DeleteDepartmentModel departmentlist = DeleteDepartmentModel.fromJson(data);
     Provide.value<UserDepartmentModelProvide>(context)
@@ -45,23 +45,27 @@ void deletePostConfigitem(context,itemDepartment,itemPostConfig) {
 
 class CardPostItem extends StatelessWidget {
   final String postConfigname;
-  //final String postConfigname;
   CardPostItem(context, this.postConfigname);
-
+  String postConfigname1;
+  String departmentname = '请点击其他页面刷新';
   @override
   Widget build(BuildContext context) {
-    int postConfignameStart =postConfigname.indexOf("--");
-    String postConfigname1 = postConfigname.substring(0,postConfignameStart);
-    String departmentname = postConfigname.substring(postConfignameStart+2);
+    if (postConfigname.contains('--')) {
+      int postConfignameStart = postConfigname.indexOf("--");
+      postConfigname1 = postConfigname.substring(0, postConfignameStart);
+      departmentname = postConfigname.substring(postConfignameStart + 2);
+    } else {
+      postConfigname1 = postConfigname;
+    }
 
     return Container(
-      child:  _cardPostList(context,departmentname, postConfigname1),
+      child: _cardPostList(context, departmentname, postConfigname1),
     );
   }
 }
 
 //部门名称目录;
-Widget _cardPostList(context, departmentname,postConfigname1) {
+Widget _cardPostList(context, departmentname, postConfigname1) {
   return Container(
     margin: EdgeInsets.only(top: 1.0),
     decoration: BoxDecoration(
@@ -94,8 +98,11 @@ Widget _cardPostList(context, departmentname,postConfigname1) {
       trailing: IconButton(
         onPressed: () {
           print('此时传过来的部门名称和岗位名称是:');
-          print(departmentname+'     '+postConfigname1);
-          deletePostConfigitem(context, departmentname,postConfigname1);
+          print(departmentname + '     ' + postConfigname1);
+          deleteDepartmentname = departmentname;
+          deletePostConfigname = postConfigname1;
+          deletePostConfigitem(
+              context, deleteDepartmentname, deletePostConfigname);
         },
         icon: Icon(Icons.delete),
         iconSize: 25.0,

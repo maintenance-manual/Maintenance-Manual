@@ -22,8 +22,6 @@ Future getDepartment() async {
             options: Options(
               responseType: ResponseType.plain,
             ));
-    print('开始获取岗位配置数据....');
-    print(response.data);
     return response.data;
   } catch (e) {
     print(e);
@@ -141,8 +139,7 @@ class PostConfigShow extends StatelessWidget {
                 child: ListView.builder(
                   itemCount: postConfigName.length, //有岗位的话，才一定会有部门;
                   itemBuilder: (context, index) {
-                    return CardPostItem(
-                        context, postConfigName[index]);
+                    return CardPostItem(context, postConfigName[index]);
                   },
                 ),
               );

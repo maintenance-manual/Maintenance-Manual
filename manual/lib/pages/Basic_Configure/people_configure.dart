@@ -7,13 +7,15 @@ import 'package:manual/pages/Basic_Configure/people_config_details.dart/people_c
 import 'package:manual/pages/Basic_Configure/people_config_details.dart/people_config_view.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:manual/pages/Basic_Configure/people_config_details.dart/peoplesearch.dart';
 import 'package:manual/provide/peopleConfigModelProvide.dart';
 import 'package:provide/provide.dart';
 import '../Basic_Configure/addPeopleConfig.dart'; //引入人员新建页面;
 import 'people_config_details.dart/people_config_change.dart'; //引入人员修改界面;
 import 'people_config_details.dart/people_config_delete.dart'; //引入人员删除界面;
 
-PeoleConfigModel humanList;
+PeoleConfigModel humanList1;
+String searchText;
 //引入人员查看数据接口
 Future getPeopleConfig() async {
   try {
@@ -25,6 +27,25 @@ Future getPeopleConfig() async {
             options: Options(
               responseType: ResponseType.plain,
             ));
+    return response.data;
+  } catch (e) {
+    print(e);
+  }
+}
+
+//引入关键字人员查看数据接口
+Future lookPeopleConfig() async {
+  try {
+    Dio dio = Dio();
+    dio.options.contentType =
+        ContentType.parse("application/x-www-form-urlencoded");
+    Response response = await dio.get(
+        "http://47.93.54.102:5000/basicConfigurations/human/find?keyWord=$searchText",
+        options: Options(
+          responseType: ResponseType.plain,
+        ));
+    print('获取到的查询结果数据为');
+    print(response.data);
     return response.data;
   } catch (e) {
     print(e);
@@ -45,12 +66,12 @@ class _PeopleConfigureState extends State<PeopleConfigure> {
       var data = json.decode(val.toString());
       PeoleConfigModel peopleConfignamelist = PeoleConfigModel.fromJson(data);
       setState(() {
-        humanList = peopleConfignamelist;
+        humanList1 = peopleConfignamelist;
       });
-      print('开始获取人员名稱数据......');
-      print(humanList.humanList);
+      print('开始获取人员配置数据......');
+      print(humanList1.humanList);
       Provide.value<PeopleConfigModelProvide>(context)
-          .getPeopleConfignameList(humanList);
+          .getPeopleConfignameList(humanList1);
     });
     super.initState();
   }
@@ -74,7 +95,7 @@ class _PeopleConfigureState extends State<PeopleConfigure> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: <Widget>[
-                          PeopleConfigShow(),
+                          PeopleConfigShow(humanList1),
                         ],
                       ),
                     ),
@@ -106,14 +127,53 @@ class _PeopleConfigureState extends State<PeopleConfigure> {
 class SearchPage extends StatelessWidget {
   GlobalKey<FormState> searchKey = GlobalKey<FormState>();
   GlobalKey<RefreshFooterState> _footerkey = GlobalKey<RefreshFooterState>();
+  List lookpeopleConfignamelist12 = [];
 
-  String searchText = '';
-
-  void _search() {
+  void _search(context) {
     var searchForm = searchKey.currentState;
     if (searchForm.validate()) {
       searchForm.save();
-      print(searchText);
+      lookPeopleConfig().then((val) {
+        var data = json.decode(val.toString());
+        LookPeopleConfigModel lookpeopleConfignamelist =
+            LookPeopleConfigModel.fromJson(data);
+        lookpeopleConfignamelist12 =
+            lookpeopleConfignamelist.humanList; //没有先走这一步;
+        print('----------------------------->>>>');
+        print(lookpeopleConfignamelist12);
+        print(lookpeopleConfignamelist12.length);
+        if (lookpeopleConfignamelist12.length == 0) {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text(
+                    '当前没有您要查询的结果',
+                    style: TextStyle(fontSize: ScreenUtil().setSp(36.0)),
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        '确定',
+                        style: TextStyle(fontSize: ScreenUtil().setSp(25.0)),
+                      ),
+                    ),
+                  ],
+                );
+              });
+        } else {
+          print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+          print(lookpeopleConfignamelist12);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      PeopleSearch(lookpeopleConfignamelist12)));
+        }
+      });
     }
   }
 
@@ -126,11 +186,11 @@ class SearchPage extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Form(
-              key: searchKey,
-              child: Container(
-                margin: EdgeInsets.all(10.0),
-                width: ScreenUtil().setWidth(500),
-                child: TextFormField(
+            key: searchKey,
+            child: Container(
+              margin: EdgeInsets.all(10.0),
+              width: ScreenUtil().setWidth(500),
+              child: TextFormField(
                   autofocus: false,
                   style: TextStyle(color: Colors.black38, fontSize: 18.0),
                   decoration: InputDecoration(hintText: '关键字模糊查询'),
@@ -140,13 +200,14 @@ class SearchPage extends StatelessWidget {
                     searchText = value;
                   },
                   validator: (value) {
-                    return null;
-                    /** continue...*/
-                  },
-                  onFieldSubmitted: (value) {},
-                  /** continue...*/
-                ),
-              )),
+                    if (value.length == 0) {
+                      return "不允许为空";
+                    } else {
+                      return null;
+                    }
+                  }),
+            ),
+          ),
           FlatButton(
             color: Colors.amber[300],
             highlightColor: Colors.amberAccent[400],
@@ -155,9 +216,8 @@ class SearchPage extends StatelessWidget {
             child: Text("查询"),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)),
-            onPressed: (/** continue...*/) {
-              _search();
-              /** continue...*/
+            onPressed: () {
+              _search(context);
             },
           ),
         ],
@@ -168,9 +228,10 @@ class SearchPage extends StatelessWidget {
 
 //PeopleConfigShow
 class PeopleConfigShow extends StatelessWidget {
-  List list;
-  List<String> departmentConfigName = ["12"];
-  List<String> departmentConfigPeopleName = ["!2"];
+  PeopleConfigShow(humanList1);
+  List list = [];
+  List<String> departmentConfigName = [];
+  List<String> departmentConfigPeopleName = [];
 
   @override
   Widget build(BuildContext context) {
@@ -181,14 +242,14 @@ class PeopleConfigShow extends StatelessWidget {
           padding: EdgeInsets.all(1.0),
           child: Provide<PeopleConfigModelProvide>(
               builder: (context, child, peopleConfigModelProvide) {
-            list = Provide.value<PeopleConfigModelProvide>(context)
-                .peopleConfignameList
-                .humanList;
+            humanList1 = Provide.value<PeopleConfigModelProvide>(context)
+                .peopleConfignameList;
             return Container(
               child: ListView.builder(
-                itemCount: list.length,
+                itemCount: humanList1.humanList.length,
                 itemBuilder: (context, index) {
-                  return CardPeopleConfigItem(context, list[index]);
+                  return CardPeopleConfigItem(
+                      context, humanList1.humanList[index]);
                 },
               ),
             );

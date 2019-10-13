@@ -25,6 +25,8 @@ Future getPeopleConfig() async {
     print(e);
   }
 }
+
+
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();

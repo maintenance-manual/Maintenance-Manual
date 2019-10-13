@@ -17,6 +17,7 @@ class PostConfigModelProvide with ChangeNotifier {
     postConfigList.positionList.add(addpostConfigname);
     notifyListeners();
   }
+  
 
   //新增人员配置页面筛选当前目下的的岗位名称;
   selectPostConfignameList(List<String> list, String departmentname) {

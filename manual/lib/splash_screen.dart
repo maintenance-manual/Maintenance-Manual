@@ -5,7 +5,6 @@ import 'package:provide/provide.dart';
 import 'login_page.dart';
 import 'dart:io';
 import 'dart:convert';
-
 import 'main_page.dart';
 import 'model/peopleConfig_model.dart';
 

@@ -16,37 +16,6 @@ String deleteDepartmentname;
 String deletePostConfigname;
 String temppeopleConfigname;
 List tempHumanItem;
-// //引入删除部门配置后台数据接口
-// Future deletePostConfigName(context, deleteDepartment,delePostConfigname) async {
-//   try {
-//     Dio dio = Dio();
-//     dio.options.contentType =
-//         ContentType.parse("application/x-www-form-urlencoded");
-//     Response response = await dio.get(
-//         "http://47.93.54.102:5000/basicConfigurations/position/delete?itsDepartment=$deleteDepartmentname&deletePosition=$deletePostConfigname",
-//         options: Options(
-//           responseType: ResponseType.plain,
-//         ));
-//     return response.data;
-//   } catch (e) {
-//     print(e);
-//   }
-// }
-
-// //删除岗位名称
-// void deletePostConfigitem(context,itemDepartment,itemPostConfig) {
-//   deletePostConfigName(context, itemDepartment,itemPostConfig).then((val) {
-//     var data = json.decode(val.toString());
-//     DeleteDepartmentModel departmentlist = DeleteDepartmentModel.fromJson(data);
-//     Provide.value<UserDepartmentModelProvide>(context)
-//         .deletedepartmentname(itemPostConfig);
-//     list =
-//         Provide.value<UserDepartmentModelProvide>(context).departmentnameList;
-//     print('删除......');
-//     print(departmentlist.toJson());
-//     print(list);
-//   });
-// }
 
 class CardPeopleConfigItem extends StatelessWidget {
   final String peopleConfigname;

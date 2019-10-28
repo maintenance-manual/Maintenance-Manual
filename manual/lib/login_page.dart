@@ -27,7 +27,6 @@ Future getHttp() async {
         options: Options(
           responseType: ResponseType.plain,
         ));
-    print(response.statusCode);
     print(response);                                                                          
     return response.data;
   } catch (e) {

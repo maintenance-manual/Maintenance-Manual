@@ -55,7 +55,7 @@ class _MainPageState extends State<MainPage> {
       }
     }
     tempHumanItem.toString().split('--');
-    print(tempHumanItem.toString().split('--'));
+    // print(tempHumanItem.toString().split('--'));
     List temp12 = tempHumanItem.toString().split('--');
     //print(temp12[2]);
     return MaterialApp(

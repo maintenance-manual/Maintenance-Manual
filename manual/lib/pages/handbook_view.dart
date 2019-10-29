@@ -1,11 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart' as prefix0;
 import 'package:manual/model/handbookview_model.dart';
 import 'package:manual/provide/handbook_view_list.dart';
 import 'package:manual/service/service_method.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:provide/provide.dart';
 
 class HandBookView extends StatefulWidget {
@@ -36,6 +41,9 @@ class _HandBookListState extends State<HandBookList> {
   List list = [];
   var listIndex = 0;
   List firstCC = [];
+  CancelToken _cancelToken = CancelToken();
+  double _value = 0;
+  bool _isDownload = false;
 
   Future getList() async {
     try {
@@ -51,6 +59,10 @@ class _HandBookListState extends State<HandBookList> {
     } catch (e) {
       print(e);
     }
+  }
+
+  Future<bool> _openDownloadedFile() {
+    return FlutterDownloader.open(taskId: null);
   }
 
   @override
@@ -79,8 +91,6 @@ class _HandBookListState extends State<HandBookList> {
       print('开始获取手册浏览数据》》》》》》》》》》》');
       Provide.value<HandbookViewListProvide>(context).getHandbookList(list);
       print(list);
-      // String str = "其他--20180510102600_文档.pdf";
-      // print("${new RegExp(r"^666").hasMatch(str)}");
     });
     super.initState();
   }
@@ -88,7 +98,7 @@ class _HandBookListState extends State<HandBookList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: ScreenUtil().setWidth(750),
+      width: prefix0.ScreenUtil().setWidth(750),
       decoration: BoxDecoration(
         border: Border(right: BorderSide(width: 1, color: Colors.black12)),
       ),
@@ -105,7 +115,6 @@ class _HandBookListState extends State<HandBookList> {
     return InkWell(
       onTap: () {},
       child: Container(
-        // height: ScreenUtil().setHeight(180),
         padding: EdgeInsets.only(left: 10, top: 20),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -121,7 +130,7 @@ class _HandBookListState extends State<HandBookList> {
     return ExpansionTile(
       title: Text(
         string,
-        style: TextStyle(fontSize: ScreenUtil().setSp(32)),
+        style: TextStyle(fontSize: prefix0.ScreenUtil().setSp(32)),
       ),
       children: sccExpList,
     );
@@ -145,9 +154,23 @@ class _HandBookListState extends State<HandBookList> {
           ListTile(
             title: Text(
               item,
-              style: TextStyle(fontSize: ScreenUtil().setSp(30)),
+              style: TextStyle(fontSize: prefix0.ScreenUtil().setSp(30)),
             ),
-            onTap: () {},
+            onTap: () {
+              _download();
+              // Dio download = new Dio();
+              // Dio dio = new Dio();
+              // Directory dir = await getApplicationDocumentsDirectory();
+              // String path = dir.path;
+              // var response = await download.download(
+              //     "http://47.93.54.102:5000/read/readHandbook/download?manualName=维修管理服务工作程序手册（LNJ部分）--第2章%20质量管理--1.pdf",
+              //     path+'/fileName.pdf');
+              // // var response=await dio.download("https://www.baidu.com/",path+"/xx.html");
+              // print(response.statusCode);
+              // print(response);
+              // print(response.data);
+              // return response.data;
+            },
           ),
         );
       }
@@ -162,7 +185,7 @@ class _HandBookListState extends State<HandBookList> {
               filename.add(new ListTile(
                 title: Text(
                   itemString.toString().substring(position + 2),
-                  style: TextStyle(fontSize: ScreenUtil().setSp(28)),
+                  style: TextStyle(fontSize: prefix0.ScreenUtil().setSp(28)),
                 ),
                 onTap: () {},
               ));
@@ -171,7 +194,7 @@ class _HandBookListState extends State<HandBookList> {
           sccExpList.add(new ExpansionTile(
             title: Text(
               str,
-              style: TextStyle(fontSize: ScreenUtil().setSp(28)),
+              style: TextStyle(fontSize: prefix0.ScreenUtil().setSp(28)),
             ),
             backgroundColor: Colors.black12,
             children: filename,
@@ -180,6 +203,62 @@ class _HandBookListState extends State<HandBookList> {
         tmp = str;
         filename = new List();
       }
+    }
+  }
+
+  _download() async {
+    try {
+      await DirectoryUtil.getInstance();
+      DirectoryUtil.createStorageDirSync(category: 'pdf');
+      String path = DirectoryUtil.getStoragePath(
+          fileName: 'handbook1', category: 'pdf', format: 'pdf');
+      File file = File(path);
+
+      /// 链接可能会失效
+      await Dio().download(
+        "http://47.93.54.102:5000/read/readHandbook/download?manualName=维修管理服务工作程序手册（LNJ部分）--第2章%20质量管理--1.pdf",
+        file.path,
+        cancelToken: _cancelToken,
+        onReceiveProgress: (int count, int total) {
+          if (total != -1) {
+            _value = count / total;
+            if (count == total) {
+              showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                        title: Text("提示"),
+                        content: Text("下载完成"),
+                        actions: <Widget>[
+                          // 点击取消按钮
+                          FlatButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text('取消')),
+                          // 点击打开按钮
+                          FlatButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                                // 打开文件
+
+                                _openDownloadedFile().then((success) {
+                                  if (!success) {
+                                    Scaffold.of(context).showSnackBar(SnackBar(
+                                        content:
+                                            Text('Cannot open this file')));
+                                  }
+                                });
+                              },
+                              child: Text('打开')),
+                        ],
+                      ));
+            }
+          }
+        },
+      );
+    } catch (e) {
+      print(e);
+      setState(() {
+        _isDownload = false;
+      });
     }
   }
 }

@@ -5,12 +5,10 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart' as prefix0;
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:manual/model/handbookview_model.dart';
 import 'package:manual/provide/handbook_view_list.dart';
 import 'package:manual/service/service_method.dart';
-import 'package:oktoast/oktoast.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:progress_dialog/progress_dialog.dart';
 import 'package:provide/provide.dart';
 
 class HandBookView extends StatefulWidget {
@@ -41,7 +39,6 @@ class _HandBookListState extends State<HandBookList> {
   List list = [];
   var listIndex = 0;
   List firstCC = [];
-  CancelToken _cancelToken = CancelToken();
   double _value = 0;
   bool _isDownload = false;
 
@@ -59,10 +56,6 @@ class _HandBookListState extends State<HandBookList> {
     } catch (e) {
       print(e);
     }
-  }
-
-  Future<bool> _openDownloadedFile() {
-    return FlutterDownloader.open(taskId: null);
   }
 
   @override
@@ -93,6 +86,7 @@ class _HandBookListState extends State<HandBookList> {
       print(list);
     });
     super.initState();
+    FlutterDownloader.initialize();
   }
 
   @override
@@ -157,19 +151,12 @@ class _HandBookListState extends State<HandBookList> {
               style: TextStyle(fontSize: prefix0.ScreenUtil().setSp(30)),
             ),
             onTap: () {
+              Fluttertoast.showToast(
+                msg: "正在下载中...",
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.CENTER,
+              );
               _download();
-              // Dio download = new Dio();
-              // Dio dio = new Dio();
-              // Directory dir = await getApplicationDocumentsDirectory();
-              // String path = dir.path;
-              // var response = await download.download(
-              //     "http://47.93.54.102:5000/read/readHandbook/download?manualName=维修管理服务工作程序手册（LNJ部分）--第2章%20质量管理--1.pdf",
-              //     path+'/fileName.pdf');
-              // // var response=await dio.download("https://www.baidu.com/",path+"/xx.html");
-              // print(response.statusCode);
-              // print(response);
-              // print(response.data);
-              // return response.data;
             },
           ),
         );
@@ -187,7 +174,14 @@ class _HandBookListState extends State<HandBookList> {
                   itemString.toString().substring(position + 2),
                   style: TextStyle(fontSize: prefix0.ScreenUtil().setSp(28)),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Fluttertoast.showToast(
+                    msg: "正在下载中...",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.CENTER,
+                  );
+                  _download();
+                },
               ));
             }
           }
@@ -218,36 +212,20 @@ class _HandBookListState extends State<HandBookList> {
       await Dio().download(
         "http://47.93.54.102:5000/read/readHandbook/download?manualName=维修管理服务工作程序手册（LNJ部分）--第2章%20质量管理--1.pdf",
         file.path,
-        cancelToken: _cancelToken,
         onReceiveProgress: (int count, int total) {
           if (total != -1) {
             _value = count / total;
-            if (count == total) {
+            if (_value == 1) {
               showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
                         title: Text("提示"),
-                        content: Text("下载完成"),
+                        content: Text("下载完成,已存入本地空间"),
                         actions: <Widget>[
-                          // 点击取消按钮
+                          // 点击按钮关闭对话框
                           FlatButton(
                               onPressed: () => Navigator.pop(context),
-                              child: Text('取消')),
-                          // 点击打开按钮
-                          FlatButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                                // 打开文件
-
-                                _openDownloadedFile().then((success) {
-                                  if (!success) {
-                                    Scaffold.of(context).showSnackBar(SnackBar(
-                                        content:
-                                            Text('Cannot open this file')));
-                                  }
-                                });
-                              },
-                              child: Text('打开')),
+                              child: Text('确定')),
                         ],
                       ));
             }

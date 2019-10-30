@@ -1,10 +1,53 @@
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:manual/service/service_method.dart';
+import 'package:manual/model/userconpentence_configModel.dart';
+import 'package:manual/pages/userConpentenceConfig/resetpassword.dart';
+import 'package:manual/pages/userConpentenceConfig/userConpentenceItem.dart';
+import 'package:manual/pages/userConpentenceConfig/userConpentenceSearch.dart';
+import 'package:manual/provide/userconpentenceModelProvide.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:convert';
-import 'package:manual/main_page.dart';
+import 'package:provide/provide.dart';
+
+UserconpentenceModel list;
+String searchText;
+//增加查询所有员工权限数据接口;
+Future userConpentence() async {
+  try {
+    Dio dio = Dio();
+    dio.options.contentType =
+        ContentType.parse("application/x-www-form-urlencoded");
+    Response response =
+        await dio.get("http://47.93.54.102:5000/rightConfiguration/",
+            options: Options(
+              responseType: ResponseType.plain,
+            ));
+    return response.data;
+  } catch (e) {
+    print(e);
+  }
+}
+
+//关键字查询用户权限接口
+Future keywordSearch(searchText) async {
+  try {
+    Dio dio = Dio();
+    dio.options.contentType =
+        ContentType.parse("application/x-www-form-urlencoded");
+    Response response = await dio.get(
+        "http://47.93.54.102:5000/rightConfiguration/find?keyWord=$searchText",
+        options: Options(
+          responseType: ResponseType.plain,
+        ));
+    print(response.data);
+    return response.data;
+  } catch (e) {
+    print(e);
+  }
+}
 
 class UserCompetence extends StatefulWidget {
   @override
@@ -14,29 +57,78 @@ class UserCompetence extends StatefulWidget {
 class _UserCompetenceState extends State<UserCompetence> {
   GlobalKey<FormState> searchKey = GlobalKey<FormState>();
   GlobalKey<RefreshFooterState> _footerkey = GlobalKey<RefreshFooterState>();
-
   @override
   bool get wantKeepAlive => true;
 
-  String searchText = '';
-  void search() {
+  List keyWordlist = [];
+  void search(context) {
     var searchForm = searchKey.currentState;
     if (searchForm.validate()) {
       searchForm.save();
-      print(searchText);
+      keywordSearch(searchText).then((val) {
+        var data = json.decode(val.toString());
+        KeyWordSearchModel keyWordSearchlist =
+            KeyWordSearchModel.fromJson(data);
+        keyWordlist = keyWordSearchlist.userList;
+        print(keyWordlist);
+        print(keyWordlist.length);
+        if (keyWordlist.length == 0) {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text(
+                    '当前没有您要查询的结果',
+                    style: TextStyle(fontSize: ScreenUtil().setSp(36.0)),
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        '确定',
+                        style: TextStyle(fontSize: ScreenUtil().setSp(25.0)),
+                      ),
+                    ),
+                  ],
+                );
+              });
+        } else {
+          print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+          print(keyWordlist);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => UserConpentenceSearch(keyWordlist)));
+        }
+      });
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    userConpentence().then((val) {
+      var data = json.decode(val.toString());
+      UserconpentenceModel userConpentencelist =
+          UserconpentenceModel.fromJson(data);
+      setState(() {
+        list = userConpentencelist;
+      });
+      print('开始获取所有员工权限数据......');
+      print(list.toJson());
+      Provide.value<UserConpentenceConfigModelProvide>(context)
+          .getuserConpentenceConfigList(list); //将获取的员工权限数据存放在List中;
+    });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: request(
-        'url', /**continue... */
-      ),
       builder: (context, snapshot) {
         if (true /**continue... */) {
-          /**continue... */
-
           return Scaffold(
             body: EasyRefresh(
               refreshFooter: ClassicsFooter(
@@ -113,11 +205,12 @@ class _UserCompetenceState extends State<UserCompetence> {
                                   searchText = value;
                                 },
                                 validator: (value) {
-                                  return null;
-                                  /** continue...*/
+                                  if (value.length == 0) {
+                                    return "不允许为空";
+                                  } else {
+                                    return null;
+                                  }
                                 },
-                                onFieldSubmitted: (value) {},
-                                /** continue...*/
                               ),
                             )),
                         FlatButton(
@@ -128,31 +221,48 @@ class _UserCompetenceState extends State<UserCompetence> {
                           child: Text("搜索"),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.0)),
-                          onPressed: (/** continue...*/) {
-                            search();
-                            /** continue...*/
+                          onPressed: () {
+                            search(context);
+                            print("***********************");
                           },
                         ),
                       ],
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(75, 20, 120, 0),
-                    height: ScreenUtil().setHeight(150),
+                    height: ScreenUtil().setHeight(80),
                     width: ScreenUtil().setWidth(1081),
+                    padding: EdgeInsets.only(left: 10.0),
                     child: Text(
                       '用户列表',
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
                   _listTitle(),
-                  _userList(),
+                  Container(
+                    height: ScreenUtil().setHeight(950),
+                    child: Provide<UserConpentenceConfigModelProvide>(
+                      builder:
+                          (context, child, userConpentenceConfigModelProvide) {
+                        list = Provide.value<UserConpentenceConfigModelProvide>(
+                                context)
+                            .userConpentencelist;
+                        return Container(
+                          child: ListView.builder(
+                            itemCount: list.userList.length,
+                            itemBuilder: (context, index) {
+                              return CardUserConpentenceItem(
+                                  //传递单个数据给标签，进行经一部筛选
+                                  context,
+                                  list.userList[index]);
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
-              loadMore: () async {
-                print('开始加载更多');
-                /** continue...*/
-              },
             ),
           );
         } else {
@@ -161,51 +271,6 @@ class _UserCompetenceState extends State<UserCompetence> {
           );
         }
       },
-    );
-  }
-
-//暂用数据，可删
-  List<String> departmentConfigName = [
-    '质量检测部门',
-    '航空情报部门',
-    '空中管制部门',
-    '地勤打扫部门',
-  ];
-
-  Widget _userList() {
-    return Container(
-      height: ScreenUtil().setHeight(950),
-      child: ListView.builder(
-        itemCount: departmentConfigName.length,
-        itemBuilder: (context, index) {
-          return _cardList(index);
-        },
-      ),
-    );
-  }
-
-  Widget _cardList(index) {
-    return Container(
-      width: ScreenUtil().setWidth(750),
-      height: ScreenUtil().setHeight(90),
-      margin: EdgeInsets.fromLTRB(10, 0, 10, 15),
-      decoration: BoxDecoration(
-          border:
-              Border(bottom: BorderSide(width: 1.0, color: Colors.black12))),
-      child: ListTile(
-        contentPadding: EdgeInsets.only(left: 6.0),
-        title: Text(
-          '${departmentConfigName[index]}',
-          style: TextStyle(
-            fontSize: 12.0,
-          ),
-        ),
-        trailing: IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.delete),
-          iconSize: 25.0,
-        ),
-      ),
     );
   }
 
@@ -218,7 +283,7 @@ class _UserCompetenceState extends State<UserCompetence> {
         top: BorderSide(width: 1, color: Colors.black12),
         bottom: BorderSide(width: 1, color: Colors.black12),
       )),
-      margin: EdgeInsets.fromLTRB(10, 0, 10, 15),
+      margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
       child: Row(
         children: <Widget>[
           Container(

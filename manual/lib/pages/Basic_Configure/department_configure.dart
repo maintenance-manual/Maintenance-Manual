@@ -23,6 +23,8 @@ Future getDepartment() async {
             options: Options(
               responseType: ResponseType.plain,
             ));
+    print('后台部门数据接口');
+    print(response.data);
     return response.data;
   } catch (e) {
     print(e);
@@ -53,7 +55,6 @@ class DepartmentConfigure extends StatefulWidget {
 }
 
 class _DepartmentConfigureState extends State<DepartmentConfigure> {
-
   @override
   void initState() {
     getDepartment().then((val) {
@@ -66,7 +67,7 @@ class _DepartmentConfigureState extends State<DepartmentConfigure> {
       print(list.departmentList);
       Provide.value<UserDepartmentModelProvide>(context)
           .getdepartmentname(list);
-          print(list.toJson());
+      print(list.toJson());
     });
     super.initState();
   }
@@ -126,7 +127,6 @@ class DepartMentConfigShow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       children: <Widget>[
         Container(

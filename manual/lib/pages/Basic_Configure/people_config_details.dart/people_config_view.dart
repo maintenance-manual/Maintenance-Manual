@@ -1,24 +1,79 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:manual/model/peopleConfig_model.dart';
 import 'package:manual/pages/Basic_Configure/people_configure.dart';
 import 'people_config_change.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class PeopleConfigView extends StatelessWidget {
+String temppeopleConfigname1; //当前页面用来存放传递过来的员工姓名变量;
+PeopleConfigViewModel temppeopleConfigViewmodel; //当前页面用来存放查询到的员工信息模型;
+//引入人员查看数据接口
+Future lookPeopleConfig() async {
+  try {
+    Dio dio = Dio();
+    dio.options.contentType =
+        ContentType.parse("application/x-www-form-urlencoded");
+    Response response = await dio.get(
+        "http://47.93.54.102:5000/basicConfigurations/human/check?name=$temppeopleConfigname1",
+        options: Options(
+          responseType: ResponseType.plain,
+        ));
+    print('当前人员信息为');
+    print(response.data);
+    return response.data;
+  } catch (e) {
+    print(e);
+  }
+}
+
+class PeopleConfigView extends StatefulWidget {
+  final String temppeopleConfigname;
+  PeopleConfigView(this.temppeopleConfigname){
+    temppeopleConfigname1 =temppeopleConfigname;
+  }
+
+  _PeopleConfigViewState createState() => _PeopleConfigViewState();
+}
+
+class _PeopleConfigViewState extends State<PeopleConfigView> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    lookPeopleConfig().then((val) {
+      var data = json.decode(val.toString());
+      PeopleConfigViewModel peopleConfigViewmodel =
+          PeopleConfigViewModel.fromJson(data);
+      setState(() {
+        temppeopleConfigViewmodel = peopleConfigViewmodel;
+      });
+      print(temppeopleConfigViewmodel.toJson());
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('人员查看'),
-        ),
-        body: Container(
-          child: _viewPeopleConfig(context),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('人员查看'),
       ),
+      body: _viewPeopleConfig(
+          context,
+          temppeopleConfigViewmodel.name,
+          temppeopleConfigViewmodel.sex,
+          temppeopleConfigViewmodel.email,
+          temppeopleConfigViewmodel.phone,
+          temppeopleConfigViewmodel.department,
+          temppeopleConfigViewmodel.position,
+          temppeopleConfigViewmodel.createTime,
+          temppeopleConfigViewmodel.updateTime),
     );
   }
 
-  Widget _viewPeopleConfig(context) {
+  Widget _viewPeopleConfig(context, name, sex, email, phone, department,
+      positon, createtime, updatetime) {
     return Scaffold(
       body: Container(
         width: ScreenUtil().setWidth(740),
@@ -38,7 +93,7 @@ class PeopleConfigView extends StatelessWidget {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('员工姓名：',
+                child: Text('员工姓名：${name}',
                     style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
               ),
               Container(
@@ -50,7 +105,7 @@ class PeopleConfigView extends StatelessWidget {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('性别： ',
+                child: Text('性别：${sex} ',
                     style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
               ),
               Container(
@@ -62,7 +117,7 @@ class PeopleConfigView extends StatelessWidget {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('电子邮箱： ',
+                child: Text('电子邮箱： ${email}',
                     style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
               ),
               Container(
@@ -74,7 +129,7 @@ class PeopleConfigView extends StatelessWidget {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('电话： ',
+                child: Text('电话： ${phone}',
                     style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
               ),
               Container(
@@ -86,7 +141,7 @@ class PeopleConfigView extends StatelessWidget {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('所属部门： ',
+                child: Text('所属部门：${department} ',
                     style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
               ),
               Container(
@@ -98,7 +153,7 @@ class PeopleConfigView extends StatelessWidget {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('岗位名称： ',
+                child: Text('岗位名称：${positon} ',
                     style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
               ),
               Container(
@@ -110,8 +165,8 @@ class PeopleConfigView extends StatelessWidget {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('创建时间：',
-                    style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
+                child: Text('创建时间：${createtime}',
+                    style: TextStyle(fontSize: ScreenUtil().setSp(31.0))),
               ),
               Container(
                 alignment: Alignment.centerLeft,
@@ -122,8 +177,8 @@ class PeopleConfigView extends StatelessWidget {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('更新时间：',
-                    style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
+                child: Text('更新时间：${updatetime}',
+                    style: TextStyle(fontSize: ScreenUtil().setSp(31.0))),
               ),
               Container(
                 child: Row(
@@ -134,10 +189,10 @@ class PeopleConfigView extends StatelessWidget {
                       height: ScreenUtil().setHeight(100),
                       child: RaisedButton(
                         onPressed: () {
-                            Navigator.push(
+                          Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => PeopleConfigChange()));
+                                  builder: (context) => PeopleConfigChange('$name')));
                         },
                         child: Text('修改'),
                       ),

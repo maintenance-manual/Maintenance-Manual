@@ -26,19 +26,19 @@ Future deleteDepartmentname(context, deleteDepartment) async {
 }
 
 //删除部门名称
-void deleteDepartmentitem(context, item) {
-  deleteDepartmentname(context, item).then((val) {
+void deleteDepartmentitem(context, deleteDepartment) {
+  deleteDepartmentname(context, deleteDepartment).then((val) {
     var data = json.decode(val.toString());
     DeleteDepartmentModel departmentlist = DeleteDepartmentModel.fromJson(data);
     Provide.value<UserDepartmentModelProvide>(context)
-        .deletedepartmentname(item);
+        .deletedepartmentname(deleteDepartment);
     list =
         Provide.value<UserDepartmentModelProvide>(context).departmentnameList;
     // Navigator.of(context)
     //     .push(MaterialPageRoute(builder: (context) => IndexPage1()));
     print('删除......');
     print(departmentlist.toJson());
-    print(list);
+    print(list.toJson());
   });
 }
 
@@ -71,7 +71,8 @@ Widget _cardList(context, item) {
       trailing: IconButton(
         onPressed: () {
           print(item);
-          deleteDepartmentitem(context, item);
+          deleteDepartment =item;
+          deleteDepartmentitem(context, deleteDepartment);
         }, //添加删除逻辑
         icon: Icon(Icons.delete),
         iconSize: 25.0,

@@ -140,8 +140,6 @@ class _AddPostConfigState extends State<AddPostConfig> {
                           ),
                           onSaved: (value1) {
                             addPostConfigname = value1;
-                            print('1231231231231231231231231');
-                            print(addPostConfigname);
                           },
                           validator: (value1) {
                             if (value1.length == 0) return '创建岗位不允许为空';

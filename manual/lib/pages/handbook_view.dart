@@ -86,7 +86,6 @@ class _HandBookListState extends State<HandBookList> {
       print(list);
     });
     super.initState();
-    FlutterDownloader.initialize();
   }
 
   @override

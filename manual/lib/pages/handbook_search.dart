@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix0;
+import 'package:fluttertoast/fluttertoast.dart';
 import './Handbooksearch_pages/allprocess_view.dart';
 import 'package:manual/pages/handbook_view.dart';
 import 'package:manual/service/service_method.dart';
@@ -13,6 +14,7 @@ class HandBookSearch extends StatefulWidget {
 
 class _HandBookSearchState extends State<HandBookSearch> {
   GlobalKey<FormState> searchKey = GlobalKey<FormState>();
+  int count = 0;
   String searchByNum = '';
   String searchByName = '';
   String searchByFixingMark = '';
@@ -25,21 +27,51 @@ class _HandBookSearchState extends State<HandBookSearch> {
     var searchForm = searchKey.currentState;
     if (searchForm.validate()) {
       searchForm.save();
-      print(searchByNum +
-          '  ' +
-          searchByName +
-          '  ' +
-          searchByFixingMark +
-          '  ' +
-          searchByDepartment +
-          '  ' +
-          searchByPosition +
-          '  ' +
-          searchByJob +
-          '  ' +
-          searchByResponsable +
-          '  ' +
-          searchByKeyWord);
+      count = 0;
+      setState(() {
+        if (searchByNum != '') {
+          count++;
+        }
+        if (searchByName != '') {
+          count++;
+        }
+        if (searchByFixingMark != '') {
+          count++;
+        }
+        if (searchByDepartment != '') {
+          count++;
+        }
+        if (searchByPosition != '') {
+          count++;
+        }
+        if (searchByJob != '') {
+          count++;
+        }
+        if (searchByResponsable != '') {
+          count++;
+        }
+        if (searchByKeyWord != '') {
+          count++;
+        }
+      });
+      if (count == 1) {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => HandbookShowList(
+                searchByNum,
+                searchByName,
+                searchByFixingMark,
+                searchByDepartment,
+                searchByPosition,
+                searchByJob,
+                searchByResponsable,
+                searchByKeyWord)));
+      } else {
+        Fluttertoast.showToast(
+          msg: "请输入单一查询条件",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+        );
+      }
     }
   }
 
@@ -84,8 +116,6 @@ class _HandBookSearchState extends State<HandBookSearch> {
                             borderRadius: BorderRadius.circular(20.0)),
                         onPressed: (/** continue...*/) {
                           search();
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => HangbookShowList()));
                         },
                       ),
                     ),
@@ -190,12 +220,7 @@ class _HandBookSearchState extends State<HandBookSearch> {
                   searchByNum = value;
                 },
                 validator: (value) {
-                  if (value.length == 0) {
-                    return "此处不能为空";
-                  } else {
-                    return null;
-                  }
-                  /** continue...*/
+                  return null;
                 },
                 onFieldSubmitted: (value) {},
                 /** continue...*/
@@ -224,11 +249,7 @@ class _HandBookSearchState extends State<HandBookSearch> {
                   searchByName = value;
                 },
                 validator: (value) {
-                  if (value.length == 0) {
-                    return "此处不能为空";
-                  } else {
-                    return null;
-                  }
+                  return null;
                   /** continue...*/
                 },
                 onFieldSubmitted: (value) {},
@@ -258,11 +279,7 @@ class _HandBookSearchState extends State<HandBookSearch> {
                   searchByFixingMark = value;
                 },
                 validator: (value) {
-                  if (value.length == 0) {
-                    return "此处不能为空";
-                  } else {
-                    return null;
-                  }
+                  return null;
                   /** continue...*/
                 },
                 onFieldSubmitted: (value) {},
@@ -292,11 +309,7 @@ class _HandBookSearchState extends State<HandBookSearch> {
                   searchByDepartment = value;
                 },
                 validator: (value) {
-                  if (value.length == 0) {
-                    return "此处不能为空";
-                  } else {
-                    return null;
-                  }
+                  return null;
                   /** continue...*/
                 },
                 onFieldSubmitted: (value) {},
@@ -337,11 +350,7 @@ class _HandBookSearchState extends State<HandBookSearch> {
                   searchByPosition = value;
                 },
                 validator: (value) {
-                  if (value.length == 0) {
-                    return "此处不能为空";
-                  } else {
-                    return null;
-                  }
+                  return null;
                   /** continue...*/
                 },
                 onFieldSubmitted: (value) {},
@@ -371,11 +380,7 @@ class _HandBookSearchState extends State<HandBookSearch> {
                   searchByJob = value;
                 },
                 validator: (value) {
-                  if (value.length == 0) {
-                    return "此处不能为空";
-                  } else {
-                    return null;
-                  }
+                  return null;
                   /** continue...*/
                 },
                 onFieldSubmitted: (value) {},
@@ -416,11 +421,7 @@ class _HandBookSearchState extends State<HandBookSearch> {
                   searchByResponsable = value;
                 },
                 validator: (value) {
-                  if (value.length == 0) {
-                    return "此处不能为空";
-                  } else {
-                    return null;
-                  }
+                  return null;
                   /** continue...*/
                 },
                 onFieldSubmitted: (value) {},
@@ -461,11 +462,7 @@ class _HandBookSearchState extends State<HandBookSearch> {
                   searchByKeyWord = value;
                 },
                 validator: (value) {
-                  if (value.length == 0) {
-                    return "此处不能为空";
-                  } else {
-                    return null;
-                  }
+                  return null;
                   /** continue...*/
                 },
                 onFieldSubmitted: (value) {},

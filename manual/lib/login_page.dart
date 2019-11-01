@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:manual/model/userDetailsModel.dart';
 import 'package:manual/provide/userDetailsModelProvide.dart';
 import 'package:manual/service/service_method.dart';
@@ -27,7 +28,7 @@ Future getHttp() async {
         options: Options(
           responseType: ResponseType.plain,
         ));
-    print(response);                                                                          
+    print(response);
     return response.data;
   } catch (e) {
     print(e);

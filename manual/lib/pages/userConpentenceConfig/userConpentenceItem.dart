@@ -71,7 +71,7 @@ class CardUserConpentenceItem extends StatelessWidget {
             children: <Widget>[
               ExpansionTile(
                 title: Text(
-                  '所属部门：${tempdepartmentname}',
+                  '所属部门：$tempdepartmentname',
                   style: TextStyle(fontSize: ScreenUtil().setSp(36.0)),
                 ),
                 children: <Widget>[
@@ -81,27 +81,27 @@ class CardUserConpentenceItem extends StatelessWidget {
                       children: <Widget>[
                         Container(
                           alignment: Alignment.centerLeft,
-                          child: Text('员工姓名：${tempname}'),
+                          child: Text('员工姓名：$tempname'),
                         ),
                         Container(
                           alignment: Alignment.centerLeft,
-                          child: Text('岗位名称：${temppostname}'),
+                          child: Text('岗位名称：$temppostname'),
                         ),
                         Container(
                           alignment: Alignment.centerLeft,
-                          child: Text('用户权限配置：${tempright1}'),
+                          child: Text('用户权限配置：$tempright1'),
                         ),
                         Container(
                           alignment: Alignment.centerLeft,
-                          child: Text('手册录入权限：${tempright2}'),
+                          child: Text('手册录入权限：$tempright2'),
                         ),
                         Container(
                           alignment: Alignment.centerLeft,
-                          child: Text('基本配置权限：${tempright3}'),
+                          child: Text('基本配置权限：$tempright3'),
                         ),
                         Container(
                           alignment: Alignment.centerLeft,
-                          child: Text('部门配置权限：${tempright4}'),
+                          child: Text('部门配置权限：$tempright4'),
                         ),
                       ],
                     ),

@@ -1,16 +1,8 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:manual/model/departmentvView_model.dart';
 import 'package:manual/pages/Basic_Configure/people_config_details.dart/people_config_change.dart';
 import 'package:manual/pages/Basic_Configure/people_config_details.dart/people_config_delete.dart';
 import 'package:manual/pages/Basic_Configure/people_config_details.dart/people_config_view.dart';
-import 'package:manual/provide/departmentname_config_provide.dart';
-import 'package:manual/provide/postConfigModelProvide.dart';
-import 'package:provide/provide.dart';
-import '../department_configure.dart';
 
 String deleteDepartmentname;
 String deletePostConfigname;
@@ -60,7 +52,7 @@ Widget _mypeopleConfigItem(
           children: <Widget>[
             ExpansionTile(
               title: Text(
-                '所属部门：${tempdepartmentname}',
+                '所属部门：$tempdepartmentname',
                 style: TextStyle(fontSize: ScreenUtil().setSp(36.0)),
               ),
               children: <Widget>[
@@ -70,11 +62,11 @@ Widget _mypeopleConfigItem(
                     children: <Widget>[
                       Container(
                         alignment: Alignment.centerLeft,
-                        child: Text('员工姓名：${temppeopleConfigname}'),
+                        child: Text('员工姓名：$temppeopleConfigname'),
                       ),
                       Container(
                         alignment: Alignment.centerLeft,
-                        child: Text('岗位名称：${tempPostConfigname}'),
+                        child: Text('岗位名称：$tempPostConfigname'),
                       ),
                     ],
                   ),
@@ -90,7 +82,7 @@ Widget _mypeopleConfigItem(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => PeopleConfigChange(
-                                        '${temppeopleConfigname}')));
+                                        '$temppeopleConfigname')));
                           },
                           child: Container(
                             width: ScreenUtil().setWidth(70),
@@ -110,7 +102,7 @@ Widget _mypeopleConfigItem(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => PeopleConfigView(
-                                    '${temppeopleConfigname}')));
+                                    '$temppeopleConfigname')));
                           },
                           child: Container(
                             width: ScreenUtil().setWidth(70),
@@ -130,7 +122,7 @@ Widget _mypeopleConfigItem(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => PeopleConfigViDelete(
-                                    '${temppeopleConfigname}')));
+                                    '$temppeopleConfigname')));
                           },
                           child: Container(
                             width: ScreenUtil().setWidth(70),

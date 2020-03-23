@@ -108,7 +108,6 @@ class _UserCompetenceState extends State<UserCompetence> {
 
   @override
   void initState() {
-    // TODO: implement initState
     userConpentence().then((val) {
       var data = json.decode(val.toString());
       UserconpentenceModel userConpentencelist =

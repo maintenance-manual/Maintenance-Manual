@@ -66,7 +66,6 @@ class _SplashScreenState extends State<SplashScreen>
   }
   @override
   void setState(fn) {
-    // TODO: implement setState
     _getpost();
     super.setState(fn);
   }

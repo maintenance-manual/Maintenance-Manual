@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart' as prefix0;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:manual/model/handbookview_model.dart';

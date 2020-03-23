@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:manual/model/peopleConfig_model.dart';
-import 'package:manual/pages/Basic_Configure/people_configure.dart';
 import 'people_config_change.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -40,7 +39,6 @@ class PeopleConfigView extends StatefulWidget {
 class _PeopleConfigViewState extends State<PeopleConfigView> {
   @override
   void initState() {
-    // TODO: implement initState
     lookPeopleConfig().then((val) {
       var data = json.decode(val.toString());
       PeopleConfigViewModel peopleConfigViewmodel =
@@ -93,7 +91,7 @@ class _PeopleConfigViewState extends State<PeopleConfigView> {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('员工姓名：${name}',
+                child: Text('员工姓名：$name',
                     style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
               ),
               Container(
@@ -105,7 +103,7 @@ class _PeopleConfigViewState extends State<PeopleConfigView> {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('性别：${sex} ',
+                child: Text('性别：$sex ',
                     style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
               ),
               Container(
@@ -117,7 +115,7 @@ class _PeopleConfigViewState extends State<PeopleConfigView> {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('电子邮箱： ${email}',
+                child: Text('电子邮箱： $email',
                     style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
               ),
               Container(
@@ -129,7 +127,7 @@ class _PeopleConfigViewState extends State<PeopleConfigView> {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('电话： ${phone}',
+                child: Text('电话： $phone',
                     style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
               ),
               Container(
@@ -141,7 +139,7 @@ class _PeopleConfigViewState extends State<PeopleConfigView> {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('所属部门：${department} ',
+                child: Text('所属部门：$department ',
                     style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
               ),
               Container(
@@ -153,7 +151,7 @@ class _PeopleConfigViewState extends State<PeopleConfigView> {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('岗位名称：${positon} ',
+                child: Text('岗位名称：$positon ',
                     style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
               ),
               Container(
@@ -165,7 +163,7 @@ class _PeopleConfigViewState extends State<PeopleConfigView> {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('创建时间：${createtime}',
+                child: Text('创建时间：$createtime',
                     style: TextStyle(fontSize: ScreenUtil().setSp(31.0))),
               ),
               Container(
@@ -177,7 +175,7 @@ class _PeopleConfigViewState extends State<PeopleConfigView> {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('更新时间：${updatetime}',
+                child: Text('更新时间：$updatetime',
                     style: TextStyle(fontSize: ScreenUtil().setSp(31.0))),
               ),
               Container(

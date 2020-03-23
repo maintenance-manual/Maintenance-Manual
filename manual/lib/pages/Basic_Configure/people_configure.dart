@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:manual/model/peopleConfig_model.dart';
 import 'package:manual/pages/Basic_Configure/people_config_details.dart/people_configItem.dart';
-import 'package:manual/pages/Basic_Configure/people_config_details.dart/people_config_view.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manual/pages/Basic_Configure/people_config_details.dart/peoplesearch.dart';
@@ -59,11 +58,8 @@ class PeopleConfigure extends StatefulWidget {
 }
 
 class _PeopleConfigureState extends State<PeopleConfigure> {
-  GlobalKey<RefreshFooterState> _footerkey =
-      new GlobalKey<RefreshFooterState>();
   @override
   void initState() {
-    // TODO: implement initState
     getPeopleConfig().then((val) {
       var data = json.decode(val.toString());
       PeoleConfigModel peopleConfignamelist = PeoleConfigModel.fromJson(data);
@@ -128,7 +124,6 @@ class _PeopleConfigureState extends State<PeopleConfigure> {
 //search
 class SearchPage extends StatelessWidget {
   GlobalKey<FormState> searchKey = GlobalKey<FormState>();
-  GlobalKey<RefreshFooterState> _footerkey = GlobalKey<RefreshFooterState>();
   List lookpeopleConfignamelist12 = [];
 
   void _search(context) {

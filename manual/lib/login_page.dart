@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:manual/model/userDetailsModel.dart';
 import 'package:manual/provide/userDetailsModelProvide.dart';
 import 'package:manual/service/service_method.dart';
@@ -47,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
   var _userNameTextFieldController;
   var _passwordTextFieldController;
 
-  Widget login() {
+  void login() {
     var loginForm = loginKey.currentState;
     if (loginForm.validate()) {
       loginForm.save();
@@ -99,17 +98,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     // _getData();
     // getHttp();
     super.initState();
-  }
-
-  void _getData() async {
-    await request('handbookview').then((val) {
-      var data = json.decode(val.toString());
-      print('手册浏览数据==========>$data');
-    });
   }
 
   @override

@@ -104,7 +104,6 @@ class _HandbookShowListState extends State<HandbookShowList> {
 
   @override
   void initState() {
-    // TODO: implement initState
     getList().then((val) {
       var data = json.decode(val.toString());
       HandbookSearchModel handbookSearchModel =

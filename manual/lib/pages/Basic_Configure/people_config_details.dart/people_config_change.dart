@@ -7,7 +7,6 @@ import 'package:manual/model/peopleConfig_model.dart';
 import 'package:manual/provide/departmentname_config_provide.dart';
 import 'package:manual/provide/postConfigModelProvide.dart';
 import 'package:provide/provide.dart';
-import '../index_page12.dart';
 
 String temppeopleConfigname1;
 String sex;
@@ -141,7 +140,7 @@ class _PeopleConfigChangeState extends State<PeopleConfigChange> {
                           bottom: BorderSide(width: 2.0, color: Colors.black26),
                         ),
                       ),
-                      child: Text('员工姓名： ${temppeopleConfigname1}',
+                      child: Text('员工姓名： $temppeopleConfigname1',
                           style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
                     ),
                     Container(
@@ -173,6 +172,7 @@ class _PeopleConfigChangeState extends State<PeopleConfigChange> {
                       },
                       validator: (value1) {
                         if (value1.length == 0) return '创建电子邮箱不允许为空';
+                        return null;
                       },
                     ),
                     TextFormField(
@@ -182,6 +182,7 @@ class _PeopleConfigChangeState extends State<PeopleConfigChange> {
                       },
                       validator: (value2) {
                         if (value2.length == 0) return '创建电话不允许为空';
+                        return null;
                       },
                     ),
                     Container(

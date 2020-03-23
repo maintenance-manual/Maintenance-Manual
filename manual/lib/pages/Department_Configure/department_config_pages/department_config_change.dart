@@ -187,7 +187,6 @@ class WorkName_Change2 extends StatelessWidget {
   GlobalKey<FormState> searchKey2 = GlobalKey<FormState>();
   GlobalKey<RefreshFooterState> _footerkey2 = GlobalKey<RefreshFooterState>();
 
-  @override
   bool get wantKeepAlive => true;
 
   String searchText = '';

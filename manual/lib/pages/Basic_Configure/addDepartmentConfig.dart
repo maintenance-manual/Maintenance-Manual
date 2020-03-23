@@ -112,6 +112,7 @@ class _AddDepartmentConfigState extends State<AddDepartmentConfig> {
                   },
                   validator: (value) {
                     if (value.length == 0) return '创建部门不允许为空';
+                    return null;
                   },
                   // onFieldSubmitted: (value) {},
                 ),

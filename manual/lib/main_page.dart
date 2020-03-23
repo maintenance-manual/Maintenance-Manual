@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manual/pages/change_pwd.dart';
@@ -16,7 +13,6 @@ import 'package:manual/pages/Department_Configure/index_page22.dart';
 import 'package:manual/pages/Department_Configure/index_page21.dart';
 import 'package:manual/pages/HandBook_Input/index_page3.dart';
 import 'package:manual/pages/HandBook_Input/index_page31.dart';
-import 'package:manual/login_page.dart';
 import 'package:manual/provide/peopleConfigModelProvide.dart';
 import 'package:provide/provide.dart';
 import 'model/peopleConfig_model.dart';

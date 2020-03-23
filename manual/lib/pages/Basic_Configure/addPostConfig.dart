@@ -143,6 +143,7 @@ class _AddPostConfigState extends State<AddPostConfig> {
                           },
                           validator: (value1) {
                             if (value1.length == 0) return '创建岗位不允许为空';
+                            return null;
                           },
                         ),
                       ),

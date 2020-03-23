@@ -3,12 +3,9 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:manual/model/departmentvView_model.dart';
 import 'package:manual/model/postConfig_model.dart';
-import 'package:manual/provide/departmentname_config_provide.dart';
 import 'package:manual/provide/postConfigModelProvide.dart';
 import 'package:provide/provide.dart';
-import '../department_configure.dart';
 
 String deleteDepartmentname;
 String deletePostConfigname;
@@ -77,7 +74,7 @@ Widget _cardPostList(context, departmentname, postConfigname1) {
           Container(
             width: ScreenUtil().setWidth(320),
             child: Text(
-              '${departmentname}',
+              '$departmentname',
               style: TextStyle(
                 fontSize: 15.0,
               ),
@@ -86,7 +83,7 @@ Widget _cardPostList(context, departmentname, postConfigname1) {
           Container(
             width: ScreenUtil().setWidth(280),
             child: Text(
-              '${postConfigname1}',
+              '$postConfigname1',
               style: TextStyle(
                 fontSize: 15.0,
               ),

@@ -62,7 +62,6 @@ class PeopleConfigViDelete extends StatefulWidget {
 class _PeopleConfigViDeleteState extends State<PeopleConfigViDelete> {
   @override
   void initState() {
-    // TODO: implement initState
     lookPeopleConfig().then((val) {
       var data = json.decode(val.toString());
       PeopleConfigViewModel peopleConfigViewmodel =
@@ -177,7 +176,7 @@ class _PeopleConfigViDeleteState extends State<PeopleConfigViDelete> {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('员工姓名：${name}',
+                child: Text('员工姓名：$name',
                     style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
               ),
               Container(
@@ -189,7 +188,7 @@ class _PeopleConfigViDeleteState extends State<PeopleConfigViDelete> {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('性别：${sex} ',
+                child: Text('性别：$sex ',
                     style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
               ),
               Container(
@@ -201,7 +200,7 @@ class _PeopleConfigViDeleteState extends State<PeopleConfigViDelete> {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('电子邮箱： ${email}',
+                child: Text('电子邮箱： $email',
                     style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
               ),
               Container(
@@ -213,7 +212,7 @@ class _PeopleConfigViDeleteState extends State<PeopleConfigViDelete> {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('电话： ${phone}',
+                child: Text('电话： $phone',
                     style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
               ),
               Container(
@@ -225,7 +224,7 @@ class _PeopleConfigViDeleteState extends State<PeopleConfigViDelete> {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('所属部门：${department} ',
+                child: Text('所属部门：$department ',
                     style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
               ),
               Container(
@@ -237,7 +236,7 @@ class _PeopleConfigViDeleteState extends State<PeopleConfigViDelete> {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('岗位名称：${positon} ',
+                child: Text('岗位名称：$positon ',
                     style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
               ),
               Container(
@@ -249,7 +248,7 @@ class _PeopleConfigViDeleteState extends State<PeopleConfigViDelete> {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('创建时间：${createtime}',
+                child: Text('创建时间：$createtime',
                     style: TextStyle(fontSize: ScreenUtil().setSp(31.0))),
               ),
               Container(
@@ -261,7 +260,7 @@ class _PeopleConfigViDeleteState extends State<PeopleConfigViDelete> {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('更新时间：${updatetime}',
+                child: Text('更新时间：$updatetime',
                     style: TextStyle(fontSize: ScreenUtil().setSp(31.0))),
               ),
               Container(

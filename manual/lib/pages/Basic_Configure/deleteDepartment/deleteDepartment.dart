@@ -6,7 +6,6 @@ import 'package:manual/model/departmentvView_model.dart';
 import 'package:manual/provide/departmentname_config_provide.dart';
 import 'package:provide/provide.dart';
 import '../department_configure.dart';
-import '../index_page1.dart';
 
 //引入删除部门配置后台数据接口
 Future deleteDepartmentname(context, deleteDepartment) async {

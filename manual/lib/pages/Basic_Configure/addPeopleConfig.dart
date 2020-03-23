@@ -127,6 +127,7 @@ class _AddPeopleConfigState extends State<AddPeopleConfig> {
                       },
                       validator: (value) {
                         if (value.length == 0) return '创建姓名不允许为空';
+                        return null;
                       },
                     ),
                     Container(
@@ -158,6 +159,7 @@ class _AddPeopleConfigState extends State<AddPeopleConfig> {
                       },
                       validator: (value1) {
                         if (value1.length == 0) return '创建电子邮箱不允许为空';
+                        return null;
                       },
                     ),
                     TextFormField(
@@ -167,6 +169,7 @@ class _AddPeopleConfigState extends State<AddPeopleConfig> {
                       },
                       validator: (value2) {
                         if (value2.length == 0) return '创建电话不允许为空';
+                        return null;
                       },
                     ),
                     Container(

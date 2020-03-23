@@ -35,29 +35,26 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-
-
-
   @override
   Widget build(BuildContext context) {
     list = Provide.value<PeopleConfigModelProvide>(context)
         .peopleConfignameList
         .humanList;
-    // print('-------------------');
-    // print(list);
-    // print(userName);
-    // print(list.length);
+    print('-------------------');
+    print(list);
+    print(userName);
+    print(list.length);
     for (int i = 0; i < list.length; i++) {
       if (list[i].contains(userName)) {
         tempHumanItem = list[i];
-        //print(tempHumanItem);
+        print(tempHumanItem);
         break;
       }
     }
     tempHumanItem.toString().split('--');
-    // print(tempHumanItem.toString().split('--'));
+    print(tempHumanItem.toString().split('--'));
     List temp12 = tempHumanItem.toString().split('--');
-    //print(temp12[2]);
+    print(temp12[2]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'MainPage',

@@ -1,5 +1,4 @@
 //浏览单个手册录入文件组件
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manual/model/handbookInput_model.dart';
@@ -60,7 +59,7 @@ class SequencingInputItem extends StatelessWidget {
             children: <Widget>[
               ExpansionTile(
                 title: Text(
-                  '手册名称：${tempdepartmentname}',
+                  '手册名称：$tempdepartmentname',
                   style: TextStyle(fontSize: ScreenUtil().setSp(36.0)),
                 ),
                 children: <Widget>[
@@ -71,7 +70,7 @@ class SequencingInputItem extends StatelessWidget {
                         Container(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            '程序名称：${temppeopleConfigname}',
+                            '程序名称：$temppeopleConfigname',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 3,
                           ),

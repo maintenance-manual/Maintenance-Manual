@@ -269,7 +269,6 @@ class _WorkName_Change2State extends State<WorkName_Change2> {
   GlobalKey<FormState> searchKey2 = GlobalKey<FormState>();
   //GlobalKey<RefreshFooterState> _footerkey2 = GlobalKey<RefreshFooterState>();
 
-  @override
   bool get wantKeepAlive => true;
 
   String searchText = '';

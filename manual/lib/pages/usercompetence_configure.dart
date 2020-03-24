@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:manual/model/userconpentence_configModel.dart';
@@ -58,7 +57,6 @@ class UserCompetence extends StatefulWidget {
 class _UserCompetenceState extends State<UserCompetence> {
   GlobalKey<FormState> searchKey = GlobalKey<FormState>();
  //GlobalKey<RefreshFooterState> _footerkey = GlobalKey<RefreshFooterState>();
-  @override
   bool get wantKeepAlive => true;
 
   List keyWordlist = [];

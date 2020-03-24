@@ -166,7 +166,6 @@ class _AddNewProcessConnectState extends State<AddNewProcessConnect> {
                           itemCount: 1,
                           itemBuilder: (BuildContext context, index) {
                             final String name = 'File : ' + _fileName;
-                            final path = _path;
                             return ListTile(
                               title: Text(name),
                             );

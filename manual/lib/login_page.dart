@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:manual/model/userDetailsModel.dart';
 import 'package:manual/provide/userDetailsModelProvide.dart';
-import 'package:manual/service/service_method.dart';
 import 'package:provide/provide.dart';
 import 'main_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'dart:io';
 import 'package:dio/dio.dart';
 
 var userName;

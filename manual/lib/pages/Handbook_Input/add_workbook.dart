@@ -181,7 +181,6 @@ class _AddNewWorkbookState extends State<AddNewWorkbook> {
                           itemCount: 1,
                           itemBuilder: (BuildContext context, index) {
                             final String name = 'File : ' + _fileName;
-                            final path = _path;
                             return ListTile(
                               title: Text(name),
                             );

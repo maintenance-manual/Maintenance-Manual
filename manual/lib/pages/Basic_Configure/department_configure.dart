@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manual/provide/departmentname_config_provide.dart';
 import 'package:provide/provide.dart';
 import '../Basic_Configure/addDepartmentConfig.dart'; //引入新增部门页面;
-import 'dart:io';
 import 'package:dio/dio.dart';
 import 'dart:convert';
 import '../../model/departmentvView_model.dart';

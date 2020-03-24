@@ -12,13 +12,16 @@ import 'model/peopleConfig_model.dart';
 Future getPeopleConfig() async {
   try {
     Dio dio = Dio();
-    dio.options.contentType =
-        ContentType.parse("application/x-www-form-urlencoded");
-    Response response =
-        await dio.get("http://47.93.54.102:5000/basicConfigurations/human",
-            options: Options(
-              responseType: ResponseType.plain,
-            ));
+    // dio.options.contentType =
+    //     ContentType.parse("application/x-www-form-urlencoded");
+     Response response = await Dio().get("http://47.93.54.102:5000/basicConfigurations/human",options: Options(
+          responseType: ResponseType.plain,
+        ));
+    // Response response =
+    //     await dio.get("http://47.93.54.102:5000/basicConfigurations/human",
+    //         options: Options(
+    //           responseType: ResponseType.plain,
+    //         ));
     return response.data;
   } catch (e) {
     print(e);

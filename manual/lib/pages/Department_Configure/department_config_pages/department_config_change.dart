@@ -115,7 +115,7 @@ class DepartmentName_Configure_Change extends StatelessWidget {
 
 class WorkName_Change1 extends StatelessWidget {
   GlobalKey<FormState> searchKey1 = GlobalKey<FormState>();
-  GlobalKey<RefreshFooterState> _footerkey1 = GlobalKey<RefreshFooterState>();
+  //GlobalKey<RefreshFooterState> _footerkey1 = GlobalKey<RefreshFooterState>();
 
   String searchText1 = '';
   void search1() {
@@ -185,7 +185,7 @@ class WorkName_Change1 extends StatelessWidget {
 
 class WorkName_Change2 extends StatelessWidget {
   GlobalKey<FormState> searchKey2 = GlobalKey<FormState>();
-  GlobalKey<RefreshFooterState> _footerkey2 = GlobalKey<RefreshFooterState>();
+  //GlobalKey<RefreshFooterState> _footerkey2 = GlobalKey<RefreshFooterState>();
 
   bool get wantKeepAlive => true;
 

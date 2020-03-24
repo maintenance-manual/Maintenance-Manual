@@ -12,8 +12,8 @@ PeopleConfigViewModel temppeopleConfigViewmodel; //当前页面用来存放查�
 Future lookPeopleConfig() async {
   try {
     Dio dio = Dio();
-    dio.options.contentType =
-        ContentType.parse("application/x-www-form-urlencoded");
+    // dio.options.contentType =
+    //     ContentType.parse("application/x-www-form-urlencoded");
     Response response = await dio.get(
         "http://47.93.54.102:5000/basicConfigurations/human/check?name=$temppeopleConfigname1",
         options: Options(

@@ -63,7 +63,7 @@ class PeopleConnect extends StatelessWidget {
 //search
 class SearchPage extends StatelessWidget {
   GlobalKey<FormState> searchKey = GlobalKey<FormState>();
-  GlobalKey<RefreshFooterState> _footerkey = GlobalKey<RefreshFooterState>();
+  //GlobalKey<RefreshFooterState> _footerkey = GlobalKey<RefreshFooterState>();
 
   String searchText = '';
 

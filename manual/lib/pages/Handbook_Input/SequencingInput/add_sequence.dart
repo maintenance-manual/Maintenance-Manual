@@ -17,7 +17,7 @@ class _AddNewSequenceState extends State<AddNewSequence> {
   String terminology = '';
   String dependency = '';
   String version = '';
-  FileType _pickingType = FileType.ANY;
+  FileType _pickingType = FileType.any;
   String _fileName1;
   String _fileName2;
   String _path1;

@@ -20,13 +20,16 @@ var userListRight4;
 Future getHttp() async {
   try {
     Dio dio = Dio();
-    dio.options.contentType =
-        ContentType.parse("application/x-www-form-urlencoded");
-    Response response = await dio.get(
+    Response response = await Dio().get(
         "http://47.93.54.102:5000/login/?username=$userName&password=$password",
         options: Options(
           responseType: ResponseType.plain,
         ));
+    // Response response = await dio.get(
+    //     "http://47.93.54.102:5000/login/?username=$userName&password=$password",
+    //     options: Options(
+    //       responseType: ResponseType.plain,
+    //     ));
     print(response);
     return response.data;
   } catch (e) {

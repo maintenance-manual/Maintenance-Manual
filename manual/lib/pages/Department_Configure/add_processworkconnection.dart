@@ -12,7 +12,7 @@ class _AddNewProcessConnectState extends State<AddNewProcessConnect> {
   GlobalKey<FormState> newProcessConnectKey = GlobalKey<FormState>();
   var _pickingChoice = 0;
   String workingProticol = '';
-  FileType _pickingType = FileType.ANY;
+  FileType _pickingType = FileType.any;
   String _fileName;
   String _path;
   void createNew() {

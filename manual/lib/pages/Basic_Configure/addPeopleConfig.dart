@@ -23,8 +23,8 @@ Future addPeopleConfigname(
     context, name, sex, email, phone, departmentname, postConfigname) async {
   try {
     Dio dio = Dio();
-    dio.options.contentType =
-        ContentType.parse("application/x-www-form-urlencoded");
+    // dio.options.contentType =
+    //     ContentType.parse("application/x-www-form-urlencoded");
     Response response = await dio.get(
         "http://47.93.54.102:5000/basicConfigurations/human/add?name=$name&sex=$sex&email=$email&phone=$phone&department=$departmentname&position=$postConfigname",
         options: Options(

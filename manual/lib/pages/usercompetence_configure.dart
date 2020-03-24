@@ -18,13 +18,14 @@ String searchText;
 Future userConpentence() async {
   try {
     Dio dio = Dio();
-    dio.options.contentType =
-        ContentType.parse("application/x-www-form-urlencoded");
-    Response response =
-        await dio.get("http://47.93.54.102:5000/rightConfiguration/",
-            options: Options(
-              responseType: ResponseType.plain,
-            ));
+    Response response = await Dio().get("http://47.93.54.102:5000/rightConfiguration/",options: Options(
+          responseType: ResponseType.plain,
+        ));
+    // Response response =
+    //     await dio.get("http://47.93.54.102:5000/rightConfiguration/",
+    //         options: Options(
+    //           responseType: ResponseType.plain,
+    //         ));
     return response.data;
   } catch (e) {
     print(e);
@@ -35,8 +36,8 @@ Future userConpentence() async {
 Future keywordSearch(searchText) async {
   try {
     Dio dio = Dio();
-    dio.options.contentType =
-        ContentType.parse("application/x-www-form-urlencoded");
+    // dio.options.contentType =
+    //     ContentType.parse("application/x-www-form-urlencoded");
     Response response = await dio.get(
         "http://47.93.54.102:5000/rightConfiguration/find?keyWord=$searchText",
         options: Options(
@@ -56,7 +57,7 @@ class UserCompetence extends StatefulWidget {
 
 class _UserCompetenceState extends State<UserCompetence> {
   GlobalKey<FormState> searchKey = GlobalKey<FormState>();
-  GlobalKey<RefreshFooterState> _footerkey = GlobalKey<RefreshFooterState>();
+ //GlobalKey<RefreshFooterState> _footerkey = GlobalKey<RefreshFooterState>();
   @override
   bool get wantKeepAlive => true;
 
@@ -130,16 +131,16 @@ class _UserCompetenceState extends State<UserCompetence> {
         if (true /**continue... */) {
           return Scaffold(
             body: EasyRefresh(
-              refreshFooter: ClassicsFooter(
-                key: _footerkey,
-                bgColor: Colors.white,
-                textColor: Colors.blueGrey,
-                moreInfoColor: Colors.blueGrey,
-                showMore: true,
-                noMoreText: '',
-                moreInfo: '加载中',
-                loadReadyText: '上拉加载...',
-              ),
+              // refreshFooter: ClassicsFooter(
+              //   key: _footerkey,
+              //   bgColor: Colors.white,
+              //   textColor: Colors.blueGrey,
+              //   moreInfoColor: Colors.blueGrey,
+              //   showMore: true,
+              //   noMoreText: '',
+              //   moreInfo: '加载中',
+              //   loadReadyText: '上拉加载...',
+              // ),
               child: ListView(
                 children: <Widget>[
                   Container(

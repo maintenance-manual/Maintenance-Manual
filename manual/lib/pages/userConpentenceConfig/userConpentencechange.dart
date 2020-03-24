@@ -10,8 +10,8 @@ import 'package:provide/provide.dart';
 Future changeUserConpentceConfig(name, right1, right2, right3, right4) async {
   try {
     Dio dio = Dio();
-    dio.options.contentType =
-        ContentType.parse("application/x-www-form-urlencoded");
+    // dio.options.contentType =
+    //     ContentType.parse("application/x-www-form-urlencoded");
     Response response = await dio.get(
         "http://47.93.54.102:5000/rightConfiguration/modify?username=$name&right1=$right1&right2=$right2&right3=$right3&right4=$right4",
         options: Options(

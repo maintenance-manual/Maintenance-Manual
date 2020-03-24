@@ -22,8 +22,8 @@ Future changePeopleConfig(
     context, name, sex, email, phone, department, posioton) async {
   try {
     Dio dio = Dio();
-    dio.options.contentType =
-        ContentType.parse("application/x-www-form-urlencoded");
+    // dio.options.contentType =
+    //     ContentType.parse("application/x-www-form-urlencoded");
     Response response = await dio.get(
         "http://47.93.54.102:5000/basicConfigurations/human/modify?name=$name&sex=$sex&email=$email&phone=$phone&department=$department&position=$posioton",
         options: Options(

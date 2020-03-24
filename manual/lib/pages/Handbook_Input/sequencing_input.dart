@@ -1,8 +1,30 @@
+import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:manual/pages/Handbook_Input/add_sequence.dart';
-import 'package:manual/service/service_method.dart';
+import 'package:manual/model/sequencingInputModel.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:manual/provide/sequencingInputModelProvide.dart';
+import 'package:provide/provide.dart';
+
+import 'SequencingInput/add_sequence.dart';
+import 'SequencingInput/sequencingInputItem.dart';
+
+SequencingInputModel list;
+String handbookName = '1';
+String sequencingName = '2';
+String fileName = '3';
+String url_1 = 'http://47.93.54.102:5000/handbookInput/procedure'; //引入手册查看程序URL
+//引入查看程序后太接口
+Future getsequencingInputlist() async {
+  try {
+    Dio dio = Dio();
+    Response response = await dio.get(url_1,
+        options: Options(responseType: ResponseType.plain));
+    return response.data;
+  } catch (e) {
+    print(e);
+  }
+}
 
 class SequencingInput extends StatefulWidget {
   @override
@@ -21,46 +43,66 @@ class _SequencingInputState extends State<SequencingInput> {
   }
 
   @override
+  void initState() {
+    getsequencingInputlist().then((val) {
+      var data = json.decode(val.toString());
+      SequencingInputModel sequencinginputlist =
+          SequencingInputModel.fromJson(data);
+      setState(() {
+        list = sequencinginputlist;
+      });
+      // Provide.value<SequencingInputModelProvide>(context)
+      //     .getSequencingInputList(sequencinginputlist);
+    });
+    print('引入查询到的程序内容' + list.procedureList.length.toString());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('手册程序电子化管理系统'),
       ),
-      body: Container(
-        margin: EdgeInsets.all(15),
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: ScreenUtil().setHeight(110),
-              width: ScreenUtil().setWidth(750),
-              padding: EdgeInsets.only(top: 20),
-              child: Text(
-                '工作程序',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: ScreenUtil().setSp(50),
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            Container(
-              height: ScreenUtil().setHeight(100),
-              alignment: Alignment.centerLeft,
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => AddNewSequence()));
-                },
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.all(15),
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: ScreenUtil().setHeight(110),
+                width: ScreenUtil().setWidth(750),
+                padding: EdgeInsets.only(top: 20),
                 child: Text(
-                  '新建',
+                  '工作程序',
                   style: TextStyle(
-                      color: Colors.blueGrey, fontSize: ScreenUtil().setSp(25)),
+                    color: Colors.black,
+                    fontSize: ScreenUtil().setSp(50),
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
-            ),
-            _searchBar(),
-            _listTitle(),
-          ],
+              Container(
+                height: ScreenUtil().setHeight(100),
+                alignment: Alignment.centerLeft,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => AddNewSequence()));
+                  },
+                  child: Text(
+                    '新建',
+                    style: TextStyle(
+                        color: Colors.blueGrey,
+                        fontSize: ScreenUtil().setSp(25)),
+                  ),
+                ),
+              ),
+              _searchBar(),
+              _listTitle(),
+              SequencingInputShow(list),
+            ],
+          ),
         ),
       ),
     );
@@ -77,7 +119,7 @@ class _SequencingInputState extends State<SequencingInput> {
               key: searchKey,
               child: Container(
                 margin: EdgeInsets.only(right: 15.0),
-                width: ScreenUtil().setWidth(500),
+                width: ScreenUtil().setWidth(400),
                 child: TextFormField(
                   autofocus: false,
                   style: TextStyle(color: Colors.black38, fontSize: 18.0),
@@ -89,7 +131,6 @@ class _SequencingInputState extends State<SequencingInput> {
                   },
                   validator: (value) {
                     return null;
-                    /** continue...*/
                   },
                   onFieldSubmitted: (value) {},
                   /** continue...*/
@@ -128,7 +169,7 @@ class _SequencingInputState extends State<SequencingInput> {
             width: ScreenUtil().setWidth(250),
             height: ScreenUtil().setHeight(120),
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(3),
             child: Text(
               '手册名称',
               style: TextStyle(
@@ -139,10 +180,10 @@ class _SequencingInputState extends State<SequencingInput> {
             ),
           ),
           Container(
-            width: ScreenUtil().setWidth(250),
+            width: ScreenUtil().setWidth(150),
             height: ScreenUtil().setHeight(120),
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(3),
             child: Text(
               '程序',
               style: TextStyle(
@@ -153,12 +194,12 @@ class _SequencingInputState extends State<SequencingInput> {
             ),
           ),
           Container(
-            width: ScreenUtil().setWidth(180),
+            width: ScreenUtil().setWidth(130),
             height: ScreenUtil().setHeight(120),
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(3),
             child: Text(
-              '文件链接',
+              '文件操作',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: ScreenUtil().setSp(28),
@@ -166,6 +207,34 @@ class _SequencingInputState extends State<SequencingInput> {
               ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+//程序显示目录
+class SequencingInputShow extends StatelessWidget {
+  SequencingInputShow(list);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Container(
+            height: ScreenUtil().setHeight(900),
+            padding: EdgeInsets.all(1.0),
+            child: Container(
+              child: ListView.builder(
+                itemCount: 1,
+                itemBuilder: (context, index) {
+                  print(list.procedureList[index]);
+                  return SequencingInputItem(context, list.procedureList[index]);
+                },
+              ),
+            ),
+          )
         ],
       ),
     );

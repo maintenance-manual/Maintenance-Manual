@@ -1,10 +1,54 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:manual/service/service_method.dart';
 import 'package:flutter/material.dart';
-import 'add_workbook.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:manual/model/handbookInput_model.dart';
+import 'package:manual/pages/Handbook_Input/HandBookInput_Details/handbookInputItem.dart';
+import 'package:manual/provide/handbookInputProvide.dart';
+import 'package:provide/provide.dart';
+import 'dart:io';
+import 'package:dio/dio.dart';
+import 'dart:convert';
+import 'HandBookInput_Details/add_workbook.dart';
 
-class HandBookInput extends StatelessWidget {
+HandBookInputModel list; //手册录入查看手册数据模型
+//引入读取部门配置后台数据接口
+Future getHandBookInput() async {
+  try {
+    Dio dio = Dio();
+    Response response =
+        await dio.get("http://47.93.54.102:5000/handbookInput/handbook",
+            options: Options(
+              responseType: ResponseType.plain,
+            ));
+    return response.data;
+  } catch (e) {
+    print(e);
+  }
+}
+
+class HandBookInput extends StatefulWidget {
+  HandBookInput({Key key}) : super(key: key);
+
+  _HandBookInputState createState() => _HandBookInputState();
+}
+
+class _HandBookInputState extends State<HandBookInput> {
+  @override
+  void initState() {
+    getHandBookInput().then((val) {
+      var data = json.decode(val.toString());
+      HandBookInputModel handbookinputlist = HandBookInputModel.fromJson(data);
+      setState(() {
+        list = handbookinputlist;
+      });
+      Provide.value<HandBookInputModelProvide>(context)
+          .getHandbookList(handbookinputlist);
+      print('开始获取手册录入数据......');
+      print(list.positionList);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -12,8 +56,7 @@ class HandBookInput extends StatelessWidget {
       appBar: AppBar(
         title: Text('手册程序电子化管理系统'),
       ),
-      body: Container(
-        margin: EdgeInsets.all(15),
+      body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Container(
@@ -47,7 +90,8 @@ class HandBookInput extends StatelessWidget {
                   border: Border(
                       bottom: BorderSide(width: 1, color: Colors.black12))),
             ),
-            _listTitle()
+            _listTitle(),
+            HandbookInputShow(list),
           ],
         ),
       ),
@@ -65,7 +109,7 @@ class HandBookInput extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Container(
-            width: ScreenUtil().setWidth(350),
+            width: ScreenUtil().setWidth(300),
             height: ScreenUtil().setHeight(120),
             alignment: Alignment.centerLeft,
             padding: EdgeInsets.all(10),
@@ -79,7 +123,7 @@ class HandBookInput extends StatelessWidget {
             ),
           ),
           Container(
-            width: ScreenUtil().setWidth(300),
+            width: ScreenUtil().setWidth(250),
             height: ScreenUtil().setHeight(120),
             alignment: Alignment.centerLeft,
             padding: EdgeInsets.all(10),
@@ -87,13 +131,48 @@ class HandBookInput extends StatelessWidget {
               '手册文件',
               style: TextStyle(
                 color: Colors.black,
-                fontSize: ScreenUtil().setSp(28),
+                fontSize: ScreenUtil().setSp(25),
                 fontWeight: FontWeight.w600,
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+//部门显示目录
+class HandbookInputShow extends StatelessWidget {
+  HandbookInputShow(list);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Container(
+          height: ScreenUtil().setHeight(1200),
+          padding: EdgeInsets.all(1.0),
+          child: Provide<HandBookInputModelProvide>(
+            builder: (context, child, handbookInputModelProvide) {
+              list = Provide.value<HandBookInputModelProvide>(context)
+                  .handbookInputList;
+              print('list:>>>>>>:   ' + list.toJson().toString());
+              return Container(
+                child: ListView.builder(
+                  itemCount: list.positionList.length,
+                  itemBuilder: (context, index) {
+                    String temphandbookitemlist =
+                        list.positionList[index].split('--')[0];
+                    return HandBookInputItem(
+                        context, list.positionList[0], temphandbookitemlist);
+                  },
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

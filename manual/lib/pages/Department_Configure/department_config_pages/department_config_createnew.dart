@@ -105,7 +105,7 @@ class WorkDepartmentselect extends StatefulWidget {
 
 class _WorkDepartmentselectState extends State<WorkDepartmentselect> {
   GlobalKey<FormState> searchKey0 = GlobalKey<FormState>();
-  GlobalKey<RefreshFooterState> _footerkey0 = GlobalKey<RefreshFooterState>();
+  //GlobalKey<RefreshFooterState> _footerkey0 = GlobalKey<RefreshFooterState>();
   String searchText0 = '';
   void search1() {
     var searchForm = searchKey0.currentState;
@@ -192,7 +192,7 @@ class WorkName_Change1 extends StatefulWidget {
 
 class _WorkName_Change1State extends State<WorkName_Change1> {
   GlobalKey<FormState> searchKey1 = GlobalKey<FormState>();
-  GlobalKey<RefreshFooterState> _footerkey1 = GlobalKey<RefreshFooterState>();
+  //GlobalKey<RefreshFooterState> _footerkey1 = GlobalKey<RefreshFooterState>();
 
   String searchText1 = '';
   void search1() {
@@ -267,7 +267,7 @@ class WorkName_Change2 extends StatefulWidget {
 
 class _WorkName_Change2State extends State<WorkName_Change2> {
   GlobalKey<FormState> searchKey2 = GlobalKey<FormState>();
-  GlobalKey<RefreshFooterState> _footerkey2 = GlobalKey<RefreshFooterState>();
+  //GlobalKey<RefreshFooterState> _footerkey2 = GlobalKey<RefreshFooterState>();
 
   @override
   bool get wantKeepAlive => true;

@@ -105,7 +105,7 @@ class WorkDepartmentselect extends StatefulWidget {
 
 class _WorkDepartmentselectState extends State<WorkDepartmentselect> {
   GlobalKey<FormState> searchKey0 = GlobalKey<FormState>();
-  GlobalKey<RefreshFooterState> _footerkey0 = GlobalKey<RefreshFooterState>();
+  //GlobalKey<RefreshFooterState> _footerkey0 = GlobalKey<RefreshFooterState>();
 
   String searchText0 = '';
   void search1() {

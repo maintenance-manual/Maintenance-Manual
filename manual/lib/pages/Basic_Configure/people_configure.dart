@@ -20,8 +20,8 @@ String searchText;
 Future getPeopleConfig() async {
   try {
     Dio dio = Dio();
-    dio.options.contentType =
-        ContentType.parse("application/x-www-form-urlencoded");
+    // dio.options.contentType =
+    //     ContentType.parse("application/x-www-form-urlencoded");
     Response response =
         await dio.get("http://47.93.54.102:5000/basicConfigurations/human",
             options: Options(
@@ -37,8 +37,8 @@ Future getPeopleConfig() async {
 Future lookPeopleConfig() async {
   try {
     Dio dio = Dio();
-    dio.options.contentType =
-        ContentType.parse("application/x-www-form-urlencoded");
+    // dio.options.contentType =
+    //     ContentType.parse("application/x-www-form-urlencoded");
     Response response = await dio.get(
         "http://47.93.54.102:5000/basicConfigurations/human/find?keyWord=$searchText",
         options: Options(
@@ -59,8 +59,8 @@ class PeopleConfigure extends StatefulWidget {
 }
 
 class _PeopleConfigureState extends State<PeopleConfigure> {
-  GlobalKey<RefreshFooterState> _footerkey =
-      new GlobalKey<RefreshFooterState>();
+  // GlobalKey<RefreshFooterState> _footerkey =
+  //     new GlobalKey<RefreshFooterState>();
   @override
   void initState() {
     // TODO: implement initState
@@ -128,7 +128,7 @@ class _PeopleConfigureState extends State<PeopleConfigure> {
 //search
 class SearchPage extends StatelessWidget {
   GlobalKey<FormState> searchKey = GlobalKey<FormState>();
-  GlobalKey<RefreshFooterState> _footerkey = GlobalKey<RefreshFooterState>();
+  //GlobalKey<RefreshFooterState> _footerkey = GlobalKey<RefreshFooterState>();
   List lookpeopleConfignamelist12 = [];
 
   void _search(context) {

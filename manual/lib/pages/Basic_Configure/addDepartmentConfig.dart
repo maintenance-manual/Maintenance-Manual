@@ -14,13 +14,18 @@ String addDepartment;
 Future getAddDepartmentname() async {
   try {
     Dio dio = Dio();
-    dio.options.contentType =
-        ContentType.parse("application/x-www-form-urlencoded");
-    Response response = await dio.get(
+    // dio.options.contentType =
+    //     ContentType.parse("application/x-www-form-urlencoded");
+    Response response = await Dio().get(
         "http://47.93.54.102:5000/basicConfigurations/department/add?addDepartment=$addDepartment",
         options: Options(
           responseType: ResponseType.plain,
         ));
+    // Response response = await dio.get(
+    //     "http://47.93.54.102:5000/basicConfigurations/department/add?addDepartment=$addDepartment",
+    //     options: Options(
+    //       responseType: ResponseType.plain,
+    //     ));
     return response.data;
   } catch (e) {
     print(e);
@@ -49,7 +54,8 @@ class _AddDepartmentConfigState extends State<AddDepartmentConfig> {
           isAddDepartment = departmentCreateNew.isAddDepartment;
         });
         if (isAddDepartment.contains("true")) {
-          Provide.value<UserDepartmentModelProvide>(context).adddepartmentname(addDepartment);
+          Provide.value<UserDepartmentModelProvide>(context)
+              .adddepartmentname(addDepartment);
           Navigator.pop(context); //如果返回true，说明之前不存在该部门
         } else {
           showDialog(

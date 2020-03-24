@@ -12,13 +12,18 @@ import '../index_page1.dart';
 Future deleteDepartmentname(context, deleteDepartment) async {
   try {
     Dio dio = Dio();
-    dio.options.contentType =
-        ContentType.parse("application/x-www-form-urlencoded");
-    Response response = await dio.get(
+    // dio.options.contentType =
+    //     ContentType.parse("application/x-www-form-urlencoded");
+    Response response = await Dio().get(
         "http://47.93.54.102:5000/basicConfigurations/department/delete?deleteDepartment=$deleteDepartment",
         options: Options(
           responseType: ResponseType.plain,
         ));
+    // Response response = await dio.get(
+    //     "http://47.93.54.102:5000/basicConfigurations/department/delete?deleteDepartment=$deleteDepartment",
+    //     options: Options(
+    //       responseType: ResponseType.plain,
+    //     ));
     return response.data;
   } catch (e) {
     print(e);
@@ -71,7 +76,7 @@ Widget _cardList(context, item) {
       trailing: IconButton(
         onPressed: () {
           print(item);
-          deleteDepartment =item;
+          deleteDepartment = item;
           deleteDepartmentitem(context, deleteDepartment);
         }, //添加删除逻辑
         icon: Icon(Icons.delete),

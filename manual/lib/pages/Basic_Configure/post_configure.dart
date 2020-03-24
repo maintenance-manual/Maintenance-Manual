@@ -61,8 +61,10 @@ class _PostConfigureState extends State<PostConfigure> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.all(6.0),
+                    height: ScreenUtil().setHeight(110),
+                    width: ScreenUtil().setWidth(750),
+                    padding: EdgeInsets.only(top: 20),
+                    margin: EdgeInsets.only(left: 15, right: 15),
                     decoration: BoxDecoration(
                         border: Border(
                             bottom:
@@ -78,7 +80,7 @@ class _PostConfigureState extends State<PostConfigure> {
                               fontSize: ScreenUtil().setSp(35.0)),
                         ),
                         Container(
-                          width: ScreenUtil().setWidth(180),
+                          width: ScreenUtil().setWidth(150),
                         ),
                         Text(
                           '岗位名称',
@@ -98,7 +100,7 @@ class _PostConfigureState extends State<PostConfigure> {
               //悬浮按钮用来新建;
               return FloatingActionButton(
                 child: Icon(Icons.add),
-                backgroundColor: Colors.grey,
+                backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
                 onPressed: () {
                   Navigator.of(context).push(
@@ -136,6 +138,7 @@ class PostConfigShow extends StatelessWidget {
                   .postConfigList
                   .positionList;
               return Container(
+                margin: EdgeInsets.only(left: 5, right: 5),
                 child: ListView.builder(
                   itemCount: postConfigName.length, //有岗位的话，才一定会有部门;
                   itemBuilder: (context, index) {

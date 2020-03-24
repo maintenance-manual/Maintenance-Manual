@@ -49,7 +49,8 @@ class _AddDepartmentConfigState extends State<AddDepartmentConfig> {
           isAddDepartment = departmentCreateNew.isAddDepartment;
         });
         if (isAddDepartment.contains("true")) {
-          Provide.value<UserDepartmentModelProvide>(context).adddepartmentname(addDepartment);
+          Provide.value<UserDepartmentModelProvide>(context)
+              .adddepartmentname(addDepartment);
           Navigator.pop(context); //如果返回true，说明之前不存在该部门
         } else {
           showDialog(
@@ -64,7 +65,7 @@ class _AddDepartmentConfigState extends State<AddDepartmentConfig> {
                     },
                     child: Text(
                       '确定',
-                      style: TextStyle(fontSize: ScreenUtil().setSp(25.0)),
+                      style: TextStyle(fontSize: ScreenUtil().setSp(28.0)),
                     ),
                   ),
                 ],
@@ -125,12 +126,16 @@ class _AddDepartmentConfigState extends State<AddDepartmentConfig> {
                       margin: EdgeInsets.all(6.0),
                       child: SizedBox(
                         width: ScreenUtil().setWidth(300),
-                        height: ScreenUtil().setHeight(100),
+                        height: ScreenUtil().setHeight(80),
                         child: RaisedButton(
                           onPressed: () {
                             addDepart();
                           },
-                          child: Text('创建'),
+                          child: Text(
+                            '创建',
+                            style:
+                                TextStyle(fontSize: ScreenUtil().setSp(28.0)),
+                          ),
                         ),
                       ),
                     ),
@@ -138,12 +143,16 @@ class _AddDepartmentConfigState extends State<AddDepartmentConfig> {
                       margin: EdgeInsets.all(6.0),
                       child: SizedBox(
                         width: ScreenUtil().setWidth(300),
-                        height: ScreenUtil().setHeight(100),
+                        height: ScreenUtil().setHeight(80),
                         child: RaisedButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          child: Text('返回上一页'),
+                          child: Text(
+                            '返回上一页',
+                            style:
+                                TextStyle(fontSize: ScreenUtil().setSp(28.0)),
+                          ),
                         ),
                       ),
                     ),

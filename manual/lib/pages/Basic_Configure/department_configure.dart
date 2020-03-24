@@ -83,16 +83,20 @@ class _DepartmentConfigureState extends State<DepartmentConfigure> {
           child: Column(
             children: <Widget>[
               Container(
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.all(6.0),
+                height: ScreenUtil().setHeight(150),
+                width: ScreenUtil().setWidth(750),
+                padding: EdgeInsets.only(top: 20),
+                margin: EdgeInsets.only(left: 15, right: 15),
                 decoration: BoxDecoration(
                     border: Border(
                         bottom: BorderSide(width: 1.0, color: Colors.black54))),
                 child: Text(
                   '部门名称',
-                  textAlign: TextAlign.left,
                   style: TextStyle(
-                      color: Colors.black, fontSize: ScreenUtil().setSp(35.0)),
+                    color: Colors.black,
+                    fontSize: ScreenUtil().setSp(50),
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
               DepartMentConfigShow(list),
@@ -103,7 +107,7 @@ class _DepartmentConfigureState extends State<DepartmentConfigure> {
           //悬浮按钮用来新建;
           return FloatingActionButton(
             child: Icon(Icons.add),
-            backgroundColor: Colors.grey,
+            backgroundColor: Colors.blue,
             foregroundColor: Colors.white,
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
@@ -130,6 +134,7 @@ class DepartMentConfigShow extends StatelessWidget {
     return Column(
       children: <Widget>[
         Container(
+          margin: EdgeInsets.only(left: 15, right: 15),
           height: ScreenUtil().setHeight(940),
           padding: EdgeInsets.all(1.0),
           child: Provide<UserDepartmentModelProvide>(

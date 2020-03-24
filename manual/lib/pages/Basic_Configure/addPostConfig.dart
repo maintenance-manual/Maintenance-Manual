@@ -71,7 +71,7 @@ class _AddPostConfigState extends State<AddPostConfig> {
                     },
                     child: Text(
                       '确定',
-                      style: TextStyle(fontSize: ScreenUtil().setSp(25.0)),
+                      style: TextStyle(fontSize: ScreenUtil().setSp(28.0)),
                     ),
                   ),
                 ],
@@ -154,7 +154,7 @@ class _AddPostConfigState extends State<AddPostConfig> {
               new Divider(),
               new SizedBox(
                 width: ScreenUtil().setWidth(750),
-                height: ScreenUtil().setHeight(100),
+                height: ScreenUtil().setHeight(80),
                 child: RaisedButton(
                   onPressed: () {
                     getPosetConfig();

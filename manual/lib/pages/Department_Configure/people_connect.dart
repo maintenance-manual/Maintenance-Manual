@@ -2,8 +2,8 @@ import 'package:manual/service/service_method.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
-import 'people_connect_pages/people_connect_delete.dart';//引入人员工作对接删除页面;
-import 'people_connect_pages/people_connect_createnew.dart';//引入人员工作对接新建页面;
+import 'people_connect_pages/people_connect_delete.dart'; //引入人员工作对接删除页面;
+import 'people_connect_pages/people_connect_createnew.dart'; //引入人员工作对接新建页面;
 
 class PeopleConnect extends StatelessWidget {
   @override
@@ -17,20 +17,23 @@ class PeopleConnect extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.all(2.0),
-              decoration: BoxDecoration(),
+              height: ScreenUtil().setHeight(110),
+              width: ScreenUtil().setWidth(750),
+              padding: EdgeInsets.only(top: 20),
+              margin: EdgeInsets.only(left: 15, right: 15),
               child: Text(
                 '人员工作对接',
-                textAlign: TextAlign.left,
                 style: TextStyle(
-                    color: Colors.black, fontSize: ScreenUtil().setSp(35.0)),
+                  color: Colors.black,
+                  fontSize: ScreenUtil().setSp(50),
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
             Container(
-              height: ScreenUtil().setHeight(50),
+              height: ScreenUtil().setHeight(100),
+              margin: EdgeInsets.only(left: 15, right: 15),
               alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(left: 3.0),
               child: InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
@@ -46,7 +49,7 @@ class PeopleConnect extends StatelessWidget {
               ),
               decoration: BoxDecoration(
                   border: Border(
-                      bottom: BorderSide(width: 1, color: Colors.black))),
+                      bottom: BorderSide(width: 1, color: Colors.black12))),
             ),
             SearchPage(),
             PeopleConfigShow(),
@@ -186,12 +189,12 @@ class PeopleConfigShow extends StatelessWidget {
                       children: <Widget>[
                         Container(
                           alignment: Alignment.centerLeft,
-                          child:
-                              Text('工作名称：${departmentConfigPeopleName[index]}'),
+                          child: Text('工作名称：${departmentConfigName[index]}'),
                         ),
                         Container(
                           alignment: Alignment.centerLeft,
-                          child: Text('员工姓名：${departmentConfigName[index]}'),
+                          child:
+                              Text('员工姓名：${departmentConfigPeopleName[index]}'),
                         ),
                       ],
                     ),
@@ -201,12 +204,11 @@ class PeopleConfigShow extends StatelessWidget {
                       child: InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  People_Connect_Delete()));
+                              builder: (context) => People_Connect_Delete()));
                         },
                         child: Container(
                           width: ScreenUtil().setWidth(70),
-                          height: ScreenUtil().setHeight(60),
+                          height: ScreenUtil().setHeight(50),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               borderRadius:

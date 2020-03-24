@@ -79,7 +79,7 @@ class _AddPeopleConfigState extends State<AddPeopleConfig> {
                     },
                     child: Text(
                       '确定',
-                      style: TextStyle(fontSize: ScreenUtil().setSp(25.0)),
+                      style: TextStyle(fontSize: ScreenUtil().setSp(28.0)),
                     ),
                   ),
                 ],
@@ -98,6 +98,7 @@ class _AddPeopleConfigState extends State<AddPeopleConfig> {
         title: Text('新增人员配置'),
       ),
       body: Container(
+        margin: EdgeInsets.all(15),
         child: _addPeopleConfig(context),
       ),
     );
@@ -109,7 +110,6 @@ class _AddPeopleConfigState extends State<AddPeopleConfig> {
         width: ScreenUtil().setWidth(740),
         height: ScreenUtil().setHeight(1334),
         padding: EdgeInsets.all(4.0),
-        margin: EdgeInsets.only(top: 1.0),
         color: Colors.white,
         child: SingleChildScrollView(
           child: Column(
@@ -131,6 +131,7 @@ class _AddPeopleConfigState extends State<AddPeopleConfig> {
                       },
                     ),
                     Container(
+                      margin: EdgeInsets.only(top: 20.0),
                       child: Row(
                         children: <Widget>[
                           Container(
@@ -140,39 +141,40 @@ class _AddPeopleConfigState extends State<AddPeopleConfig> {
                                     fontSize: ScreenUtil().setSp(30.0))),
                           ),
                           Container(
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                    color: Colors.black26, width: 1.0),
-                              ),
-                            ),
                             width: ScreenUtil().setWidth(450),
                             child: _myPeopleDropdownButton(),
                           ),
                         ],
                       ),
                     ),
-                    TextFormField(
-                      decoration: InputDecoration(labelText: '请输入电子邮箱:'),
-                      onSaved: (value1) {
-                        email = value1;
-                      },
-                      validator: (value1) {
-                        if (value1.length == 0) return '创建电子邮箱不允许为空';
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(labelText: '请输入电话:'),
-                      onSaved: (value2) {
-                        phone = value2;
-                      },
-                      validator: (value2) {
-                        if (value2.length == 0) return '创建电话不允许为空';
-                        return null;
-                      },
+                    Container(
+                      margin: EdgeInsets.only(top: 20.0),
+                      child: TextFormField(
+                        decoration: InputDecoration(labelText: '请输入电子邮箱:'),
+                        onSaved: (value1) {
+                          email = value1;
+                        },
+                        validator: (value1) {
+                          if (value1.length == 0) return '创建电子邮箱不允许为空';
+                          return null;
+                        },
+                      ),
                     ),
                     Container(
+                      margin: EdgeInsets.only(top: 20.0),
+                      child: TextFormField(
+                        decoration: InputDecoration(labelText: '请输入电话:'),
+                        onSaved: (value2) {
+                          phone = value2;
+                        },
+                        validator: (value2) {
+                          if (value2.length == 0) return '创建电话不允许为空';
+                          return null;
+                        },
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 20.0),
                       child: Row(
                         children: <Widget>[
                           Container(
@@ -182,12 +184,6 @@ class _AddPeopleConfigState extends State<AddPeopleConfig> {
                                     fontSize: ScreenUtil().setSp(30.0))),
                           ),
                           Container(
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                    color: Colors.black26, width: 1.0),
-                              ),
-                            ),
                             width: ScreenUtil().setWidth(500),
                             child: _myDepartmentDropdownButton(),
                           ),
@@ -195,6 +191,7 @@ class _AddPeopleConfigState extends State<AddPeopleConfig> {
                       ),
                     ),
                     Container(
+                      margin: EdgeInsets.only(top: 20.0),
                       child: Row(
                         children: <Widget>[
                           Container(
@@ -204,27 +201,28 @@ class _AddPeopleConfigState extends State<AddPeopleConfig> {
                                     fontSize: ScreenUtil().setSp(30.0))),
                           ),
                           Container(
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                    color: Colors.black26, width: 1.0),
-                              ),
-                            ),
                             width: ScreenUtil().setWidth(500),
                             child: _myPostCongfigtDropdownButton(),
                           ),
                         ],
                       ),
                     ),
-                    new Divider(),
-                    new SizedBox(
-                      width: ScreenUtil().setWidth(750),
-                      height: ScreenUtil().setHeight(100),
-                      child: RaisedButton(
-                        onPressed: () {
-                          getpeopleConfig();
-                        },
-                        child: Text('新建'),
+                    Divider(),
+                    Container(
+                      margin: EdgeInsets.only(top: 20.0),
+                      child: SizedBox(
+                        width: ScreenUtil().setWidth(750),
+                        height: ScreenUtil().setHeight(80),
+                        child: RaisedButton(
+                          onPressed: () {
+                            getpeopleConfig();
+                          },
+                          child: Text(
+                            '新建',
+                            style:
+                                TextStyle(fontSize: ScreenUtil().setSp(28.0)),
+                          ),
+                        ),
                       ),
                     ),
                   ],

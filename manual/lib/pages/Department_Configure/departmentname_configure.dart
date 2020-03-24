@@ -18,20 +18,23 @@ class DepartmentNameConfigure extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.all(2.0),
-              decoration: BoxDecoration(),
+              height: ScreenUtil().setHeight(110),
+              width: ScreenUtil().setWidth(750),
+              padding: EdgeInsets.only(top: 20),
+              margin: EdgeInsets.only(left: 15, right: 15),
               child: Text(
                 '工作名称配置',
-                textAlign: TextAlign.left,
                 style: TextStyle(
-                    color: Colors.black, fontSize: ScreenUtil().setSp(35.0)),
+                  color: Colors.black,
+                  fontSize: ScreenUtil().setSp(50),
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
             Container(
-              height: ScreenUtil().setHeight(50),
+              height: ScreenUtil().setHeight(100),
+              margin: EdgeInsets.only(left: 15, right: 15),
               alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(left: 3.0),
               child: InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(

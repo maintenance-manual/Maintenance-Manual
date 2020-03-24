@@ -29,10 +29,10 @@ class _DepartmentName_Configure_CreateNewState
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.all(6.0),
+                      margin: EdgeInsets.all(8.0),
                       child: SizedBox(
                         width: ScreenUtil().setWidth(300),
-                        height: ScreenUtil().setHeight(100),
+                        height: ScreenUtil().setHeight(80),
                         child: RaisedButton(
                           onPressed: () {
                             showDialog(
@@ -69,7 +69,11 @@ class _DepartmentName_Configure_CreateNewState
                                   );
                                 });
                           },
-                          child: Text('创建'),
+                          child: Text(
+                            '创建',
+                            style:
+                                TextStyle(fontSize: ScreenUtil().setSp(25.0)),
+                          ),
                         ),
                       ),
                     ),
@@ -77,12 +81,16 @@ class _DepartmentName_Configure_CreateNewState
                       margin: EdgeInsets.all(6.0),
                       child: SizedBox(
                         width: ScreenUtil().setWidth(300),
-                        height: ScreenUtil().setHeight(100),
+                        height: ScreenUtil().setHeight(80),
                         child: RaisedButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          child: Text('返回上一页'),
+                          child: Text(
+                            '返回上一页',
+                            style:
+                                TextStyle(fontSize: ScreenUtil().setSp(25.0)),
+                          ),
                         ),
                       ),
                     ),

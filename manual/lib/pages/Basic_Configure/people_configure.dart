@@ -105,7 +105,7 @@ class _PeopleConfigureState extends State<PeopleConfigure> {
               //悬浮按钮用来新建;
               return FloatingActionButton(
                 child: Icon(Icons.add),
-                backgroundColor: Colors.grey,
+                backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(

@@ -62,6 +62,7 @@ class _HandBookInputState extends State<HandBookInput> {
               height: ScreenUtil().setHeight(110),
               width: ScreenUtil().setWidth(750),
               padding: EdgeInsets.only(top: 20),
+              margin: EdgeInsets.only(left: 15, right: 15, top: 15),
               child: Text(
                 '手册录入管理',
                 style: TextStyle(
@@ -74,6 +75,7 @@ class _HandBookInputState extends State<HandBookInput> {
             Container(
               height: ScreenUtil().setHeight(100),
               alignment: Alignment.centerLeft,
+              margin: EdgeInsets.only(left: 15, right: 15, bottom: 15),
               child: InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
@@ -125,7 +127,7 @@ class _HandBookInputState extends State<HandBookInput> {
             width: ScreenUtil().setWidth(250),
             height: ScreenUtil().setHeight(120),
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.fromLTRB(40, 10, 10, 10),
             child: Text(
               '手册文件',
               style: TextStyle(

@@ -1,13 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart' as prefix0;
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manual/model/handbookview_model.dart';
 import 'package:manual/provide/handbook_view_list.dart';
 import 'package:manual/service/service_method.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provide/provide.dart';
 
 class HandBookView extends StatefulWidget {
@@ -44,8 +42,6 @@ class _HandBookListState extends State<HandBookList> {
   Future getList() async {
     try {
       Dio dio = Dio();
-      // dio.options.contentType =
-      //     ContentType.parse("application/x-www-form-urlencoded");
       Response response =
           await dio.get("http://47.93.54.102:5000/read/readHandbook",
               options: Options(
@@ -90,7 +86,7 @@ class _HandBookListState extends State<HandBookList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: prefix0.ScreenUtil().setWidth(750),
+      width: ScreenUtil().setWidth(750),
       decoration: BoxDecoration(
         border: Border(right: BorderSide(width: 1, color: Colors.black12)),
       ),
@@ -122,7 +118,7 @@ class _HandBookListState extends State<HandBookList> {
     return ExpansionTile(
       title: Text(
         string,
-        style: TextStyle(fontSize: prefix0.ScreenUtil().setSp(32)),
+        style: TextStyle(fontSize: ScreenUtil().setSp(32)),
       ),
       children: sccExpList,
     );
@@ -146,15 +142,17 @@ class _HandBookListState extends State<HandBookList> {
           ListTile(
             title: Text(
               item,
-              style: TextStyle(fontSize: prefix0.ScreenUtil().setSp(30)),
+              style: TextStyle(fontSize: ScreenUtil().setSp(30)),
             ),
-            onTap: () {
-              Fluttertoast.showToast(
-                msg: "正在下载中...",
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.CENTER,
-              );
-              _download();
+            onTap: () async {
+              String _localPath = (await _findLocalPath(context)) + '/Download';
+              Response responce = await Dio().download(
+                  "http://47.93.54.102:5000/read/readHandbook/download?manualName=$string",
+                  _localPath + "/string");
+              if (responce.statusCode == 200) {
+                Scaffold.of(context)
+                    .showSnackBar(SnackBar(content: Text("下载成功")));
+              }
             },
           ),
         );
@@ -170,15 +168,18 @@ class _HandBookListState extends State<HandBookList> {
               filename.add(new ListTile(
                 title: Text(
                   itemString.toString().substring(position + 2),
-                  style: TextStyle(fontSize: prefix0.ScreenUtil().setSp(28)),
+                  style: TextStyle(fontSize: ScreenUtil().setSp(28)),
                 ),
-                onTap: () {
-                  Fluttertoast.showToast(
-                    msg: "正在下载中...",
-                    toastLength: Toast.LENGTH_LONG,
-                    gravity: ToastGravity.CENTER,
-                  );
-                  _download();
+                onTap: () async {
+                  String _localPath =
+                      (await _findLocalPath(context)) + '/Download';
+                  Response responce = await Dio().download(
+                      "http://47.93.54.102:5000/read/readHandbook/download?manualName=$string",
+                      _localPath + "/string");
+                  if (responce.statusCode == 200) {
+                    Scaffold.of(context)
+                        .showSnackBar(SnackBar(content: Text("下载成功")));
+                  }
                 },
               ));
             }
@@ -186,7 +187,7 @@ class _HandBookListState extends State<HandBookList> {
           sccExpList.add(new ExpansionTile(
             title: Text(
               str,
-              style: TextStyle(fontSize: prefix0.ScreenUtil().setSp(28)),
+              style: TextStyle(fontSize: ScreenUtil().setSp(28)),
             ),
             backgroundColor: Colors.black12,
             children: filename,
@@ -198,43 +199,11 @@ class _HandBookListState extends State<HandBookList> {
     }
   }
 
-  _download() async {
-    try {
-      await DirectoryUtil.getInstance();
-      DirectoryUtil.createStorageDirSync(category: 'pdf');
-      String path = DirectoryUtil.getStoragePath(
-          fileName: 'handbook1', category: 'pdf', format: 'pdf');
-      File file = File(path);
-
-      /// 链接可能会失效
-      await Dio().download(
-        "http://47.93.54.102:5000/read/readHandbook/download?manualName=维修管理服务工作程序手册（LNJ部分）--第2章%20质量管理--1.pdf",
-        file.path,
-        onReceiveProgress: (int count, int total) {
-          if (total != -1) {
-            _value = count / total;
-            if (_value == 1) {
-              showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                        title: Text("提示"),
-                        content: Text("下载完成,已存入本地空间"),
-                        actions: <Widget>[
-                          // 点击按钮关闭对话框
-                          FlatButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: Text('确定')),
-                        ],
-                      ));
-            }
-          }
-        },
-      );
-    } catch (e) {
-      print(e);
-      setState(() {
-        _isDownload = false;
-      });
-    }
+  Future<String> _findLocalPath(context) async {
+    //这里根据平台获取当前安装目录
+    final directory = Theme.of(context).platform == TargetPlatform.android
+        ? await getExternalStorageDirectory()
+        : await getApplicationDocumentsDirectory();
+    return directory.path;
   }
 }

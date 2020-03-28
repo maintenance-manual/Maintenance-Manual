@@ -1,12 +1,10 @@
 //浏览单个手册录入文件组件
-import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart' as prefix0;
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manual/model/handbookInput_model.dart';
 import 'package:manual/provide/handbookInputProvide.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provide/provide.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../handbook_input.dart';
@@ -31,6 +29,13 @@ Future deleteHandBookInputname(context, deletehandbookinputname) async {
   }
 }
 
+Future<String> _findLocalPath(context) async { //这里根据平台获取当前安装目录
+    final directory = Theme.of(context).platform == TargetPlatform.android
+        ? await getExternalStorageDirectory()
+        : await getApplicationDocumentsDirectory();
+    return directory.path;
+}
+
 void deletehandbookInputname(context, deletehandbookinputname) {
   deleteHandBookInputname(context, deletehandbookinputname).then((val) {
     Provide.value<HandBookInputModelProvide>(context)
@@ -39,79 +44,6 @@ void deletehandbookInputname(context, deletehandbookinputname) {
     print('>>>>>>>>>>' + list.positionList.toString());
   });
 }
-
-//引入删除手册文件后台数据接口
-_downloadHandBookInputname(context, downhandbookname) async {
-  // try {
-  //   Dio dio = Dio();
-  //   Response response = await dio.download(
-  //       "http://47.93.54.102:5000/read/readHandbook/download?manualName=$downhandbookname",
-  //       options: Options(
-  //         responseType: ResponseType.plain,
-  //       ));
-  //   return response.data;
-  // } catch (e) {
-  //   print(e);
-  // }
-  try {
-    await DirectoryUtil.getInstance();
-    DirectoryUtil.createStorageDirSync(category: 'pdf');
-    String path = DirectoryUtil.getStoragePath(
-        fileName: '$downhandbookname', category: 'pdf', format: 'pdf');
-    File file = File(path);
-
-    await Dio().download(
-      "http://47.93.54.102:5000/read/readHandbook/download?manualName=$downhandbookname",
-      file.path,
-      onReceiveProgress: (int count, int total) {
-        if (total != -1) {
-          _value = count / total;
-          if (_value == 1) {
-            showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                      title: Text("提示"),
-                      content: Text("下载完成,已存入本地空间"),
-                      actions: <Widget>[
-                        // 点击按钮关闭对话框
-                        FlatButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text('确定')),
-                      ],
-                    ));
-          }
-        }
-      },
-    );
-  } catch (e) {
-    print(e);
-    // setState(() {
-    //   _isDownload = false;
-    // });
-  }
-}
-
-// void downloadmessage(context, downhandbookname) {
-//   downloadHandBookInputname(downhandbookname);
-//   showDialog(
-//       context: context,
-//       builder: (context) {
-//         return AlertDialog(
-//           title: Text('下载成功'),
-//           actions: <Widget>[
-//             FlatButton(
-//               onPressed: () {
-//                 Navigator.pop(context);
-//               },
-//               child: Text(
-//                 '确定',
-//                 style: TextStyle(fontSize: ScreenUtil().setSp(25.0)),
-//               ),
-//             ),
-//           ],
-//         );
-//       });
-// }
 
 class HandBookInputItem extends StatelessWidget {
   final String handbooknamelist;
@@ -136,22 +68,22 @@ class HandBookInputItem extends StatelessWidget {
     return ListTile(
       title: Text(
         handbookname,
-        style: TextStyle(fontSize: prefix0.ScreenUtil().setSp(25)),
+        style: TextStyle(fontSize: ScreenUtil().setSp(25)),
       ),
       trailing: Container(
-        width: prefix0.ScreenUtil().setWidth(420),
+        width: ScreenUtil().setWidth(420),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             InkWell(
-              onTap: () {
-                // downloadmessage(context,handbookname_1);
-                Fluttertoast.showToast(
-                  msg: "正在下载中...",
-                  toastLength: Toast.LENGTH_LONG,
-                  gravity: ToastGravity.CENTER,
-                );
-                _downloadHandBookInputname(context, handbookname_1);
+              onTap: () async {
+                String _localPath = (await _findLocalPath(context)) + '/Download';
+                Response responce = await Dio().download("http://47.93.54.102:5000/read/readHandbook/download?manualName=$handbookname_1", _localPath+"/handbookname_1");
+                if(responce.statusCode == 200){
+                  Scaffold.of(context).showSnackBar(
+                    SnackBar(content: Text("下载成功"))
+                  );
+                }
               },
               child: Text(
                 '下载',

@@ -10,7 +10,7 @@ import 'dart:convert';
 import 'HandBookInput_Details/add_workbook.dart';
 
 HandBookInputModel list; //手册录入查看手册数据模型
-//引入读取部门配置后台数据接口
+//引入读取手册配置后台数据接口
 Future getHandBookInput() async {
   try {
     Dio dio = Dio();

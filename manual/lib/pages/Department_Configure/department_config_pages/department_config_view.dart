@@ -4,7 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import './department_config_change.dart'; //引入工作名称修改页面;
 
 class DepartmentName_Configure_View extends StatelessWidget {
-  const DepartmentName_Configure_View({Key key}) : super(key: key);
+  String departmentname;
+  String workname;
+  String description;
+  DepartmentName_Configure_View(
+      this.departmentname, this.workname, this.description);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +42,7 @@ class DepartmentName_Configure_View extends StatelessWidget {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('所属部门：',
+                child: Text('所属部门： $departmentname',
                     style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
               ),
               Container(
@@ -50,7 +54,7 @@ class DepartmentName_Configure_View extends StatelessWidget {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('工作名称： ',
+                child: Text('工作名称： $workname',
                     style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
               ),
               Container(
@@ -62,21 +66,10 @@ class DepartmentName_Configure_View extends StatelessWidget {
                     bottom: BorderSide(width: 2.0, color: Colors.black26),
                   ),
                 ),
-                child: Text('工作描述： ',
+                child: Text('工作描述： $description',
                     style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
               ),
-              Container(
-                alignment: Alignment.centerLeft,
-                margin: EdgeInsets.all(5.0),
-                padding: EdgeInsets.all(5.0),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(width: 2.0, color: Colors.black26),
-                  ),
-                ),
-                child: Text('所属部门： ',
-                    style: TextStyle(fontSize: ScreenUtil().setSp(36.0))),
-              ),
+              
               Container(
                 alignment: Alignment.centerLeft,
                 margin: EdgeInsets.all(5.0),
@@ -111,9 +104,10 @@ class DepartmentName_Configure_View extends StatelessWidget {
                       child: RaisedButton(
                         onPressed: () {
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DepartmentName_Configure_Change()));
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      DepartmentName_Configure_Change(departmentname,workname,description)));
                         },
                         child: Text('修改'),
                       ),

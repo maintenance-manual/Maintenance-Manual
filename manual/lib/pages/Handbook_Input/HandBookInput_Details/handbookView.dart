@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 String handbookname;
 String handbookfile;
@@ -49,7 +50,7 @@ class _HandBookInputViewItemState extends State<HandBookInputViewItem> {
                   onPressed: () {
                     const url =
                         'http://47.93.54.102:5000/handbookInput/handbook/modify';
-                    //launch(url);
+                    launch(url);
                   },
                   child: Text('修改'),
                 ),

@@ -39,6 +39,7 @@ class SequencingInputItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.all(6.0),
       child: _mysequencingConfigItem(
           context, sequencinglist[0], sequencinglist[1], sequencinglist[2]),
     );

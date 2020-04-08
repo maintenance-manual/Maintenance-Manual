@@ -4,7 +4,9 @@ import 'package:manual/provide/peopleConfigModelProvide.dart';
 import 'package:manual/provide/postConfigModelProvide.dart';
 import 'package:manual/provide/sequencingInputModelProvide.dart';
 import 'package:manual/provide/userconpentenceModelProvide.dart';
+import 'provide/departmentConfigurationModelProvide.dart';
 import 'provide/handbookInputProvide.dart';
+import 'provide/peopleConnectModelProvide.dart';
 import 'provide/userDetailsModelProvide.dart';
 import 'splash_screen.dart';
 import 'package:provide/provide.dart';
@@ -20,6 +22,8 @@ void main(){
   var userConpentenceConfigModelProvide = UserConpentenceConfigModelProvide();
   var handbookInputModelProvide = HandBookInputModelProvide();
   var sequencingInputModelProvide = SequencingInputModelProvide();
+  var departmentConfigurationModelProvide = DepartmentConfigurationModelProvider();
+  var peopleConnectionModelProvider =PeopleConnectionModelProvider();
 
   providers
   ..provide(Provider<UserDetailsModelProvide>.value(userDetailsModelProvide))
@@ -29,6 +33,8 @@ void main(){
   ..provide(Provider<HandbookViewListProvide>.value(handbookViewListProvide))
   ..provide(Provider<HandBookInputModelProvide>.value(handbookInputModelProvide))
   ..provide(Provider<SequencingInputModelProvide>.value(sequencingInputModelProvide))
+  ..provide(Provider<DepartmentConfigurationModelProvider>.value(departmentConfigurationModelProvide))
+  ..provide(Provider<PeopleConnectionModelProvider>.value(peopleConnectionModelProvider))
   ..provide(Provider<UserConpentenceConfigModelProvide>.value(userConpentenceConfigModelProvide));
   runApp(ProviderNode(child:MyApp(),providers:providers));
 }

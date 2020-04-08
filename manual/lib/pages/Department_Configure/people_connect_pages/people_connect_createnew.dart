@@ -1,16 +1,102 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:manual/login_page.dart';
+import 'package:manual/model/peopleConnectionModel.dart';
+import 'package:manual/provide/departmentConfigurationModelProvide.dart';
+import 'package:manual/provide/peopleConnectModelProvide.dart';
+import 'package:provide/provide.dart';
 
-class DepartmentName_Configure_CreateNew extends StatefulWidget {
-  DepartmentName_Configure_CreateNew({Key key}) : super(key: key);
-
-  _DepartmentName_Configure_CreateNewState createState() =>
-      _DepartmentName_Configure_CreateNewState();
+//引入新增人员工作对接后台数据接口
+Future addpeopleConnectiondata(worker, workname) async {
+  try {
+    Response response = await Dio().get(
+        "http://47.93.54.102:5000/departmentConfigurations/personnel_work/add?username=$worker&&work=$workname",
+        options: Options(
+          responseType: ResponseType.plain,
+        ));
+    print(response.data);
+    return response.data;
+  } catch (e) {
+    print(e);
+  }
 }
 
-class _DepartmentName_Configure_CreateNewState
-    extends State<DepartmentName_Configure_CreateNew> {
+String people_departmentname;
+String workname;
+String worker;
+String isAddWorker;
+AddPeopleConnectionModel addPeopleConnectionModel; //添加人员工作对接模型;
+
+class PeopleConnection_CreateNew extends StatefulWidget {
+  PeopleConnection_CreateNew(departmentname1) {
+    people_departmentname = departmentname1;
+  }
+
+  _PeopleConnection_CreateNewState createState() =>
+      _PeopleConnection_CreateNewState();
+}
+
+class _PeopleConnection_CreateNewState
+    extends State<PeopleConnection_CreateNew> {
+  void addActionofPeopleConnection() {
+    addpeopleConnectiondata(worker, workname).then((val) {
+      String addPeopleConnecitonItem =
+          (people_departmentname + "--" + worker + "--" + workname).toString();
+      var data = jsonDecode(val.toString());
+      addPeopleConnectionModel = AddPeopleConnectionModel.fromJson(data);
+      print(addPeopleConnectionModel.toJson());
+      setState(() {
+        isAddWorker = addPeopleConnectionModel.isAddWorker;
+      });
+      if (isAddWorker.contains("true")) {
+        Provide.value<PeopleConnectionModelProvider>(context)
+            .addpeopleConnectionnameitem(addPeopleConnecitonItem);
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('添加成功'),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    '确定',
+                    style: TextStyle(fontSize: ScreenUtil().setSp(28.0)),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('人员已包含该工作，对接失败'),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    '确定',
+                    style: TextStyle(fontSize: ScreenUtil().setSp(28.0)),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,7 +107,7 @@ class _DepartmentName_Configure_CreateNewState
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              WorkDepartmentselect(),
+              WorkDepartmentselect(people_departmentname),
               People_Connect_WorkName_Change1(),
               People_Connect_WorkName_Change2(),
               Container(
@@ -35,39 +121,7 @@ class _DepartmentName_Configure_CreateNewState
                         height: ScreenUtil().setHeight(80),
                         child: RaisedButton(
                           onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text(
-                                      '你确定要创建此信息吗？',
-                                      style: TextStyle(
-                                          fontSize: ScreenUtil().setSp(36.0)),
-                                    ),
-                                    actions: <Widget>[
-                                      FlatButton(
-                                        onPressed: () {},
-                                        child: Text(
-                                          '确定',
-                                          style: TextStyle(
-                                              fontSize:
-                                                  ScreenUtil().setSp(25.0)),
-                                        ),
-                                      ),
-                                      FlatButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text(
-                                          '取消',
-                                          style: TextStyle(
-                                              fontSize:
-                                                  ScreenUtil().setSp(25.0)),
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                });
+                            addActionofPeopleConnection();
                           },
                           child: Text(
                             '创建',
@@ -106,14 +160,13 @@ class _DepartmentName_Configure_CreateNewState
 }
 
 class WorkDepartmentselect extends StatefulWidget {
-  WorkDepartmentselect({Key key}) : super(key: key);
+  WorkDepartmentselect(departmentname);
 
   _WorkDepartmentselectState createState() => _WorkDepartmentselectState();
 }
 
 class _WorkDepartmentselectState extends State<WorkDepartmentselect> {
   GlobalKey<FormState> searchKey0 = GlobalKey<FormState>();
-  //GlobalKey<RefreshFooterState> _footerkey0 = GlobalKey<RefreshFooterState>();
 
   String searchText0 = '';
   void search1() {
@@ -138,7 +191,7 @@ class _WorkDepartmentselectState extends State<WorkDepartmentselect> {
             height: ScreenUtil().setHeight(130),
             alignment: Alignment.centerRight,
             child: Text(
-              '所属部门：',
+              '所属部门： ',
               style: TextStyle(
                   fontSize: ScreenUtil().setSp(32.0), color: Colors.black),
             ),
@@ -149,44 +202,13 @@ class _WorkDepartmentselectState extends State<WorkDepartmentselect> {
                 bottom: BorderSide(color: Colors.black26, width: 1.0),
               ),
             ),
-            height: ScreenUtil().setHeight(100),
             width: ScreenUtil().setWidth(550),
-            child: _myDepartmentDropdownButton(),
+            child: Text(
+              '$people_departmentname',
+              style: TextStyle(fontSize: ScreenUtil().setSp(32)),
+            ),
           ),
         ],
-      ),
-    );
-  }
-
-//选择所属部门
-  var _pickingChoice5 = 0;
-  Widget _myDepartmentDropdownButton() {
-    return Container(
-      width: ScreenUtil().setWidth(500),
-      alignment: Alignment.centerLeft,
-      child: DropdownButton(
-        value: _pickingChoice5,
-        items: <DropdownMenuItem>[
-          DropdownMenuItem(
-            child: Text('航空安全质量部门'),
-            value: 0,
-          ),
-          DropdownMenuItem(
-            child: Text('定检中队'),
-            value: 1,
-          ),
-          DropdownMenuItem(
-            child: Text('采购部门'),
-            value: 2,
-          ),
-          DropdownMenuItem(
-            child: Text('维修与管理部门'),
-            value: 3,
-          ),
-        ],
-        onChanged: (value) => setState(() {
-          _pickingChoice5 = value;
-        }),
       ),
     );
   }
@@ -235,34 +257,37 @@ class _People_Connect_WorkName_Change1State
     );
   }
 
+//选择手册名称
+  List<DropdownMenuItem> getworknameListData(list_workname) {
+    //读取人员工作对接里的数据并做好下标传给items，弄成下拉菜单
+    List<DropdownMenuItem> items = List<DropdownMenuItem>.generate(
+        list_workname.length,
+        (index) => new DropdownMenuItem(
+            child: new Text(list_workname[index]), value: index));
+    return items;
+  }
+
 //选择工作名称
   var _pickingChoice6 = 0;
   Widget _myPeoppleDropdownButton() {
+    List worknamelist =
+        Provide.value<DepartmentConfigurationModelProvider>(context)
+            .departmentConfigurationModel
+            .workList;
+    List list1 = List();
+    worknamelist.forEach((val) {
+      list1.add(val.toString().split('--')[1]);
+    });
+    Set quchonglist = list1.toSet();
     return Container(
       width: ScreenUtil().setWidth(500),
       alignment: Alignment.centerLeft,
       child: DropdownButton(
         value: _pickingChoice6,
-        items: <DropdownMenuItem>[
-          DropdownMenuItem(
-            child: Text('部门管理'),
-            value: 0,
-          ),
-          DropdownMenuItem(
-            child: Text('监察组织'),
-            value: 1,
-          ),
-          DropdownMenuItem(
-            child: Text('安全教育'),
-            value: 2,
-          ),
-          DropdownMenuItem(
-            child: Text('安全培训'),
-            value: 3,
-          ),
-        ],
+        items: getworknameListData(quchonglist.toList()),
         onChanged: (value) => setState(() {
           _pickingChoice6 = value;
+          workname = quchonglist.toList()[value].toString();
         }),
       ),
     );
@@ -312,34 +337,36 @@ class _People_Connect_WorkName_Change2State
     );
   }
 
+//选择手册名称
+  List<DropdownMenuItem> getworkerNameListData(list_workname) {
+    //读取人员工作对接里的数据并做好下标传给items，弄成下拉菜单
+    List<DropdownMenuItem> items = List<DropdownMenuItem>.generate(
+        list_workname.length,
+        (index) => new DropdownMenuItem(
+            child: new Text(list_workname[index]), value: index));
+    return items;
+  }
+
 //选择员工姓名
   var _pickingChoice7 = 0;
   Widget _myPeoppleDropdownButton() {
+    List worknamelist = Provide.value<PeopleConnectionModelProvider>(context)
+        .peopleConnectionModel
+        .workList;
+    List list2 = List();
+    worknamelist.forEach((val) {
+      list2.add(val.toString().split('--')[1]);
+    });
+    Set quchonglist = list2.toSet();
     return Container(
       width: ScreenUtil().setWidth(500),
       alignment: Alignment.centerLeft,
       child: DropdownButton(
         value: _pickingChoice7,
-        items: <DropdownMenuItem>[
-          DropdownMenuItem(
-            child: Text('张三'),
-            value: 0,
-          ),
-          DropdownMenuItem(
-            child: Text('李四'),
-            value: 1,
-          ),
-          DropdownMenuItem(
-            child: Text('王五'),
-            value: 2,
-          ),
-          DropdownMenuItem(
-            child: Text('赵六'),
-            value: 3,
-          ),
-        ],
+        items: getworkerNameListData(quchonglist.toList()),
         onChanged: (value) => setState(() {
           _pickingChoice7 = value;
+          worker = quchonglist.toList()[value].toString();
         }),
       ),
     );

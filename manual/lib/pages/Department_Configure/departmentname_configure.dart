@@ -1,12 +1,62 @@
+import 'dart:convert';
+import 'package:dio/dio.dart';
+import 'package:manual/login_page.dart';
+import 'package:manual/model/departmentConfigureModel.dart';
+import 'package:manual/provide/departmentConfigurationModelProvide.dart';
 import 'package:manual/service/service_method.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:provide/provide.dart';
 import './department_config_pages/department_config_change.dart'; //引入工作名称配置修改页面;
 import './department_config_pages/department_config_view.dart'; //引入工作名称配置查看页面;
 import './department_config_pages/department_config_delete.dart'; //引入工作名称配置删除页面;
 import './department_config_pages/department_config_createnew.dart'; //引入工作名称配置删除页面;
 
-class DepartmentNameConfigure extends StatelessWidget {
+DepartmentConfigurationModel departmentConfigurationModel;
+
+//读取工作名称配置内容
+Future getdepartmentConfigurationslist() async {
+  try {
+    Response response = await Dio().get(
+        "http://47.93.54.102:5000/departmentConfigurations/name?username=$userName",
+        options: Options(
+          responseType: ResponseType.plain,
+        ));
+    return response.data;
+  } catch (e) {
+    print(e);
+  }
+}
+
+class DepartmentNameConfigure extends StatefulWidget {
+  DepartmentNameConfigure({Key key}) : super(key: key);
+
+  @override
+  _DepartmentNameConfigureState createState() =>
+      _DepartmentNameConfigureState();
+}
+
+class _DepartmentNameConfigureState extends State<DepartmentNameConfigure> {
+  String departmentname; //用来取出当前部门名称;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('开始读取工作配置数据.....');
+    getdepartmentConfigurationslist().then((val) {
+      var data = jsonDecode(val.toString());
+      setState(() {
+        departmentConfigurationModel =
+            DepartmentConfigurationModel.fromJson(data);
+        departmentname =
+            departmentConfigurationModel.workList[0].split('--')[0];
+      });
+      Provide.value<DepartmentConfigurationModelProvider>(context)
+          .getdepartmentConfigurationlist(departmentConfigurationModel);
+      print(departmentConfigurationModel.toJson());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,7 +89,7 @@ class DepartmentNameConfigure extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) =>
-                          DepartmentName_Configure_CreateNew()));
+                          DepartmentName_Configure_CreateNew(departmentname)));
                 },
                 child: Text(
                   '新建',
@@ -62,46 +112,37 @@ class DepartmentNameConfigure extends StatelessWidget {
 
 //工作名称配置目录
 class Department_ConfigShow extends StatelessWidget {
-  List<String> departmentConfigName = [
-    '质量检测部门',
-    '航空情报部门',
-    '空中管制部门',
-    '地勤打扫部门',
-  ];
-  List<String> departmentConfigPeopleName = [
-    '张三',
-    '李四',
-    '王五',
-    '张三',
-    '李四',
-    '王五',
-    '张三',
-    '李四',
-    '王五',
-    '张三',
-    '李四',
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          height: ScreenUtil().setHeight(940),
-          padding: EdgeInsets.all(1.0),
-          child: ListView.builder(
-            itemCount: departmentConfigName.length,
-            itemBuilder: (context, index) {
-              return _myDrawer1(context, index);
-            },
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Container(
+            height: ScreenUtil().setHeight(940),
+            padding: EdgeInsets.all(1.0),
+            child: Provide<DepartmentConfigurationModelProvider>(builder:
+                (context, child, departmentConfigurationModelProvider) {
+              return ListView.builder(
+                itemCount: departmentConfigurationModelProvider
+                    .departmentConfigurationModel.workList.length,
+                itemBuilder: (context, index) {
+                  List worklist = departmentConfigurationModelProvider
+                      .departmentConfigurationModel.workList[index]
+                      .split('--');
+
+                  return _myDrawer1(
+                      context, worklist[0], worklist[1], worklist[2]);
+                },
+              );
+            }),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   //部门名称目录;
-  Widget _myDrawer1(context, index) {
+  Widget _myDrawer1(context, departmentname, work_name, description) {
     return Column(
       children: <Widget>[
         Container(
@@ -115,7 +156,7 @@ class Department_ConfigShow extends StatelessWidget {
             children: <Widget>[
               ExpansionTile(
                 title: Text(
-                  '所属部门：${departmentConfigName[index]}',
+                  '所属部门：$departmentname',
                   style: TextStyle(fontSize: ScreenUtil().setSp(36.0)),
                 ),
                 children: <Widget>[
@@ -125,12 +166,11 @@ class Department_ConfigShow extends StatelessWidget {
                       children: <Widget>[
                         Container(
                           alignment: Alignment.centerLeft,
-                          child:
-                              Text('工作名称：${departmentConfigPeopleName[index]}'),
+                          child: Text('工作名称：$work_name'),
                         ),
                         Container(
                           alignment: Alignment.centerLeft,
-                          child: Text('工作描述：${departmentConfigName[index]}'),
+                          child: Text('工作描述：$description'),
                         ),
                       ],
                     ),
@@ -146,7 +186,10 @@ class Department_ConfigShow extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          DepartmentName_Configure_Change()));
+                                          DepartmentName_Configure_Change(
+                                              departmentname,
+                                              work_name,
+                                              description)));
                             },
                             child: Container(
                               width: ScreenUtil().setWidth(70),
@@ -164,9 +207,14 @@ class Department_ConfigShow extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      DepartmentName_Configure_View()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          DepartmentName_Configure_View(
+                                              departmentname,
+                                              work_name,
+                                              description)));
                             },
                             child: Container(
                               width: ScreenUtil().setWidth(70),
@@ -186,7 +234,10 @@ class Department_ConfigShow extends StatelessWidget {
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
-                                      DepartmentName_Configure_Delete()));
+                                      DepartmentName_Configure_Delete(
+                                          departmentname,
+                                          work_name,
+                                          description)));
                             },
                             child: Container(
                               width: ScreenUtil().setWidth(70),

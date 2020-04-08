@@ -1,7 +1,44 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:manual/pages/Handbook_Input/sequencing_input.dart';
+import 'package:manual/provide/handbookInputProvide.dart';
+import 'package:provide/provide.dart';
+import '../handbook_input.dart';
+
+
+String url_2 = "http://47.93.54.102:5000/handbookInput/procedure/add1";//post方法上传文件
+//引入新增程序各项值接口---get方法
+Future addSequencyingmessage(String choosedHandbookname,String procedureNumber,String produreName,String chapter) async {
+  try {
+    Dio dio = Dio();
+    Response response = await dio.get(
+        "http://47.93.54.102:5000/handbookInput/procedure/add?manualName=$choosedHandbookname&procedureNumber=$procedureNumber&procedureName=$produreName&chapter=$chapter",
+        options: Options(
+          responseType: ResponseType.plain,
+        ));
+    print('上传新增程序各项值数据......');
+    print(response.data);
+    return response.data;
+  } catch (e) {
+    print(e);
+  }
+}
+
+//上传流程图和程序文件接口
+Future addpostSequencyingFile(String file) async {
+  try {
+    Response response;
+    var data = {"manualFile": file};
+    response = await Dio().post(url_2, data: data);
+    print('post方法上传文件...成功');
+    return response.data;
+  } catch (e) {
+    print(e);
+  }
+}
 
 class AddNewSequence extends StatefulWidget {
   @override
@@ -10,6 +47,7 @@ class AddNewSequence extends StatefulWidget {
 
 class _AddNewSequenceState extends State<AddNewSequence> {
   GlobalKey<FormState> newSequenceKey = GlobalKey<FormState>();
+  String choosedHandbookname; //被选择手册文件的名称;
   String sequenceNumber = '';
   String sequenceName = '';
   String purpose = '';
@@ -26,7 +64,7 @@ class _AddNewSequenceState extends State<AddNewSequence> {
     var createNewForm = newSequenceKey.currentState;
     if (createNewForm.validate()) {
       createNewForm.save();
-      print(sequenceNumber +
+      print(choosedHandbookname+sequenceNumber +
           '  ' +
           sequenceName +
           '  ' +
@@ -290,36 +328,32 @@ class _AddNewSequenceState extends State<AddNewSequence> {
     );
   }
 
+  //选择手册名称
+  List<DropdownMenuItem> gethandbookListData(list_positionlist) {
+    //读取岗位配置里的数据并做好下标传给items，弄成下拉菜单
+    List<DropdownMenuItem> items = List<DropdownMenuItem>.generate(
+        list_positionlist.length,
+        (index) => new DropdownMenuItem(
+            child: new Text(list_positionlist[index].toString().split('--')[0]),
+            value: index));
+    return items;
+  }
+
+  var _pickingChoice1 = 0;
   Widget _myDropdownButton() {
+    List handbooklist = Provide.value<HandBookInputModelProvide>(context)
+        .handbookInputList
+        .positionList;
     return Container(
       alignment: Alignment.centerLeft,
       margin: EdgeInsets.only(top: 10),
       child: DropdownButton(
-        value: _pickingChoice,
-        items: <DropdownMenuItem>[
-          DropdownMenuItem(
-            child: Text(''),
-            value: 0,
-          ),
-          DropdownMenuItem(
-            child: Text('维修管理手册工作程序'),
-            value: 1,
-          ),
-          DropdownMenuItem(
-            child: Text('维修管理手册'),
-            value: 2,
-          ),
-          DropdownMenuItem(
-            child: Text('CAAC培训大纲'),
-            value: 3,
-          ),
-          DropdownMenuItem(
-            child: Text('维修工程管理服务工作程序手册'),
-            value: 4,
-          ),
-        ],
+        value: _pickingChoice1,
+        items: gethandbookListData(handbooklist),
         onChanged: (value) => setState(() {
-          _pickingChoice = value;
+          _pickingChoice1 = value;
+          choosedHandbookname =
+              handbooklist[_pickingChoice1].toString().split('--')[0];
         }),
       ),
     );

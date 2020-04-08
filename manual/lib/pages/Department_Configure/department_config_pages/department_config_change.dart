@@ -1,9 +1,97 @@
+import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:manual/login_page.dart';
+import 'package:manual/model/departmentConfigureModel.dart';
+import 'package:manual/pages/Basic_Configure/addPeopleConfig.dart';
+import 'package:manual/provide/departmentConfigurationModelProvide.dart';
+import 'package:provide/provide.dart';
 
-class DepartmentName_Configure_Change extends StatelessWidget {
-  const DepartmentName_Configure_Change({Key key}) : super(key: key);
+String isModifyWork;
+ModifyDepartmentConfigurationModel
+    modifyDepartmentConfigurationModel; //当前页面用来存放查询到的修改工作名称配置模型;
+//引入修改工作名称配置后台数据接口
+Future modifyDepartmentConfiguration(workname, description) async {
+  try {
+    Response response = await Dio().get(
+        "http://47.93.54.102:5000/departmentConfigurations/name/modify?username=$userName&&work=$workname&&description=$description",
+        options: Options(
+          responseType: ResponseType.plain,
+        ));
+    return response.data;
+  } catch (e) {
+    print(e);
+  }
+}
+
+String departmentname;
+String oldworkname;
+String olddescription;
+
+class DepartmentName_Configure_Change extends StatefulWidget {
+  DepartmentName_Configure_Change(
+      departmentname1, oldworkname1, olddescription1) {
+    departmentname = departmentname1;
+    oldworkname = oldworkname1;
+    olddescription = olddescription1;
+  }
+
+  @override
+  _DepartmentName_Configure_ChangeState createState() =>
+      _DepartmentName_Configure_ChangeState();
+}
+
+class _DepartmentName_Configure_ChangeState
+    extends State<DepartmentName_Configure_Change> {
+  GlobalKey<FormState> searchKey1 = GlobalKey<FormState>();
+  GlobalKey<FormState> searchKey2 = GlobalKey<FormState>();
+
+  String searchText1 = '';
+  String searchText2 = '';
+  void search() {
+    var searchForm1 = searchKey1.currentState;
+    var searchForm2 = searchKey2.currentState;
+    if (searchForm1.validate() && searchForm1.validate()) {
+      searchForm1.save();
+      searchForm2.save();
+      print(searchText1);
+      modifyDepartmentConfiguration(searchText1, searchText2).then((val) {
+        var data = json.decode(val.toString());
+        modifyDepartmentConfigurationModel =
+            ModifyDepartmentConfigurationModel.fromJson(data);
+        setState(() {
+          isModifyWork = modifyDepartmentConfigurationModel.isModifyWork;
+        });
+        if (isModifyWork.contains('true')) {
+          Provide.value<DepartmentConfigurationModelProvider>(context)
+              .modifyDepartmentConfigurationname(departmentname, oldworkname,
+                  olddescription, searchText1, searchText2);
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text(
+                    '修改信息成功,请返回查看',
+                    style: TextStyle(fontSize: ScreenUtil().setSp(36.0)),
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        '确定',
+                        style: TextStyle(fontSize: ScreenUtil().setSp(25.0)),
+                      ),
+                    ),
+                  ],
+                );
+              });
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,24 +106,24 @@ class DepartmentName_Configure_Change extends StatelessWidget {
               Container(
                 width: ScreenUtil().setWidth(750),
                 padding: EdgeInsets.all(5.0),
-                margin: EdgeInsets.only(top: 10.0,left:5.0),
+                margin: EdgeInsets.only(top: 10.0, left: 5.0),
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(width: 1.0, color: Colors.black38),
                   ),
                 ),
                 child: Text(
-                  '所属部门：',
+                  '所属部门：  $departmentname',
                   style: TextStyle(
                       fontSize: ScreenUtil().setSp(36.0), color: Colors.black),
                 ),
               ),
-              WorkName_Change1(),
+              _worknameModifywidget(),
               Divider(
                 color: Colors.black,
                 thickness: 2.0,
               ),
-              WorkName_Change2(),
+              _descriptionModifywidget(),
               Divider(
                 color: Colors.black,
                 thickness: 2.0,
@@ -51,39 +139,7 @@ class DepartmentName_Configure_Change extends StatelessWidget {
                         height: ScreenUtil().setHeight(100),
                         child: RaisedButton(
                           onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text(
-                                      '你确定要修改此信息吗？',
-                                      style: TextStyle(
-                                          fontSize: ScreenUtil().setSp(36.0)),
-                                    ),
-                                    actions: <Widget>[
-                                      FlatButton(
-                                        onPressed: () {},
-                                        child: Text(
-                                          '确定',
-                                          style: TextStyle(
-                                              fontSize:
-                                                  ScreenUtil().setSp(25.0)),
-                                        ),
-                                      ),
-                                      FlatButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text(
-                                          '取消',
-                                          style: TextStyle(
-                                              fontSize:
-                                                  ScreenUtil().setSp(25.0)),
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                });
+                            search();
                           },
                           child: Text('保存'),
                         ),
@@ -111,23 +167,8 @@ class DepartmentName_Configure_Change extends StatelessWidget {
       ),
     );
   }
-}
 
-class WorkName_Change1 extends StatelessWidget {
-  GlobalKey<FormState> searchKey1 = GlobalKey<FormState>();
-  //GlobalKey<RefreshFooterState> _footerkey1 = GlobalKey<RefreshFooterState>();
-
-  String searchText1 = '';
-  void search1() {
-    var searchForm = searchKey1.currentState;
-    if (searchForm.validate()) {
-      searchForm.save();
-      print(searchText1);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _worknameModifywidget() {
     return Container(
       height: ScreenUtil().setHeight(200),
       width: ScreenUtil().setWidth(750),
@@ -181,25 +222,8 @@ class WorkName_Change1 extends StatelessWidget {
       ),
     );
   }
-}
 
-class WorkName_Change2 extends StatelessWidget {
-  GlobalKey<FormState> searchKey2 = GlobalKey<FormState>();
-  //GlobalKey<RefreshFooterState> _footerkey2 = GlobalKey<RefreshFooterState>();
-
-  bool get wantKeepAlive => true;
-
-  String searchText = '';
-  void search() {
-    var searchForm = searchKey2.currentState;
-    if (searchForm.validate()) {
-      searchForm.save();
-      print(searchText);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _descriptionModifywidget() {
     return Container(
       height: ScreenUtil().setHeight(200),
       width: ScreenUtil().setWidth(750),
@@ -236,7 +260,7 @@ class WorkName_Change2 extends StatelessWidget {
                         textAlign: TextAlign.center,
                         obscureText: false,
                         onSaved: (value) {
-                          searchText = value;
+                          searchText2 = value;
                         },
                         validator: (value) {
                           return null;

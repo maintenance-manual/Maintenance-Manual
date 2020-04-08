@@ -9,19 +9,11 @@ import '../department_configure.dart';
 //引入删除部门配置后台数据接口
 Future deleteDepartmentname(context, deleteDepartment) async {
   try {
-    Dio dio = Dio();
-    // dio.options.contentType =
-    //     ContentType.parse("application/x-www-form-urlencoded");
     Response response = await Dio().get(
         "http://47.93.54.102:5000/basicConfigurations/department/delete?deleteDepartment=$deleteDepartment",
         options: Options(
           responseType: ResponseType.plain,
         ));
-    // Response response = await dio.get(
-    //     "http://47.93.54.102:5000/basicConfigurations/department/delete?deleteDepartment=$deleteDepartment",
-    //     options: Options(
-    //       responseType: ResponseType.plain,
-    //     ));
     return response.data;
   } catch (e) {
     print(e);

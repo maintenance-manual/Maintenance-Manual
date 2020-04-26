@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manual/model/handbookInput_model.dart';
+import 'package:manual/pages/Handbook_Input/SequencingInput/Handbooksearch_view/handbookindex.dart';
 import 'package:manual/provide/handbookInputProvide.dart';
 import 'package:provide/provide.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -101,7 +102,14 @@ class SequencingInputItem extends StatelessWidget {
                             ),
                           ),
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HandBookSearchView(
+                                          tempdepartmentname,
+                                          sequencinglist[0])));
+                            },
                             child: Container(
                               width: ScreenUtil().setWidth(70),
                               height: ScreenUtil().setHeight(60),

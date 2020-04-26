@@ -29,11 +29,12 @@ Future deleteHandBookInputname(context, deletehandbookinputname) async {
   }
 }
 
-Future<String> _findLocalPath(context) async { //这里根据平台获取当前安装目录
-    final directory = Theme.of(context).platform == TargetPlatform.android
-        ? await getExternalStorageDirectory()
-        : await getApplicationDocumentsDirectory();
-    return directory.path;
+Future<String> _findLocalPath(context) async {
+  //这里根据平台获取当前安装目录
+  final directory = Theme.of(context).platform == TargetPlatform.android
+      ? await getExternalStorageDirectory()
+      : await getApplicationDocumentsDirectory();
+  return directory.path;
 }
 
 void deletehandbookInputname(context, deletehandbookinputname) {
@@ -77,12 +78,14 @@ class HandBookInputItem extends StatelessWidget {
           children: <Widget>[
             InkWell(
               onTap: () async {
-                String _localPath = (await _findLocalPath(context)) + '/Download';
-                Response responce = await Dio().download("http://47.93.54.102:5000/read/readHandbook/download?manualName=$handbookname_1", _localPath+"/handbookname_1");
-                if(responce.statusCode == 200){
-                  Scaffold.of(context).showSnackBar(
-                    SnackBar(content: Text("下载成功"))
-                  );
+                String _localPath =
+                    (await _findLocalPath(context)) + '/Download';
+                Response responce = await Dio().download(
+                    "http://47.93.54.102:5000/read/readHandbook/download?manualName=$handbookname_1",
+                    _localPath + "/handbookname_1");
+                if (responce.statusCode == 200) {
+                  Scaffold.of(context)
+                      .showSnackBar(SnackBar(content: Text("下载成功")));
                 }
               },
               child: Text(

@@ -20,8 +20,6 @@ Future getDepartment() async {
             options: Options(
               responseType: ResponseType.plain,
             ));
-    print('后台部门数据接口');
-    print(response.data);
     return response.data;
   } catch (e) {
     print(e);
@@ -63,7 +61,7 @@ class _DepartmentConfigureState extends State<DepartmentConfigure> {
       print('开始获取部門名稱数据......');
       print(list.departmentList);
       Provide.value<UserDepartmentModelProvide>(context)
-          .getdepartmentname(list);
+          .getdepartmentname(departmentlist);
       print(list.toJson());
     });
     super.initState();

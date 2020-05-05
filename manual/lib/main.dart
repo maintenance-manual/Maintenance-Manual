@@ -6,6 +6,7 @@ import 'package:manual/provide/sequencingInputModelProvide.dart';
 import 'package:manual/provide/userconpentenceModelProvide.dart';
 import 'provide/departmentConfigurationModelProvide.dart';
 import 'provide/handbookInputProvide.dart';
+import 'provide/handbooksearchProvide.dart';
 import 'provide/peopleConnectModelProvide.dart';
 import 'provide/processModelProvide/processmodelProvide.dart';
 import 'provide/userDetailsModelProvide.dart';
@@ -26,7 +27,7 @@ void main(){
   var departmentConfigurationModelProvide = DepartmentConfigurationModelProvider();
   var peopleConnectionModelProvider =PeopleConnectionModelProvider();
   var processWatchModelProvide =ProcessWatchModelProvider();
-
+  var handbookSearchModelProvide = HandbookSearchModelProvider();
   providers
   ..provide(Provider<UserDetailsModelProvide>.value(userDetailsModelProvide))
   ..provide(Provider<UserDepartmentModelProvide>.value(userDepartmentModelProvide))
@@ -38,6 +39,7 @@ void main(){
   ..provide(Provider<DepartmentConfigurationModelProvider>.value(departmentConfigurationModelProvide))
   ..provide(Provider<PeopleConnectionModelProvider>.value(peopleConnectionModelProvider))
   ..provide(Provider<ProcessWatchModelProvider>.value(processWatchModelProvide))
+  ..provide(Provider<HandbookSearchModelProvider>.value(handbookSearchModelProvide))
   ..provide(Provider<UserConpentenceConfigModelProvide>.value(userConpentenceConfigModelProvide));
   runApp(ProviderNode(child:MyApp(),providers:providers));
 }

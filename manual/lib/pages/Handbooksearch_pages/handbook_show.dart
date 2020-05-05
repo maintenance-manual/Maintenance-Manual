@@ -4,120 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manual/model/handbookSearch_model.dart';
 
-String keyWord;
-String department;
-String responsable;
-String job;
-String position;
-String fixingMark;
-String name;
-String number;
-
-//关键字搜索手册
-Future getList() async {
-  try {
-    Dio dio = Dio();
-    // dio.options.contentType =
-    //     ContentType.parse("application/x-www-form-urlencoded");
-    if (number != '') {
-      Response response = await dio.get(
-          "http://47.93.54.102:5000/findHandbook/find_by_procedureNumber?keyWord=$number",
-          options: Options(
-            responseType: ResponseType.plain,
-          ));
-      return response.data;
-    }
-    if (name != '') {
-      Response response = await dio.get(
-          "http://47.93.54.102:5000/findHandbook/find_by_procedureName?keyWord=$name",
-          options: Options(
-            responseType: ResponseType.plain,
-          ));
-      return response.data;
-    }
-    if (fixingMark != '') {
-      Response response = await dio.get(
-          "http://47.93.54.102:5000/findHandbook/find_by_revision_mark?keyWord=$fixingMark",
-          options: Options(
-            responseType: ResponseType.plain,
-          ));
-      return response.data;
-    }
-    if (department != '') {
-      Response response = await dio.get(
-          "http://47.93.54.102:5000/findHandbook/find_by_department?keyWord=$department",
-          options: Options(
-            responseType: ResponseType.plain,
-          ));
-      return response.data;
-    }
-    if (position != '') {
-      /**continue */
-    }
-    if (job != '') {
-      /**continue */
-    }
-    if (responsable != '') {
-      /**continue */
-    }
-    if (keyWord != '') {
-      Response response = await dio.get(
-          "http://47.93.54.102:5000/findHandbook/find_by_all?keyWord=$keyWord",
-          options: Options(
-            responseType: ResponseType.plain,
-          ));
-      return response.data;
-    }
-  } catch (e) {
-    print(e);
-  }
-}
+import 'Handbooksearch_view/handbookindex.dart';
 
 //显示目录，利用瓦片布局来显示；
+List searchKeyWordList = [];
+
 class HandbookShowList extends StatefulWidget {
-  HandbookShowList(
-    String searchByNum,
-    String searchByName,
-    String searchByFixingMark,
-    String searchByDepartment,
-    String searchByPosition,
-    String searchByJob,
-    String searchByResponsable,
-    String searchByKeyWord,
-  ) {
-    keyWord = searchByKeyWord;
-    responsable = searchByResponsable;
-    job = searchByJob;
-    position = searchByPosition;
-    department = searchByDepartment;
-    fixingMark = searchByFixingMark;
-    name = searchByName;
-    number = searchByNum;
+  HandbookShowList(handbookSearchlist) {
+    searchKeyWordList = handbookSearchlist;
   }
   @override
   _HandbookShowListState createState() => _HandbookShowListState();
 }
 
 class _HandbookShowListState extends State<HandbookShowList> {
-  List searchKeyWordList = [];
-
-  @override
-  void initState() {
-    getList().then((val) {
-      var data = json.decode(val.toString());
-      HandbookSearchModel handbookSearchModel =
-          HandbookSearchModel.fromJson(data);
-      setState(() {
-        searchKeyWordList = handbookSearchModel.procedureList;
-      });
-      print(searchKeyWordList);
-      print(searchKeyWordList.length);
-    });
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
+
     return Container(
       child: Scaffold(
         appBar: AppBar(
@@ -221,26 +124,24 @@ class _HandbookShowListState extends State<HandbookShowList> {
     String pointString1 = string.substring(pointIndex1 + 2);
 
     return ListTile(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>HandBookSearchView()));
+      },
       title: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Container(
             width: ScreenUtil().setWidth(190),
             height: ScreenUtil().setHeight(80),
-            //color: Colors.pink,
             padding: EdgeInsets.all(3.0),
-            child: InkWell(
-              onTap: () {},
-              child: Text(
-                  string.substring(
-                      string.indexOf("_") + 1, string.indexOf("_") + 9),
-                  style: TextStyle(color: Colors.blueAccent)), //状态管理显示;
-            ),
+            child: Text(
+                string.substring(
+                    string.indexOf("_") + 1, string.indexOf("_") + 9),
+                style: TextStyle(color: Colors.blueAccent)), //状态管理显示;
           ),
           Container(
             width: ScreenUtil().setWidth(320),
             height: ScreenUtil().setHeight(80),
-            //color: Colors.blue,
             padding: EdgeInsets.all(3.0),
             child: Text(
               string.substring(string.indexOf("_") + 10, string.indexOf(".")),
@@ -253,7 +154,6 @@ class _HandbookShowListState extends State<HandbookShowList> {
             alignment: Alignment.center,
             width: ScreenUtil().setWidth(150),
             height: ScreenUtil().setHeight(80),
-            //color: Colors.orange,
             padding: EdgeInsets.all(3.0),
             child: Text(
                 pointString1.substring(pointString1.indexOf("--") + 2,

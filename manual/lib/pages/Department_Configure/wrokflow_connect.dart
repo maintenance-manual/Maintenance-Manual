@@ -1,4 +1,5 @@
 import 'package:manual/pages/Department_Configure/add_processworkconnection.dart';
+import 'package:manual/pages/Department_Configure/wrokflow_connect/wrokflowconnectsearch.dart';
 import 'package:manual/service/service_method.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -85,7 +86,8 @@ class _WrokflowConfigureState extends State<WrokflowConfigure> {
                     borderRadius: BorderRadius.circular(20.0)),
                 onPressed: (/** continue...*/) {
                   search();
-                  /** continue...*/
+                  Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => WrokFlowConnectSearch()));
                 },
               ),
             ),

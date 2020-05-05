@@ -20,7 +20,7 @@ Future _modifyProcessStep(stepNumber, step, department, revision) async {
   try {
     Dio dio = Dio();
     Response response = await dio.get(
-        'http://47.93.54.102:5000/handbookInput/procedure/steps/modify?manualName=维修管理手册工作程序&procedureNumber=$procedureNumber&stepNumber=$stepNumber&step=$step&department=$department&revision=$revision',
+        'http://47.93.54.102:5000/handbookInput/procedure/steps/modify?manualName=维修管理手册工作程序&procedureNumber=$procedureNumber&stepNumber=$processCode&step=$step&department=$department&revision=$revision',
         options: Options(responseType: ResponseType.plain));
     return response.data;
   } catch (e) {}
@@ -28,14 +28,17 @@ Future _modifyProcessStep(stepNumber, step, department, revision) async {
 
 String handbookname; //手册名称
 String procedureNumber; //程序编号
+String processCode; //流程代码
 String needModifiedStep;
 String department = '';
 
 class ModifyProcess extends StatefulWidget {
-  ModifyProcess(handbook_name, procedure_Number, needModified_Step) {
+  ModifyProcess(
+      handbook_name, procedure_Number, needModified_Step, process_Code) {
     handbookname = handbook_name;
     procedureNumber = procedure_Number;
     needModifiedStep = needModified_Step;
+    processCode = process_Code;
     print(handbookname + '  ' + procedureNumber + '' + needModifiedStep);
   }
   @override
@@ -43,7 +46,6 @@ class ModifyProcess extends StatefulWidget {
 }
 
 class _ModifyProcessState extends State<ModifyProcess> {
-  GlobalKey<FormState> newSequenceKey_1 = GlobalKey<FormState>();
   GlobalKey<FormState> newSequenceKey_2 = GlobalKey<FormState>();
   GlobalKey<FormState> newSequenceKey_3 = GlobalKey<FormState>();
   String choosedHandbookname; //被选择手册文件的名称;
@@ -52,13 +54,9 @@ class _ModifyProcessState extends State<ModifyProcess> {
   String revision = '';
 
   void input() {
-    var inputForm_1 = newSequenceKey_1.currentState;
     var inputForm_2 = newSequenceKey_2.currentState;
     var inputForm_3 = newSequenceKey_3.currentState;
-    if (inputForm_1.validate() &&
-        inputForm_2.validate() &&
-        inputForm_3.validate()) {
-      inputForm_1.save();
+    if (inputForm_2.validate() && inputForm_3.validate()) {
       inputForm_2.save();
       inputForm_3.save();
       print(sequenceNumber +
@@ -79,7 +77,7 @@ class _ModifyProcessState extends State<ModifyProcess> {
       var data = json.decode(val.toString());
       ModifyProcessModel modifyProcessModel = ModifyProcessModel.fromJson(data);
       if (modifyProcessModel.isModifyStep.contains("true")) {
-        String modifyStep = sequenceNumber +
+        String modifyStep = processCode +
             '--' +
             sequenceStep +
             '--' +
@@ -172,41 +170,11 @@ class _ModifyProcessState extends State<ModifyProcess> {
                 alignment: Alignment.centerLeft,
                 margin: EdgeInsets.only(top: 20),
                 child: Text(
-                  '流程代码    ',
+                  '流程代码    $processCode',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: ScreenUtil().setSp(30),
                     fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              Form(
-                key: newSequenceKey_1,
-                child: Container(
-                  height: ScreenUtil().setHeight(120),
-                  width: ScreenUtil().setWidth(460),
-                  child: Padding(
-                    padding: EdgeInsets.all(5),
-                    child: TextFormField(
-                      autofocus: false,
-                      style: TextStyle(color: Colors.black54, fontSize: 18.0),
-                      decoration: InputDecoration(),
-                      obscureText: false,
-                      onSaved: (value) {
-                        sequenceNumber = value;
-                        print(sequenceNumber);
-                      },
-                      validator: (value) {
-                        if (value.length == 0) {
-                          return "此处不能为空";
-                        } else {
-                          return null;
-                        }
-                        /** continue...*/
-                      },
-                      onFieldSubmitted: (value) {},
-                      /** continue...*/
-                    ),
                   ),
                 ),
               ),

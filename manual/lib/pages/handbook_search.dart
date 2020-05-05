@@ -1,11 +1,30 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as prefix0;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:manual/model/handbookSearch_model.dart';
 import './Handbooksearch_pages/allprocess_view.dart';
 import 'package:manual/pages/handbook_view.dart';
 import 'package:manual/service/service_method.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import './Handbooksearch_pages/handbook_show.dart'; //引入显示搜索结果界面;
+
+/**
+ * 手册查询
+ */
+//查询特定手册文件的程序流程
+Future _getHandBookbykeyword(findtype, keyword) async {
+  try {
+    Dio dio = Dio();
+    Response response = await dio.get(
+        'http://47.93.54.102:5000/findHandbook/$findtype?keyWord=$keyword',
+        options: Options(responseType: ResponseType.plain));
+    print('关键字查询手册：' + response.data);
+    return response.data;
+  } catch (e) {}
+}
 
 class HandBookSearch extends StatefulWidget {
   @override
@@ -14,7 +33,9 @@ class HandBookSearch extends StatefulWidget {
 
 class _HandBookSearchState extends State<HandBookSearch> {
   GlobalKey<FormState> searchKey = GlobalKey<FormState>();
+  List procedurelist = [];
   int count = 0;
+  String searchtype = '';
   String searchByNum = '';
   String searchByName = '';
   String searchByFixingMark = '';
@@ -23,6 +44,16 @@ class _HandBookSearchState extends State<HandBookSearch> {
   String searchByJob = '';
   String searchByResponsable = '';
   String searchByKeyWord = '';
+
+  String findtype = ' '; //定义查找类型
+  String find_by_procedureNumber = '';
+  String find_by_procedureName = '';
+  String find_by_work_name = '';
+  String find_by_revision_mark = '';
+  String find_by_department = '';
+  String find_by_position = '';
+  String find_by_person = '';
+  String find_by_all = '';
   void search() {
     var searchForm = searchKey.currentState;
     if (searchForm.validate()) {
@@ -30,41 +61,49 @@ class _HandBookSearchState extends State<HandBookSearch> {
       count = 0;
       setState(() {
         if (searchByNum != '') {
+          searchtype = searchByNum;
+          findtype = find_by_procedureNumber;
           count++;
         }
         if (searchByName != '') {
+          searchtype = searchByName;
+          findtype = find_by_procedureName;
           count++;
         }
         if (searchByFixingMark != '') {
+          searchtype = searchByFixingMark;
+          findtype = find_by_revision_mark;
           count++;
         }
         if (searchByDepartment != '') {
+          searchtype = searchByDepartment;
+          findtype = find_by_department;
           count++;
         }
         if (searchByPosition != '') {
+          searchtype = searchByPosition;
+          findtype = find_by_position;
           count++;
         }
         if (searchByJob != '') {
+          searchtype = searchByJob;
+          findtype = find_by_work_name;
           count++;
         }
         if (searchByResponsable != '') {
+          searchtype = searchByResponsable;
+          findtype = find_by_person;
           count++;
         }
         if (searchByKeyWord != '') {
+          searchtype = searchByKeyWord;
+          findtype = find_by_all;
           count++;
         }
       });
       if (count == 1) {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => HandbookShowList(
-                searchByNum,
-                searchByName,
-                searchByFixingMark,
-                searchByDepartment,
-                searchByPosition,
-                searchByJob,
-                searchByResponsable,
-                searchByKeyWord)));
+        print(findtype + searchtype);
+        searchbykeyword_method(findtype, searchtype);
       } else {
         Fluttertoast.showToast(
           msg: "请输入单一查询条件",
@@ -73,6 +112,45 @@ class _HandBookSearchState extends State<HandBookSearch> {
         );
       }
     }
+  }
+
+  //关键字查询
+  Future searchbykeyword_method(findtype, searchbyKeyword) {
+    _getHandBookbykeyword(findtype, searchbyKeyword).then((val) {
+      var data = jsonDecode(val.toString());
+      HandbookSearchModel handbookSearchModel_temp =
+          HandbookSearchModel.fromJson(data);
+      // print(handbookSearchModel_temp.toJson());
+      setState(() {
+        procedurelist = handbookSearchModel_temp.procedureList;
+        print(procedurelist);
+      });
+
+      if (procedurelist.length == 0) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('没有记录！'),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    '确定',
+                    style: TextStyle(fontSize: ScreenUtil().setSp(28.0)),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => HandbookShowList(procedurelist)));
+      }
+    });
   }
 
   @override
@@ -218,6 +296,7 @@ class _HandBookSearchState extends State<HandBookSearch> {
                 obscureText: false,
                 onSaved: (value) {
                   searchByNum = value;
+                  find_by_procedureNumber = 'find_by_procedureNumber';
                 },
                 validator: (value) {
                   return null;
@@ -247,6 +326,7 @@ class _HandBookSearchState extends State<HandBookSearch> {
                 obscureText: false,
                 onSaved: (value) {
                   searchByName = value;
+                  find_by_procedureName = 'find_by_procedureName';
                 },
                 validator: (value) {
                   return null;
@@ -277,6 +357,7 @@ class _HandBookSearchState extends State<HandBookSearch> {
                 obscureText: false,
                 onSaved: (value) {
                   searchByFixingMark = value;
+                  find_by_revision_mark = 'find_by_revision_mark';
                 },
                 validator: (value) {
                   return null;
@@ -307,6 +388,7 @@ class _HandBookSearchState extends State<HandBookSearch> {
                 obscureText: false,
                 onSaved: (value) {
                   searchByDepartment = value;
+                  find_by_department = 'find_by_department';
                 },
                 validator: (value) {
                   return null;
@@ -348,6 +430,7 @@ class _HandBookSearchState extends State<HandBookSearch> {
                 obscureText: false,
                 onSaved: (value) {
                   searchByPosition = value;
+                  find_by_position = 'find_by_position';
                 },
                 validator: (value) {
                   return null;
@@ -378,6 +461,7 @@ class _HandBookSearchState extends State<HandBookSearch> {
                 obscureText: false,
                 onSaved: (value) {
                   searchByJob = value;
+                  find_by_work_name = 'find_by_work_name';
                 },
                 validator: (value) {
                   return null;
@@ -419,6 +503,7 @@ class _HandBookSearchState extends State<HandBookSearch> {
                 obscureText: false,
                 onSaved: (value) {
                   searchByResponsable = value;
+                  find_by_person = 'find_by_person';
                 },
                 validator: (value) {
                   return null;
@@ -460,6 +545,7 @@ class _HandBookSearchState extends State<HandBookSearch> {
                 obscureText: false,
                 onSaved: (value) {
                   searchByKeyWord = value;
+                  find_by_all = 'find_by_all';
                 },
                 validator: (value) {
                   return null;

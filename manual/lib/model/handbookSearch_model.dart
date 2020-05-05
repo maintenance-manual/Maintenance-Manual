@@ -1,3 +1,6 @@
+/**
+ * 手册查看模型
+ */
 class HandbookSearchModel {
   List<String> procedureList;
 

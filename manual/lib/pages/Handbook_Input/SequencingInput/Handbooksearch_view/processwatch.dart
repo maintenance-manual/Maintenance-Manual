@@ -23,6 +23,16 @@ Future _getprocess() async {
     return response.data;
   } catch (e) {}
 }
+//按照程序编号关键字查询手册
+Future _gethandbook(sequencyNumber) async {
+  try {
+    Dio dio = Dio();
+    Response response = await dio.get(
+        'http://47.93.54.102:5000/findHandbook/find_by_procedureNumber?keyWord=$sequencyNumber',
+        options: Options(responseType: ResponseType.plain));
+    return response.data;
+  } catch (e) {}
+}
 
 //引入删除程序流程步骤数据接口
 Future _deleteprocess(stepNumber) async {
@@ -235,7 +245,7 @@ class ProcessWatchExcel extends StatelessWidget {
             onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) =>
-                          ModifyProcess(handbookname, procedureNumber,steplist)));
+                          ModifyProcess(handbookname, procedureNumber,steplist,listItem[0])));
             },
             child: Text(
               '修改 ',

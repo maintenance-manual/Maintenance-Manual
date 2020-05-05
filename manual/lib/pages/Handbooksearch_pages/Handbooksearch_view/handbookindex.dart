@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:manual/pages/Handbooksearch_pages/Handbooksearch_view/filingwatch.dart';
-import 'package:manual/pages/Handbooksearch_pages/Handbooksearch_view/processwatch.dart';
-import 'bookbasic.dart';
+import 'package:manual/pages/Handbooksearch_pages/Handbooksearch_view/handsearch_.dart';
+import 'package:manual/pages/Handbooksearch_pages/Handbooksearch_view/handsearch_filingwatch.dart';
+import 'package:manual/pages/Handbooksearch_pages/Handbooksearch_view/handsearch_processwatch.dart';
 
 /**
  * 手册详细信息索引分段页面
@@ -28,8 +28,8 @@ class _HandBookSearchViewState extends State<HandBookSearchView> {
   final List tabBodies = [
     //数组选择需要进入的页面，按照0，1，2，3顺序
     BookBasicMessageView(), //手册基本信息页面
-    ProcessWatch(), //程序流程查看页面
-    FilingWatch(), //存档信息查看
+    HandSearchProcessWatch(handbookname,procedureNumber), //程序流程查看页面
+    HandSearhFilingWatch(), //存档信息查看
   ];
 
   @override

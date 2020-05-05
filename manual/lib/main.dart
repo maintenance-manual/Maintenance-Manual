@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:manual/provide/departmentname_config_provide.dart';
 import 'package:manual/provide/peopleConfigModelProvide.dart';
 import 'package:manual/provide/postConfigModelProvide.dart';
+import 'package:manual/provide/processModelProvide/recordmodelProvide.dart';
 import 'package:manual/provide/sequencingInputModelProvide.dart';
 import 'package:manual/provide/userconpentenceModelProvide.dart';
 import 'provide/departmentConfigurationModelProvide.dart';
@@ -27,6 +28,7 @@ void main(){
   var departmentConfigurationModelProvide = DepartmentConfigurationModelProvider();
   var peopleConnectionModelProvider =PeopleConnectionModelProvider();
   var processWatchModelProvide =ProcessWatchModelProvider();
+  var recordWatchModelProvide = RecordWatchModelProvider();
   var handbookSearchModelProvide = HandbookSearchModelProvider();
   providers
   ..provide(Provider<UserDetailsModelProvide>.value(userDetailsModelProvide))
@@ -39,6 +41,7 @@ void main(){
   ..provide(Provider<DepartmentConfigurationModelProvider>.value(departmentConfigurationModelProvide))
   ..provide(Provider<PeopleConnectionModelProvider>.value(peopleConnectionModelProvider))
   ..provide(Provider<ProcessWatchModelProvider>.value(processWatchModelProvide))
+  ..provide(Provider<RecordWatchModelProvider>.value(recordWatchModelProvide))
   ..provide(Provider<HandbookSearchModelProvider>.value(handbookSearchModelProvide))
   ..provide(Provider<UserConpentenceConfigModelProvide>.value(userConpentenceConfigModelProvide));
   runApp(ProviderNode(child:MyApp(),providers:providers));

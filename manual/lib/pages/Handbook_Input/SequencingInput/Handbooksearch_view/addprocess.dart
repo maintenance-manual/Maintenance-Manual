@@ -150,8 +150,10 @@ class _AddProcessStepState extends State<AddProcessStep> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('新增流程步骤')),
-        body: SingleChildScrollView(
+      appBar: AppBar(title: Text('新增流程步骤')),
+      body: Container(
+        margin: EdgeInsets.all(10.0),
+        child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
               _newSequenceTextField(),
@@ -182,7 +184,9 @@ class _AddProcessStepState extends State<AddProcessStep> {
               ),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget _newSequenceTextField() {

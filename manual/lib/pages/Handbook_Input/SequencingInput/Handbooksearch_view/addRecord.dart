@@ -10,17 +10,17 @@ import 'package:manual/provide/processModelProvide/processmodelProvide.dart';
 import 'package:provide/provide.dart';
 
 /**
- * 修改流程步骤
+ * 新增存档步骤
  */
 DepartmentViewModel departmentlist;
 Map<String, bool> isChecklist = {};
 
-//修改流程步骤数据接口
-Future _modifyProcessStep(stepNumber, step, department, revision) async {
+//新增流程步骤数据接口
+Future _addProcessStep(stepNumber, step, department, revision) async {
   try {
     Dio dio = Dio();
     Response response = await dio.get(
-        'http://47.93.54.102:5000/handbookInput/procedure/steps/modify?manualName=维修管理手册工作程序&procedureNumber=$procedureNumber&stepNumber=$processCode&step=$step&department=$department&revision=$revision',
+        'http://47.93.54.102:5000/handbookInput/procedure/steps/add?manualName=维修管理手册工作程序&procedureNumber=$procedureNumber&stepNumber=$stepNumber&step=$step&department=$department&revision=$revision',
         options: Options(responseType: ResponseType.plain));
     return response.data;
   } catch (e) {}
@@ -28,24 +28,20 @@ Future _modifyProcessStep(stepNumber, step, department, revision) async {
 
 String handbookname; //手册名称
 String procedureNumber; //程序编号
-String processCode; //流程代码
-String needModifiedStep;
 String department = '';
 
-class ModifyProcess extends StatefulWidget {
-  ModifyProcess(
-      handbook_name, procedure_Number, needModified_Step, process_Code) {
+class AddRecordStep extends StatefulWidget {
+  AddRecordStep(handbook_name, procedure_Number) {
     handbookname = handbook_name;
     procedureNumber = procedure_Number;
-    needModifiedStep = needModified_Step;
-    processCode = process_Code;
-    print(handbookname + '  ' + procedureNumber + '' + needModifiedStep);
+    print(handbookname + '  ' + procedureNumber);
   }
   @override
-  _ModifyProcessState createState() => _ModifyProcessState();
+  _AddRecordStepState createState() => _AddRecordStepState();
 }
 
-class _ModifyProcessState extends State<ModifyProcess> {
+class _AddRecordStepState extends State<AddRecordStep> {
+  GlobalKey<FormState> newSequenceKey_1 = GlobalKey<FormState>();
   GlobalKey<FormState> newSequenceKey_2 = GlobalKey<FormState>();
   GlobalKey<FormState> newSequenceKey_3 = GlobalKey<FormState>();
   String choosedHandbookname; //被选择手册文件的名称;
@@ -54,9 +50,13 @@ class _ModifyProcessState extends State<ModifyProcess> {
   String revision = '';
 
   void input() {
+    var inputForm_1 = newSequenceKey_1.currentState;
     var inputForm_2 = newSequenceKey_2.currentState;
     var inputForm_3 = newSequenceKey_3.currentState;
-    if (inputForm_2.validate() && inputForm_3.validate()) {
+    if (inputForm_1.validate() &&
+        inputForm_2.validate() &&
+        inputForm_3.validate()) {
+      inputForm_1.save();
       inputForm_2.save();
       inputForm_3.save();
       print(sequenceNumber +
@@ -66,18 +66,19 @@ class _ModifyProcessState extends State<ModifyProcess> {
           revision +
           ' ' +
           department);
-      modifyProcessStep();
+      addProcessStep();
     }
   }
 
-  void modifyProcessStep() {
+  bool f = true;
+  void addProcessStep() {
     //不是可选，结果为空
-    _modifyProcessStep(sequenceNumber, sequenceStep, department, revision)
+    _addProcessStep(sequenceNumber, sequenceStep, department, revision)
         .then((val) {
       var data = json.decode(val.toString());
-      ModifyProcessModel modifyProcessModel = ModifyProcessModel.fromJson(data);
-      if (modifyProcessModel.isModifyStep.contains("true")) {
-        String modifyStep = processCode +
+      AddProcessModel processWatchModel = AddProcessModel.fromJson(data);
+      if (processWatchModel.isAddstep.contains("true")) {
+        String steplistitem = sequenceNumber +
             '--' +
             sequenceStep +
             '--' +
@@ -85,12 +86,32 @@ class _ModifyProcessState extends State<ModifyProcess> {
             '--' +
             revision;
         Provide.value<ProcessWatchModelProvider>(context)
-            .modifyProcess(needModifiedStep, modifyStep);
+            .addProcess(steplistitem);
         showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: Text('修改成功'),
+              title: Text('添加成功'),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    '确定',
+                    style: TextStyle(fontSize: ScreenUtil().setSp(28.0)),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('该步骤已存在'),
               actions: <Widget>[
                 FlatButton(
                   onPressed: () {
@@ -115,6 +136,13 @@ class _ModifyProcessState extends State<ModifyProcess> {
     getDepartment().then((val) {
       var data = json.decode(val.toString());
       departmentlist = DepartmentViewModel.fromJson(data);
+      Provide.value<UserDepartmentModelProvide>(context)
+          .getdepartmentname(departmentlist);
+      // isChecklist = {};
+      // List.generate(departmentlist.departmentList.length, (index) {
+      //   isChecklist.putIfAbsent(
+      //       departmentlist.departmentList[index].toString(), () => false);
+      // });
     });
     super.initState();
   }
@@ -122,7 +150,7 @@ class _ModifyProcessState extends State<ModifyProcess> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('修改流程步骤')),
+      appBar: AppBar(title: Text('新增流程步骤')),
       body: Container(
         margin: EdgeInsets.all(10.0),
         child: SingleChildScrollView(
@@ -151,7 +179,7 @@ class _ModifyProcessState extends State<ModifyProcess> {
                   color: Colors.black26,
                   width: ScreenUtil().setWidth(750),
                   height: ScreenUtil().setHeight(120),
-                  child: Text('修改'),
+                  child: Text('新建'),
                 ),
               ),
             ],
@@ -174,11 +202,41 @@ class _ModifyProcessState extends State<ModifyProcess> {
                 alignment: Alignment.centerLeft,
                 margin: EdgeInsets.only(top: 20),
                 child: Text(
-                  '流程代码    $processCode',
+                  '流程代码    ',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: ScreenUtil().setSp(30),
                     fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              Form(
+                key: newSequenceKey_1,
+                child: Container(
+                  height: ScreenUtil().setHeight(120),
+                  width: ScreenUtil().setWidth(460),
+                  child: Padding(
+                    padding: EdgeInsets.all(5),
+                    child: TextFormField(
+                      autofocus: false,
+                      style: TextStyle(color: Colors.black54, fontSize: 18.0),
+                      decoration: InputDecoration(),
+                      obscureText: false,
+                      onSaved: (value) {
+                        sequenceNumber = value;
+                        print(sequenceNumber);
+                      },
+                      validator: (value) {
+                        if (value.length == 0) {
+                          return "此处不能为空";
+                        } else {
+                          return null;
+                        }
+                        /** continue...*/
+                      },
+                      onFieldSubmitted: (value) {},
+                      /** continue...*/
+                    ),
                   ),
                 ),
               ),

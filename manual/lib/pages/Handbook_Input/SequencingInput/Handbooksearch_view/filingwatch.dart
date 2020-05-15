@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:manual/model/processInputModel/addfiling_model.dart';
 import 'package:manual/pages/Handbook_Input/SequencingInput/Handbooksearch_view/addRecord.dart';
+import 'package:manual/pages/Handbook_Input/SequencingInput/Handbooksearch_view/modifyrecord.dart';
 import 'package:manual/provide/processModelProvide/recordmodelProvide.dart';
 import 'package:provide/provide.dart';
 
@@ -17,7 +18,7 @@ Future _getrecord() async {
   try {
     Dio dio = Dio();
     Response response = await dio.get(
-        'http://47.93.54.102:5000/handbookInput/procedure/record?manualName=维修管理手册工作程序&procedureNumber=02-11-002',
+        'http://47.93.54.102:5000/handbookInput/procedure/record?manualName=维修管理手册工作程序&procedureNumber=$procedureNumber',
         options: Options(responseType: ResponseType.plain));
     return response.data;
   } catch (e) {}
@@ -42,14 +43,14 @@ class FilingWatch extends StatefulWidget {
 }
 
 class _FilingWatchState extends State<FilingWatch> {
-
   @override
-  void initState() { 
+  void initState() {
     super.initState();
-    _getrecord().then((val){
+    _getrecord().then((val) {
       var data = json.decode(val.toString());
       FilingWatchModel recordWatchModel = FilingWatchModel.fromJson(data);
-      Provide.value<RecordWatchModelProvider>(context).getrecordList(recordWatchModel);
+      Provide.value<RecordWatchModelProvider>(context)
+          .getrecordList(recordWatchModel);
     });
   }
 
@@ -128,7 +129,6 @@ class _FilingWatchState extends State<FilingWatch> {
 }
 
 class RecordWatchExcel extends StatelessWidget {
-
   void deleteRecord(context, recordNumber) {
     _deleterecord(recordNumber).then((val) {
       var data = json.decode(val.toString());
@@ -172,12 +172,14 @@ class RecordWatchExcel extends StatelessWidget {
       height: ScreenUtil().setHeight(990),
       width: ScreenUtil().setWidth(750),
       child: Provide<RecordWatchModelProvider>(
-        builder: (context, child, recordWatchModelProvider){
+        builder: (context, child, recordWatchModelProvider) {
           return ListView.builder(
-            itemCount: recordWatchModelProvider.filingWatchModel.reocrdList.length,
+            itemCount:
+                recordWatchModelProvider.filingWatchModel.reocrdList.length,
             itemBuilder: (BuildContext context, int index) {
-            return _listTitleWidget(context, recordWatchModelProvider.filingWatchModel.reocrdList[index]);
-           },
+              return _listTitleWidget(context,
+                  recordWatchModelProvider.filingWatchModel.reocrdList[index]);
+            },
           );
         },
       ),
@@ -186,6 +188,7 @@ class RecordWatchExcel extends StatelessWidget {
 
   Widget _listTitleWidget(context, recordList) {
     List<String> listItem = recordList.toString().split('--');
+    print(listItem);
     return Container(
       height: ScreenUtil().setHeight(90),
       child: Row(
@@ -219,7 +222,8 @@ class RecordWatchExcel extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => ModifyRecordStep(handbookname, procedureNumber, recordList, listItem[1])));
             },
             child: Text(
               '修改 ',

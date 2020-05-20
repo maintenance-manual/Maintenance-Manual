@@ -123,7 +123,7 @@ class _HandBookSearchState extends State<HandBookSearch> {
       // print(handbookSearchModel_temp.toJson());
       setState(() {
         procedurelist = handbookSearchModel_temp.procedureList;
-        print(procedurelist);
+        print(handbookSearchModel_temp.toJson());
       });
 
       if (procedurelist.length == 0) {

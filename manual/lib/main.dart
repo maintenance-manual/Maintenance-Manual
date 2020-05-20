@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:manual/pages/Department_Configure/wrokflow_connect/wrokflowconnectsearch.dart';
 import 'package:manual/provide/departmentname_config_provide.dart';
 import 'package:manual/provide/peopleConfigModelProvide.dart';
 import 'package:manual/provide/postConfigModelProvide.dart';
 import 'package:manual/provide/processModelProvide/recordmodelProvide.dart';
 import 'package:manual/provide/sequencingInputModelProvide.dart';
 import 'package:manual/provide/userconpentenceModelProvide.dart';
+import 'package:manual/provide/workflowModelProvide/workflowModelProvide.dart';
 import 'provide/departmentConfigurationModelProvide.dart';
 import 'provide/handbookInputProvide.dart';
 import 'provide/handbooksearchProvide.dart';
@@ -30,6 +32,7 @@ void main(){
   var processWatchModelProvide =ProcessWatchModelProvider();
   var recordWatchModelProvide = RecordWatchModelProvider();
   var handbookSearchModelProvide = HandbookSearchModelProvider();
+  var wrokflowModelProvide = WorkFlowModelProvide();
   providers
   ..provide(Provider<UserDetailsModelProvide>.value(userDetailsModelProvide))
   ..provide(Provider<UserDepartmentModelProvide>.value(userDepartmentModelProvide))
@@ -43,6 +46,7 @@ void main(){
   ..provide(Provider<ProcessWatchModelProvider>.value(processWatchModelProvide))
   ..provide(Provider<RecordWatchModelProvider>.value(recordWatchModelProvide))
   ..provide(Provider<HandbookSearchModelProvider>.value(handbookSearchModelProvide))
+  ..provide(Provider<WorkFlowModelProvide>.value(wrokflowModelProvide))
   ..provide(Provider<UserConpentenceConfigModelProvide>.value(userConpentenceConfigModelProvide));
   runApp(ProviderNode(child:MyApp(),providers:providers));
 }

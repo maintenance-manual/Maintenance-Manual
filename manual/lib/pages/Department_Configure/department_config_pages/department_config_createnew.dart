@@ -305,15 +305,3 @@ class _WorkDepartmentselectState extends State<WorkDepartmentselect> {
   }
 }
 
-// class WorkName_Change2 extends StatefulWidget {
-//   WorkName_Change2({Key key}) : super(key: key);
-
-//   _WorkName_Change2State createState() => _WorkName_Change2State();
-// }
-
-// class _WorkName_Change2State extends State<WorkName_Change2> {
-
-//   @override
-//   Widget build(BuildContext context) {
-
-// }

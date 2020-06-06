@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'Handbooksearch_view/handbookindex.dart';
 
 class AllProcessView extends StatelessWidget {
+  String procedureNum = "02-11-00";//暂定
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +23,7 @@ class AllProcessView extends StatelessWidget {
         return ListTile(
           onTap: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => HandBookSearchView()));
+                MaterialPageRoute(builder: (context) => HandBookSearchView(procedureNum)));
           },
           title: Text(
             '程序编号： ',

@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/screenutil.dart';
  * 存档信息查看
  */
 class HandSearhFilingWatch extends StatefulWidget {
-  HandSearhFilingWatch({Key key}) : super(key: key);
 
   _HandSearhFilingWatchState createState() => _HandSearhFilingWatchState();
 }
@@ -53,8 +52,8 @@ class _HandSearhFilingWatchState extends State<HandSearhFilingWatch> {
       return TableRow(
         children: <Widget>[
           Text('修订\n标识',textAlign: TextAlign.center,style:TextStyle(fontWeight:  FontWeight.w600)),
-          Text('步骤\n编号',textAlign: TextAlign.center,style:TextStyle(fontWeight:  FontWeight.w600)),
-          Text('程序流程',textAlign: TextAlign.center,style:TextStyle(fontWeight:  FontWeight.w600)),
+          Text('存档\n编号',textAlign: TextAlign.center,style:TextStyle(fontWeight:  FontWeight.w600)),
+          Text('存档内容',textAlign: TextAlign.center,style:TextStyle(fontWeight:  FontWeight.w600)),
           Text('责任\n部门',textAlign: TextAlign.center,style:TextStyle(fontWeight:  FontWeight.w600)),
           Text('工作\n名称',textAlign: TextAlign.center,style:TextStyle(fontWeight:  FontWeight.w600)),
           Text('岗位\n名称',textAlign: TextAlign.center,style:TextStyle(fontWeight:  FontWeight.w600)),

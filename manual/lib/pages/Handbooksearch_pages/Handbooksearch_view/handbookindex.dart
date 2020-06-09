@@ -33,7 +33,7 @@ class _HandBookSearchViewState extends State<HandBookSearchView> {
     //数组选择需要进入的页面，按照0，1，2，3顺序
     BookBasicMessageView(procedurenum), //手册基本信息页面
     HandSearchProcessWatch("维修管理手册工作程序",procedurenum), //程序流程查看页面
-    HandSearhFilingWatch(), //存档信息查看
+    HandSearhFilingWatch("维修管理手册工作程序",procedurenum), //存档信息查看
   ];
 
   @override

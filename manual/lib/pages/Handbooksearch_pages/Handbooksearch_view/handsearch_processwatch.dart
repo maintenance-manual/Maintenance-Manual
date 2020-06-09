@@ -91,7 +91,7 @@ class _HandSearchProcessWatchState extends State<HandSearchProcessWatch> {
             columnWidths: const <int, TableColumnWidth>{
               0: FixedColumnWidth(20.0),
               1: FixedColumnWidth(35.0),
-              2: FixedColumnWidth(160.0),
+              2: FixedColumnWidth(120.0),
               3: FixedColumnWidth(40.0),
               4: FixedColumnWidth(25.0),
               5: FixedColumnWidth(40.0),

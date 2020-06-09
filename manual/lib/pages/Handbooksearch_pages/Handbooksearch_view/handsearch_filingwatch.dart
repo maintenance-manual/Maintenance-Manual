@@ -1,15 +1,82 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:manual/model/recordLisst_model.dart';
 
 /**
  * 存档信息查看
  */
+
+String handbookname; //手册名称
+String procedureNumber; //程序编号
+int count = 0;
+List<String> revision = [];
+List<String> stepNumber = [];
+List<String> record = [];
+List<String> department = [];
+List<String> work = [];
+List<String> position = [];
+List<String> regulation = [];
+List<String> people = [];
+
+Future getRecord(handbookName, procedureNum) async {
+  try {
+    Dio dio = Dio();
+    Response response = await dio.get(
+      "http://47.93.54.102:5000/findHandbook/procedureDetails/6.document?manualName=$handbookName&procedureNumber=$procedureNum",
+      options: Options(responseType: ResponseType.plain),
+    );
+    return response.data;
+  } catch (e) {}
+}
+
 class HandSearhFilingWatch extends StatefulWidget {
+  HandSearhFilingWatch(handbook_name, procedure_Number){
+    handbookname = handbook_name;
+    procedureNumber = procedure_Number;
+  }
 
   _HandSearhFilingWatchState createState() => _HandSearhFilingWatchState();
 }
 
 class _HandSearhFilingWatchState extends State<HandSearhFilingWatch> {
+
+  getInfo(){
+    getRecord(handbookname, procedureNumber).then((value){
+      var data = json.decode(value.toString());
+      RecordListModel recordListModel = RecordListModel.fromJson(data);
+      count = recordListModel.documentList.length;
+      for (var i = 0; i < count; i++) {
+        List<String> tmp = recordListModel.documentList[i].split("--");
+        revision.add(tmp[0]);
+        stepNumber.add(tmp[1]);
+        record.add(tmp[2]);
+        department.add(tmp[3]);
+        work.add(tmp[4]);
+        position.add(tmp[5]);
+        regulation.add(tmp[6]);
+        people.add(tmp[7]);
+      }
+    });
+  }
+
+  @override
+  void initState() { 
+    super.initState();
+    count = 0;
+    revision = [];
+    stepNumber = [];
+    record = [];
+    department = [];
+    work = [];
+    position = [];
+    regulation = [];
+    people = [];
+    getInfo();
+  }
+
   Widget build(BuildContext context) {
    return Scaffold(
       appBar: AppBar(title: Text('存档信息查看')),
@@ -20,7 +87,7 @@ class _HandSearhFilingWatchState extends State<HandSearhFilingWatch> {
               columnWidths: const <int, TableColumnWidth>{
                 0: FixedColumnWidth(20.0),
                 1: FixedColumnWidth(35.0),
-                2: FixedColumnWidth(160.0),
+                2: FixedColumnWidth(120.0),
                 3: FixedColumnWidth(40.0),
                 4: FixedColumnWidth(25.0),
                 5: FixedColumnWidth(40.0),
@@ -29,26 +96,14 @@ class _HandSearhFilingWatchState extends State<HandSearhFilingWatch> {
               },
               border: TableBorder.all(width: 1.0, style: BorderStyle.solid),
               defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-              children: tablerows,
-              // TableRow(
-              //   children: <Widget>[
-              //     Text('航空安全质量分部'),
-              //     Text('01-01-001   质量手册的管理程序'),
-              //     Text('00'),
-              //     Text('5.1.1   按照CCAR145及相关AC和分公司维修管理要求完成本单位《维修管理手册》的编写或修订'),
-              //     Text('手册管理'),
-              //     Text('01-01-001-QS手册上传工作规范 下载'),
-              //     Text('修改 | 查看 | 删除'),
-              //   ],
-              // ),
+              children: tablerow+tablerows,
               ),
         ],
       )),
     );
   }
 
-  List<TableRow> tablerows = List.generate(20, (index) {
-    if (index == 0) {
+  List<TableRow> tablerow = List.generate(1, (index) {
       return TableRow(
         children: <Widget>[
           Text('修订\n标识',textAlign: TextAlign.center,style:TextStyle(fontWeight:  FontWeight.w600)),
@@ -61,19 +116,19 @@ class _HandSearhFilingWatchState extends State<HandSearhFilingWatch> {
           Text('人员\n姓名',textAlign: TextAlign.center,style:TextStyle(fontWeight:  FontWeight.w600)),
         ],
       );
-    } else {
+  });
+  List<TableRow> tablerows = List.generate(count, (index) {
       return TableRow(
         children: <Widget>[
-          Text('00',textAlign: TextAlign.start),
-          Text('5.1.1',textAlign: TextAlign.start),
-          Text('《手册/程序意见反馈单》由航空安全质量分部负责至少保存2年。',textAlign: TextAlign.center),
-          Text('航空安全质量分部',textAlign: TextAlign.center),
-          Text('手册管理',textAlign: TextAlign.center),
-          Text('安全管理高级工程师,质量监督工程师',textAlign: TextAlign.start),
-          Text('01-01-001-QS手册上传工作规范下载',textAlign: TextAlign.start),
-          Text('武丽敏,张海凤',textAlign: TextAlign.center),
+          Text(revision[index],textAlign: TextAlign.start),
+          Text(stepNumber[index],textAlign: TextAlign.start),
+          Text(record[index],textAlign: TextAlign.center),
+          Text(department[index],textAlign: TextAlign.center),
+          Text(work[index],textAlign: TextAlign.center),
+          Text(position[index],textAlign: TextAlign.start),
+          Text(regulation[index],textAlign: TextAlign.start),
+          Text(people[index],textAlign: TextAlign.center),
         ],
       );
-    }
   });
 }

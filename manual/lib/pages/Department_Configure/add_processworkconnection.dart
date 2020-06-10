@@ -17,9 +17,21 @@ Future _addwrokflow(String addprocess, String addprocessNumber, String workname,
   try {
     Dio dio = Dio();
     Response response = await dio.get(
-        'http://47.93.54.102:5000/departmentConfigurations/process_work/add?username=$userName&&manualName=维修管理手册工作程序&&procedureNumber=02-11-002&&processNumber=$addprocessNumber&&regulation=$regulation',
+        'http://47.93.54.102:5000/departmentConfigurations/process_work/add?username=$userName&&manualName=维修管理手册工作程序&&procedureNumber=02-11-002&&processNumber=$addprocessNumber&&work=$addprocess&&regulation=$regulation',
         options: Options(responseType: ResponseType.plain));
     print('流程工作对接修改数据：' + response.data);
+    return response.data;
+  } catch (e) {}
+}
+
+//查看流程工作对接编号接口
+Future _searchwrokflownumber() async {
+  try {
+    Dio dio = Dio();
+    Response response = await dio.get(
+        'http://47.93.54.102:5000/handbookInput/procedure/steps?manualName=维修管理手册工作程序&procedureNumber=02-11-002',
+        options: Options(responseType: ResponseType.plain));
+    print('流程工作对接流程编号查看数据：' + response.data);
     return response.data;
   } catch (e) {}
 }
@@ -37,6 +49,7 @@ Future _addwrokflowfile(file) async {
 }
 
 WrokFlowModel allwrokflowmodel; //初始化查到所有流程工作模型；
+WatchWrokFlowNumberModel watchWrokFlowNumberModel; //用来查看新建里流程编号的数据模型；
 
 class AddNewProcessConnect extends StatefulWidget {
   AddNewProcessConnect(allwrokflowmodel1) {
@@ -186,6 +199,21 @@ class _AddNewProcessConnectState extends State<AddNewProcessConnect> {
     setState(() {
       _fileName = _path.split('/').last;
     });
+  }
+
+  void getallwrokflownumber() {
+    _searchwrokflownumber().then((val) {
+      var data = jsonDecode(val.toString());
+      watchWrokFlowNumberModel = WatchWrokFlowNumberModel.fromJson(data);
+      print(watchWrokFlowNumberModel.toJson());
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getallwrokflownumber();
   }
 
   @override
@@ -394,7 +422,7 @@ class _AddNewProcessConnectState extends State<AddNewProcessConnect> {
     List listprocessdata = ["请选择"]; //下拉菜单里内容通用数据类型；
     for (var i = 0; i < allwrokflowmodel.workList.length; i++) {
       listprocessdata
-          .add(allwrokflowmodel.workList[i].split('--')[3]); //暂且当做流程编号
+          .add(watchWrokFlowNumberModel.stepList[i].split('--')[0]); //暂且当做流程编号
       // allwrokflowmodel.workList[i].split('--')[5]; //工作名称
     }
     return Container(
@@ -420,7 +448,6 @@ class _AddNewProcessConnectState extends State<AddNewProcessConnect> {
     for (var i = 0; i < allwrokflowmodel.workList.length; i++) {
       listprocessdata.add(allwrokflowmodel.workList[i].split('--')[5]); //工作名称
     }
-    print(listprocessdata);
     return Container(
       width: ScreenUtil().setWidth(500),
       alignment: Alignment.centerLeft,
@@ -432,7 +459,6 @@ class _AddNewProcessConnectState extends State<AddNewProcessConnect> {
           onChanged: (value) => setState(() {
             _pickingChoice2 = value;
             addprocess = listprocessdata[_pickingChoice2];
-            ;
           }),
         ),
       ),

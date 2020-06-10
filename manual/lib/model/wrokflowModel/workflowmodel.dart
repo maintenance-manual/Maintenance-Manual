@@ -95,3 +95,20 @@ class DeleteWrokFlowModel {
     return data;
   }
 }
+
+//查看流程工作对接流程编号
+class WatchWrokFlowNumberModel {
+  List<String> stepList;
+
+  WatchWrokFlowNumberModel({this.stepList});
+
+  WatchWrokFlowNumberModel.fromJson(Map<String, dynamic> json) {
+    stepList = json['step_list'].cast<String>();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['step_list'] = this.stepList;
+    return data;
+  }
+}

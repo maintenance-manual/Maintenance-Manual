@@ -28,7 +28,7 @@ Future _deletewrokflow(String maunalname, String deleteprocedureNumber,
 
 String deleteprocedureNumber =
     '02-11-002'; //删除参数之后有后端返回的procedureNumber和processNumber决定，目前后端尚未返回，等待数据修改;
-String deleteprocessNumber = '04';
+String deleteprocessNumber ='';
 String deletewrokflow = ''; //传递整条被删除目录;
 
 String department; //所属部门
@@ -60,7 +60,7 @@ class _WrokFlowDeleteState extends State<WrokFlowDelete> {
   GlobalKey<FormState> searchKey = GlobalKey<FormState>();
 
   //添加删除逻辑
-  void deleteWrokFlow(String maunalname, String deletewrokflow) {
+  void deleteWrokFlow(String maunalname, String deletewrokflow,String deleteprocessNumber) {
     _deletewrokflow(maunalname, deleteprocedureNumber, deleteprocessNumber)
         .then((val) {
       var data = jsonDecode(val.toString());
@@ -116,6 +116,7 @@ class _WrokFlowDeleteState extends State<WrokFlowDelete> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(title: Text('删除流程工作')),
       body: SingleChildScrollView(
@@ -168,7 +169,11 @@ class _WrokFlowDeleteState extends State<WrokFlowDelete> {
             ),
             RaisedButton(
                 onPressed: () {
-                  deleteWrokFlow(maunalname, deletewrokflow);
+                  Pattern pattern = new RegExp("[\\u4e00-\\u9fa5]");
+                  var processnumber = sequenceprocess.split(pattern)[0];
+                  
+                   print('>>>>>>>>>>>'+processnumber);
+                  deleteWrokFlow(maunalname, deletewrokflow,processnumber);
                 },
                 child: Text('删除')),
           ],

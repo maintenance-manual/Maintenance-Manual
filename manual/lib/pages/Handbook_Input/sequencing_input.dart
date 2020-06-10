@@ -17,7 +17,7 @@ String fileName = '3';
 String url_1 = 'http://47.93.54.102:5000/handbookInput/procedure'; //引入手册查看程序URL
 String url_2 =
     'http://47.93.54.102:5000/handbookInput/procedure/find?keyWord'; //引入查看程序接口
-//引入查看程序后太接口
+//引入查看程序后台接口
 Future getsequencingInputlist() async {
   try {
     Dio dio = Dio();
@@ -108,8 +108,8 @@ class _SequencingInputState extends State<SequencingInput> {
       setState(() {
         list = sequencinginputlist;
       });
-      // Provide.value<SequencingInputModelProvide>(context)
-      //     .getSequencingInputList(sequencinginputlist);
+      Provide.value<SequencingInputModelProvide>(context)
+          .getSequencingInputList(sequencinginputlist);
     });
     print('引入查询到的程序内容' + list.procedureList.length.toString());
     super.initState();
@@ -288,7 +288,7 @@ class SequencingInputShow extends StatelessWidget {
             padding: EdgeInsets.all(1.0),
             child: Container(
               child: ListView.builder(
-                itemCount: 1,
+                itemCount: list.procedureList.length,
                 itemBuilder: (context, index) {
                   print(list.procedureList[index]);
                   return SequencingInputItem(

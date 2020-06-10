@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:manual/login_page.dart';
 import 'package:manual/model/wrokflowModel/workflowmodel.dart';
 import 'package:manual/pages/Handbook_Input/HandBookInput_Details/add_workbook.dart';
 import 'package:manual/provide/workflowModelProvide/workflowModelProvide.dart';
@@ -18,7 +19,7 @@ Future _modifywrokflow(String modifyregulation) async {
   try {
     Dio dio = Dio();
     Response response = await dio.get(
-        'http://47.93.54.102:5000/departmentConfigurations/process_work/modify?username=王哲&&manualName=$maunalname&&procedureNumber=02-11-002&&processNumber=04&&regulation=$modifyregulation',
+        'http://47.93.54.102:5000/departmentConfigurations/process_work/modify?username=$userName&&manualName=$maunalname&&procedureNumber=02-11-002&&processNumber=04&&regulation=$modifyregulation',
         options: Options(responseType: ResponseType.plain));
     print('流程工作对接查看数据：' + response.data);
     return response.data;

@@ -1,21 +1,26 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:manual/model/sequencingInputModel.dart';
 import 'package:manual/pages/Handbook_Input/sequencing_input.dart';
 import 'package:manual/provide/handbookInputProvide.dart';
+import 'package:manual/provide/sequencingInputModelProvide.dart';
 import 'package:provide/provide.dart';
 import '../handbook_input.dart';
 
-
-String url_2 = "http://47.93.54.102:5000/handbookInput/procedure/add1";//post方法上传文件
+String url_2 =
+    "http://47.93.54.102:5000/handbookInput/procedure/add1"; //post方法上传文件
 //引入新增程序各项值接口---get方法
-Future addSequencyingmessage(String choosedHandbookname,String procedureNumber,String produreName,String chapter) async {
+Future _addSequencyingmessage(String choosedHandbookname,
+    String procedureNumber, String produreName, String chapter) async {
   try {
     Dio dio = Dio();
     Response response = await dio.get(
-        "http://47.93.54.102:5000/handbookInput/procedure/add?manualName=$choosedHandbookname&procedureNumber=$procedureNumber&procedureName=$produreName&chapter=$chapter",
+        "http://47.93.54.102:5000/handbookInput/procedure/add?manualName=$choosedHandbookname&procedureNumber=$procedureNumber&procedureName=$produreName&chapter=第2章%20航线维修",
         options: Options(
           responseType: ResponseType.plain,
         ));
@@ -50,11 +55,12 @@ class _AddNewSequenceState extends State<AddNewSequence> {
   String choosedHandbookname; //被选择手册文件的名称;
   String sequenceNumber = '';
   String sequenceName = '';
-  String purpose = '';
-  String sphere = '';
-  String terminology = '';
-  String dependency = '';
-  String version = '';
+  String chapter ='第2章%20航线维修';
+  String purpose = '无';
+  String sphere = '无';
+  String terminology = '无';
+  String dependency = '无';
+  String version = '无';
   FileType _pickingType = FileType.any;
   String _fileName1;
   String _fileName2;
@@ -64,7 +70,8 @@ class _AddNewSequenceState extends State<AddNewSequence> {
     var createNewForm = newSequenceKey.currentState;
     if (createNewForm.validate()) {
       createNewForm.save();
-      print(choosedHandbookname+sequenceNumber +
+      print(choosedHandbookname +
+          sequenceNumber +
           '  ' +
           sequenceName +
           '  ' +
@@ -77,7 +84,95 @@ class _AddNewSequenceState extends State<AddNewSequence> {
           dependency +
           '      ' +
           version);
+          addsequencemethod(choosedHandbookname,sequenceNumber,sequenceName,chapter);
     }
+  }
+
+  void addsequencemethod(String choosedHandbookname, String procedureNumber,
+      String produreName, String chapter) {
+    _addSequencyingmessage(
+            choosedHandbookname, procedureNumber, produreName, chapter)
+        .then((val) {
+      var data = jsonDecode(val.toString());
+      AddProcedureModel addProcedureModel = AddProcedureModel.fromJson(data);
+      // print("数据模型" + deleteWrokFlowModel.toJson().toString());
+      if (addProcedureModel.isAddProcedure.contains("true")) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('添加成功'),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    String addsequencingInputname = procedureNumber +
+                        '--' +
+                        produreName +
+                        '--' +
+                        chapter +
+                        '--' +
+                        choosedHandbookname +
+                        '--' +
+                        purpose +
+                        '--' +
+                        sphere +
+                        '--' +
+                        terminology +
+                        '--' +
+                        dependency +
+                        '--' +
+                        version +
+                        '该文件上未上传' +
+                        '--' +
+                        '该文件上未上传' +
+                        '--' +
+                        choosedHandbookname +
+                        '--' +
+                        chapter +
+                        '--' +
+                        produreName +
+                        '.pdf' +
+                        '--' +
+                        '无' +
+                        '时间1' +
+                        '--' +
+                        '时间二';
+                    print('添加进程序目录的内容' + addsequencingInputname);
+                    Provide.value<SequencingInputModelProvide>(context)
+                        .addSequencingInputfilename(addsequencingInputname);
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    '确定',
+                    style: TextStyle(fontSize: ScreenUtil().setSp(28.0)),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('删除失败'),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    '确定',
+                    style: TextStyle(fontSize: ScreenUtil().setSp(28.0)),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    });
   }
 
   void _openFile1() async {

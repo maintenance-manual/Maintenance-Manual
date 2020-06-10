@@ -7,8 +7,12 @@ import 'package:manual/pages/Handbooksearch_pages/Handbooksearch_view/handsearch
 /**
  * 手册详细信息索引分段页面
  */
+String procedurenum = "";
+
 class HandBookSearchView extends StatefulWidget {
-  HandBookSearchView({Key key}) : super(key: key);
+  HandBookSearchView(procedureNum){
+    procedurenum = procedureNum;
+  }
 
   @override
   _HandBookSearchViewState createState() => _HandBookSearchViewState();
@@ -27,9 +31,9 @@ class _HandBookSearchViewState extends State<HandBookSearchView> {
 
   final List tabBodies = [
     //数组选择需要进入的页面，按照0，1，2，3顺序
-    BookBasicMessageView(), //手册基本信息页面
-    HandSearchProcessWatch(handbookname,procedureNumber), //程序流程查看页面
-    HandSearhFilingWatch(), //存档信息查看
+    BookBasicMessageView(procedurenum), //手册基本信息页面
+    HandSearchProcessWatch("维修管理手册工作程序",procedurenum), //程序流程查看页面
+    HandSearhFilingWatch("维修管理手册工作程序",procedurenum), //存档信息查看
   ];
 
   @override

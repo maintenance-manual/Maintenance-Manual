@@ -20,7 +20,6 @@ class HandbookShowList extends StatefulWidget {
 class _HandbookShowListState extends State<HandbookShowList> {
   @override
   Widget build(BuildContext context) {
-
     return Container(
       child: Scaffold(
         appBar: AppBar(
@@ -120,12 +119,15 @@ class _HandbookShowListState extends State<HandbookShowList> {
 
   Widget _handbookviewshowcardItem(index) {
     String string = searchKeyWordList[index];
-    int pointIndex1 = string.indexOf("--");
-    String pointString1 = string.substring(pointIndex1 + 2);
-
+    List<String> tmp = string.split("--");
+    // int pointIndex1 = string.indexOf("--");
+    // String pointString1 = string.substring(pointIndex1 + 2);
+    String procedureNum = tmp[1];
+        // string.substring(string.indexOf("_") + 1, string.indexOf("_") + 10);
     return ListTile(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>HandBookSearchView()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => HandBookSearchView(procedureNum)));
       },
       title: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -135,8 +137,7 @@ class _HandbookShowListState extends State<HandbookShowList> {
             height: ScreenUtil().setHeight(80),
             padding: EdgeInsets.all(3.0),
             child: Text(
-                string.substring(
-                    string.indexOf("_") + 1, string.indexOf("_") + 9),
+                tmp[1],
                 style: TextStyle(color: Colors.blueAccent)), //状态管理显示;
           ),
           Container(
@@ -144,7 +145,7 @@ class _HandbookShowListState extends State<HandbookShowList> {
             height: ScreenUtil().setHeight(80),
             padding: EdgeInsets.all(3.0),
             child: Text(
-              string.substring(string.indexOf("_") + 10, string.indexOf(".")),
+              tmp[2],
               style: TextStyle(color: Colors.blueAccent),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -156,8 +157,7 @@ class _HandbookShowListState extends State<HandbookShowList> {
             height: ScreenUtil().setHeight(80),
             padding: EdgeInsets.all(3.0),
             child: Text(
-                pointString1.substring(pointString1.indexOf("--") + 2,
-                    pointString1.indexOf("--") + 4),
+                tmp[3],
                 style: TextStyle(color: Colors.blueAccent)), //状态管理显示;
           ),
         ],

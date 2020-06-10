@@ -182,7 +182,7 @@ class _HandBookSearchState extends State<HandBookSearch> {
                 child: Row(
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(left: 75, top: 20),
+                      margin: EdgeInsets.only(left: 60, top: 20),
                       alignment: Alignment.center,
                       child: FlatButton(
                         color: Colors.blueGrey,
@@ -220,44 +220,18 @@ class _HandBookSearchState extends State<HandBookSearch> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 15),
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(left: 30),
-                          alignment: Alignment.center,
-                          child: FlatButton(
-                            color: Colors.blueGrey,
-                            highlightColor: Colors.blueAccent[400],
-                            colorBrightness: Brightness.dark,
-                            splashColor: Colors.grey,
-                            child: Text("查看所有程序的流程步骤"),
-                            onPressed: (/** continue...*/) {
-                              /** continue...*/
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => AllProcessView()));
-                            },
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 20),
-                          alignment: Alignment.center,
-                          child: FlatButton(
-                            color: Colors.blueGrey,
-                            highlightColor: Colors.blueAccent[400],
-                            colorBrightness: Brightness.dark,
-                            splashColor: Colors.grey,
-                            child: Text("导出EXCEL"),
-                            onPressed: (/** continue...*/) {
-                              /** continue...*/
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                alignment: Alignment.center,
+                child: FlatButton(
+                  color: Colors.blueGrey,
+                  highlightColor: Colors.blueAccent[400],
+                  colorBrightness: Brightness.dark,
+                  splashColor: Colors.grey,
+                  child: Text("  查看所有程序的流程步骤  "),
+                  onPressed: (/** continue...*/) {
+                    /** continue...*/
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => AllProcessView()));
+                  },
                 ),
               ),
             ],

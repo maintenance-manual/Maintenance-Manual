@@ -85,7 +85,7 @@ Widget _cardPostList(context, departmentname, postConfigname1) {
             ),
           ),
           Container(
-            width: ScreenUtil().setWidth(280),
+            width: ScreenUtil().setWidth(240),
             child: Text(
               '$postConfigname1',
               style: TextStyle(

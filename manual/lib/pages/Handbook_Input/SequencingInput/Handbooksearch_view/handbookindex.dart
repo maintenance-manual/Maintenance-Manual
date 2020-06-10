@@ -34,7 +34,7 @@ class _HandBookSearchViewState extends State<HandBookSearchView> {
 
   final List tabBodies = [
     //数组选择需要进入的页面，按照0，1，2，3顺序
-    BookBasicMessageView(), //手册基本信息页面
+    BookBasicMessageView(handbookname,procedureNumber), //手册基本信息页面
     ProcessWatch(handbookname,procedureNumber), //程序流程查看页面
     FilingWatch(handbookname,procedureNumber), //存档信息查看
   ];

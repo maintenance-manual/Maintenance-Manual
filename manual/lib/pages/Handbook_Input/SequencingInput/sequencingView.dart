@@ -39,8 +39,8 @@ class _SequencingViewState extends State<SequencingView> {
   List textlist = [
     '程序编号: ',
     '程序名称：',
-    '手册文件：',
-    '目的：',
+    '章节名称：',
+    '手册名称：',
     '适用范围：',
     '名词术语：',
     '依据：',
@@ -48,10 +48,10 @@ class _SequencingViewState extends State<SequencingView> {
     '存档：',
     '表格和附件：',
     '流程图：',
+    '程序文件：',
     '修订版本：',
     '创建时间：',
     '更新时间：',
-    '程序文件：',
   ];
   @override
   Widget build(BuildContext context) {

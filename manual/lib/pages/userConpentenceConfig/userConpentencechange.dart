@@ -270,6 +270,7 @@ class _UserConpentenceChangeState extends State<UserConpentenceChange> {
         border: Border(bottom: BorderSide(width: 2.0, color: Colors.black26)),
       ),
       child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
         child: Row(
           children: <Widget>[
             Container(

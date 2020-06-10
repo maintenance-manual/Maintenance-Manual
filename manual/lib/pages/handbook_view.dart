@@ -146,13 +146,13 @@ class _HandBookListState extends State<HandBookList> {
               style: TextStyle(fontSize: ScreenUtil().setSp(30)),
             ),
             onTap: () async {
+              Scaffold.of(context)
+                      .showSnackBar(SnackBar(content: Text("开始下载")));
               String _localPath =
                   (await _findLocalPath(context)) + '/Download/';
               Response responce = await Dio().download(
                   "http://47.93.54.102:5000/read/readHandbook/download?manualName=$string--$item",
                   _localPath + "$string--$item");
-              Scaffold.of(context)
-                  .showSnackBar(SnackBar(content: Text("开始下载")));
               if (responce.statusCode == 200) {
                 Scaffold.of(context)
                     .showSnackBar(SnackBar(content: Text("下载成功")));
@@ -179,13 +179,13 @@ class _HandBookListState extends State<HandBookList> {
                   style: TextStyle(fontSize: ScreenUtil().setSp(28)),
                 ),
                 onTap: () async {
+                  Scaffold.of(context)
+                      .showSnackBar(SnackBar(content: Text("开始下载")));
                   String _localPath =
                       (await _findLocalPath(context)) + '/Download/';
                   Response responce = await Dio().download(
                       "http://47.93.54.102:5000/read/readHandbook/download?manualName=$string--$item",
                       _localPath + "$string--$item");
-                  Scaffold.of(context)
-                      .showSnackBar(SnackBar(content: Text("开始下载")));
                   if (responce.statusCode == 200) {
                     Scaffold.of(context)
                         .showSnackBar(SnackBar(content: Text("下载成功")));

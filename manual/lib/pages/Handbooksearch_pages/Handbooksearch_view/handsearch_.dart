@@ -77,11 +77,11 @@ class _BookBasicMessageViewState extends State<BookBasicMessageView> {
   }
 
   downloadFile(String document, String url) async {
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text("开始下载")));
     String _localPath =
         (await _findLocalPath(context)) + '/Download/' + document;
     Dio dio = Dio();
     Response response = await dio.download(url, _localPath);
-    Scaffold.of(context).showSnackBar(SnackBar(content: Text("开始下载")));
     if (response.statusCode == 200) {
       Scaffold.of(context).showSnackBar(SnackBar(content: Text("下载成功")));
       OpenFile.open(_localPath);

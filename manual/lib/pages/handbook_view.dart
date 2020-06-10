@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:manual/model/handbookview_model.dart';
 import 'package:manual/provide/handbook_view_list.dart';
 import 'package:manual/service/service_method.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provide/provide.dart';
 
@@ -145,13 +146,20 @@ class _HandBookListState extends State<HandBookList> {
               style: TextStyle(fontSize: ScreenUtil().setSp(30)),
             ),
             onTap: () async {
-              String _localPath = (await _findLocalPath(context)) + '/Download';
+              String _localPath =
+                  (await _findLocalPath(context)) + '/Download/';
               Response responce = await Dio().download(
-                  "http://47.93.54.102:5000/read/readHandbook/download?manualName=$string",
-                  _localPath + "/string");
+                  "http://47.93.54.102:5000/read/readHandbook/download?manualName=$string--$item",
+                  _localPath + "$string--$item");
+              Scaffold.of(context)
+                  .showSnackBar(SnackBar(content: Text("开始下载")));
               if (responce.statusCode == 200) {
                 Scaffold.of(context)
                     .showSnackBar(SnackBar(content: Text("下载成功")));
+                OpenFile.open(_localPath + "$string--$item");
+              } else {
+                Scaffold.of(context)
+                    .showSnackBar(SnackBar(content: Text("下载失败")));
               }
             },
           ),
@@ -172,13 +180,19 @@ class _HandBookListState extends State<HandBookList> {
                 ),
                 onTap: () async {
                   String _localPath =
-                      (await _findLocalPath(context)) + '/Download';
+                      (await _findLocalPath(context)) + '/Download/';
                   Response responce = await Dio().download(
-                      "http://47.93.54.102:5000/read/readHandbook/download?manualName=$string",
-                      _localPath + "/string");
+                      "http://47.93.54.102:5000/read/readHandbook/download?manualName=$string--$item",
+                      _localPath + "$string--$item");
+                  Scaffold.of(context)
+                      .showSnackBar(SnackBar(content: Text("开始下载")));
                   if (responce.statusCode == 200) {
                     Scaffold.of(context)
                         .showSnackBar(SnackBar(content: Text("下载成功")));
+                    OpenFile.open(_localPath + "$string--$item");
+                  } else {
+                    Scaffold.of(context)
+                        .showSnackBar(SnackBar(content: Text("下载失败")));
                   }
                 },
               ));

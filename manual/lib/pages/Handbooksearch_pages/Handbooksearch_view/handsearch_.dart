@@ -6,6 +6,8 @@ import 'package:dio/dio.dart';
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 
 String procedureNum = "";
 String procedureName = "";
@@ -14,6 +16,8 @@ String application = "";
 String terms = "";
 String according = "";
 String formAndAttachment = "";
+String diagram = "";
+String procedureFile = "";
 
 Future getDetailInfo(procedureNum) async {
   try {
@@ -40,9 +44,9 @@ class _BookBasicMessageViewState extends State<BookBasicMessageView> {
     getDetailInfo(procedureNum).then((value) {
       var data = json.decode(value.toString());
       print(data.toString());
-      int point1 = data.toString().indexOf(procedureNum);
-      int point2 = data.toString().indexOf(".pdf");
-      procedureName = data.toString().substring(point1 + 9, point2);
+      int point1 = data.toString().indexOf(", procedureName: ");
+      int point2 = data.toString().indexOf(", procedureNumber");
+      procedureName = data.toString().substring(point1 + 17, point2);
       int point3 = data.toString().indexOf("purpose:");
       int point4 = data.toString().indexOf(", revision");
       purpose = data.toString().substring(point3 + 9, point4);
@@ -53,11 +57,37 @@ class _BookBasicMessageViewState extends State<BookBasicMessageView> {
       int point8 = data.toString().indexOf(", updateTime:");
       terms = data.toString().substring(point7 + 6, point8);
       int point9 = data.toString().indexOf("according:");
-      according = data.toString().substring(point9+10,point5-2);
-      int point10 = data.toString().indexOf("formAndAttachment:");
+      according = data.toString().substring(point9 + 10, point5 - 2);
+      int point10 = data.toString().indexOf(", formAndAttachment:");
       int point11 = data.toString().indexOf(", manualName");
-      formAndAttachment = data.toString().substring(point10+17,point11);
+      formAndAttachment = data.toString().substring(point10 + 20, point11);
+      int point12 = data.toString().indexOf("diagram:");
+      diagram = data.toString().substring(point12 + 9, point10);
+      int point13 = data.toString().indexOf("procedureFile: ");
+      procedureFile = data.toString().substring(point13 + 15, point1);
     });
+  }
+
+  Future<String> _findLocalPath(context) async {
+    //这里根据平台获取当前安装目录
+    final directory = Theme.of(context).platform == TargetPlatform.android
+        ? await getExternalStorageDirectory()
+        : await getApplicationDocumentsDirectory();
+    return directory.path;
+  }
+
+  downloadFile(String document, String url) async {
+    String _localPath =
+        (await _findLocalPath(context)) + '/Download/' + document;
+    Dio dio = Dio();
+    Response response = await dio.download(url, _localPath);
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text("开始下载")));
+    if (response.statusCode == 200) {
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text("下载成功")));
+      OpenFile.open(_localPath);
+    } else {
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text("下载失败")));
+    }
   }
 
   @override
@@ -231,7 +261,10 @@ class _BookBasicMessageViewState extends State<BookBasicMessageView> {
                         color: Colors.blue,
                       ),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      downloadFile(diagram,
+                          "http://47.93.54.102:5000/read/readHandbook/download/diagram?diagramName=$diagram");
+                    },
                   ),
                 ],
               ),
@@ -254,7 +287,10 @@ class _BookBasicMessageViewState extends State<BookBasicMessageView> {
                         color: Colors.blue,
                       ),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      downloadFile(procedureFile,
+                          "http://47.93.54.102:5000/read/readHandbook/download/procedure?procedureName=$procedureFile");
+                    },
                   ),
                 ],
               ),
